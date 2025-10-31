@@ -68,13 +68,13 @@ const DifficultyDropdown: React.FC<{
                 <div className="absolute z-10 mt-2 w-48 rounded-md bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-lg">
                     <ul className="py-1">
                         {difficulties.map(d => (
-                            <li
+                            <button
                                 key={d}
                                 onClick={() => handleSelect(d)}
-                                className="px-4 py-2 text-sm text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer"
+                                className="w-full text-left px-4 py-2 text-sm text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer"
                             >
                                 {d}
-                            </li>
+                            </button>
                         ))}
                     </ul>
                 </div>
@@ -95,8 +95,9 @@ const QuizPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
     const [difficulty, setDifficulty] = useState<Difficulty>('All');
     const [initialQuestionIndex, setInitialQuestionIndex] = useState(0);
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+
     const [selectedAnswerIndex, setSelectedAnswerIndex] = useState<number | null>(null);
-    const [isAnswered, setIsAnswered] = useState(false);
+
     const [userQuizHistory, setUserQuizHistory] = useState<IUserAnsweredQuestion[]>([]);
 
     const auth = useAuth();
@@ -177,16 +178,7 @@ const QuizPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
         return historyItem ? historyItem.userAnswer : null;
     }, [currentQuestion, userQuizHistory]);
 
-    useEffect(() => {
-        if (hasBeenAnswered) {
-            setIsAnswered(true);
-            const prevAnswerIndex = userAnswerForCurrentQuestion !== null ? currentQuestion.options.indexOf(userAnswerForCurrentQuestion) : -1;
-            setSelectedAnswerIndex(prevAnswerIndex !== -1 ? prevAnswerIndex : null);
-        } else {
-            setIsAnswered(false);
-            setSelectedAnswerIndex(null);
-        }
-    }, [currentQuestion, hasBeenAnswered, userAnswerForCurrentQuestion]);
+
 
     const saveAnsweredQuestion = useCallback(async (questionData: QuizQuestion, userAnswerIndex: number) => {
         if (!auth.isAuthenticated) return;
@@ -223,15 +215,13 @@ const QuizPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
     }, [auth.isAuthenticated, addToast]);
 
     const handleAnswerSelect = (optionIndex: number) => {
-        if (isAnswered || hasBeenAnswered) return; // Prevent answering if already answered or in history
+        if (hasBeenAnswered) return;
         setSelectedAnswerIndex(optionIndex);
-        setIsAnswered(true);
         saveAnsweredQuestion(currentQuestion, optionIndex);
     };
 
     const handleNextQuestion = () => {
         setSelectedAnswerIndex(null);
-        setIsAnswered(false);
         if (currentQuestionIndex < questions.length - 1) {
             setCurrentQuestionIndex(prevIndex => prevIndex + 1);
         } else {
@@ -242,7 +232,6 @@ const QuizPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
 
     const handlePreviousQuestion = () => {
         setSelectedAnswerIndex(null);
-        setIsAnswered(false);
         if (currentQuestionIndex > 0) {
             setCurrentQuestionIndex(prevIndex => prevIndex - 1);
         }
@@ -262,7 +251,7 @@ const QuizPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
                             onSelect={(d) => {
                                 setDifficulty(d);
                                 setSelectedAnswerIndex(null);
-                                setIsAnswered(false);
+                                // setIsAnswered(false); // This line is no longer needed as isAnswered is removed
                             }}
                             disabled={false}
                         />
@@ -285,7 +274,7 @@ const QuizPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
                                             const isCorrect = currentQuestion.correctAnswerIndex === index;
                                             let optionClasses = 'w-full text-left p-3 rounded-md border-2 transition-colors text-gray-800 dark:text-gray-200';
 
-                                            if (isAnswered || hasBeenAnswered) {
+                                            if (hasBeenAnswered || hasBeenAnswered) {
                                                 if (isCorrect) {
                                                     optionClasses += ' bg-green-100 dark:bg-green-900/40 border-green-500 dark:border-green-600';
                                                 } else if (isSelected) {
@@ -303,7 +292,7 @@ const QuizPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
                                                 <button
                                                     key={index}
                                                     onClick={() => handleAnswerSelect(index)}
-                                                    disabled={isAnswered || hasBeenAnswered}
+                                                    disabled={hasBeenAnswered}
                                                     className={optionClasses}
                                                 >
                                                     {option}
@@ -311,7 +300,7 @@ const QuizPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
                                             );
                                         })}
                                     </div>
-                                    {isAnswered && (
+                                    {hasBeenAnswered && (
                                         <div className="mt-4 p-3 bg-gray-100 dark:bg-gray-800/50 rounded-md text-gray-700 dark:text-gray-300 animate-fade-in-up">
                                             <p><span className="font-semibold text-yellow-600 dark:text-yellow-500">Explanation: </span>{currentQuestion.explanation}</p>
                                         </div>
@@ -323,7 +312,7 @@ const QuizPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
                                 <Button onClick={handlePreviousQuestion} disabled={currentQuestionIndex === 0} className="gap-4 p-0">
                                    <ChevronLeftIcon/> <p>Previous</p>
                                 </Button>
-                                <Button  onClick={handleNextQuestion} disabled={!isAnswered && !hasBeenAnswered} className="gap-6">
+                                <Button  onClick={handleNextQuestion} disabled={!hasBeenAnswered} className="gap-6">
                                     Next <ChevronRightIcon/>
                                 </Button>
                             </div>

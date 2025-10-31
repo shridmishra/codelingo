@@ -21,7 +21,7 @@ const ChallengesPage = () => {
     setSelectedAssignment(null);
   };
 
-  const handleNavigate = (page: 'profile' | 'list' | 'hero' | 'quiz') => {
+  const handleNavigate = (page: 'profile' | 'list' | '' | 'quiz') => {
     router.push(`/${page}`);
   };
 

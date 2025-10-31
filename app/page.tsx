@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import Button from './components/ui/Button';
 import { useAuth } from './context/AuthContext';
 
-const HeroPage = () => {
+const HomePage = () => {
     const router = useRouter();
     const auth = useAuth();
 
@@ -60,6 +60,6 @@ const HeroPage = () => {
 
 export default function Page() {
     return (
-        <HeroPage />
+        <HomePage />
     );
 }

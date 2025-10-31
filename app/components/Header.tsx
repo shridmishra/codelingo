@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import React from 'react';
 import Button from './ui/Button';
 import { useAuth } from '../context/AuthContext';
@@ -9,7 +10,7 @@ import { usePathname } from 'next/navigation';
 interface HeaderProps {
   problemTitle?: string;
   onBack?: () => void;
-  onNavigate?: (page: 'profile' | 'list' | 'hero' | 'quiz') => void;
+  onNavigate?: (page: 'profile' | 'list' | '' | 'quiz') => void;
 }
 
 const Header: React.FC<HeaderProps> = ({ problemTitle, onBack, onNavigate }) => {
@@ -35,7 +36,7 @@ const Header: React.FC<HeaderProps> = ({ problemTitle, onBack, onNavigate }) => 
             </Button>
           ) : (
             <div className="flex items-center gap-8">
-              <button onClick={() => onNavigate && onNavigate('hero')} className="text-xl font-bold text-gray-900 dark:text-white tracking-tight">
+              <button onClick={() => onNavigate && onNavigate('')} className="text-xl font-bold text-gray-900 dark:text-white tracking-tight">
                 practice<span className="text-yellow-400">JS</span>
               </button>
               <nav className="hidden md:flex items-center gap-6">
@@ -71,7 +72,7 @@ const Header: React.FC<HeaderProps> = ({ problemTitle, onBack, onNavigate }) => 
                   aria-label="View Profile"
                 >
                   {auth.user?.image ? (
-                    <img src={auth.user.image} alt="user avatar" className="w-full h-full rounded-full object-cover object-center bject-cover" />
+                    <Image src={auth.user.image} alt="user avatar" width={36} height={36} className="w-full h-full rounded-full object-cover object-center bject-cover" />
                   ) : (
                     auth.user?.name?.charAt(0)?.toUpperCase() || 'U'
                   )}

@@ -31,9 +31,9 @@ const Dropdown: React.FC<DropdownProps> = ({ trigger, children }) => {
 
   return (
     <div className="relative" ref={dropdownRef}>
-      <div onClick={handleToggle} className="cursor-pointer">
+      <button onClick={handleToggle} className="cursor-pointer" type="button">
         {trigger}
-      </div>
+      </button>
       {isOpen && (
         <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg z-20">
           {children}

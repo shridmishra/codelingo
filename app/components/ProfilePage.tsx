@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import Card, { Badge } from './ui/Card';
@@ -131,7 +132,7 @@ const ProfilePage: React.FC = () => {
                         <div className="p-6 flex items-center gap-4">
                             <div className="relative w-24 h-24 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center text-4xl font-bold text-gray-600 dark:text-gray-300 overflow-hidden">
                                 {auth.user.image ? (
-                                    <img src={auth.user.image} alt="User Avatar" className="w-full h-full object-cover" />
+                                    <Image src={auth.user.image} alt="User Avatar" width={96} height={96} className="w-full h-full object-cover" />
                                 ) : (
                                     <span>{auth.user.name ? auth.user.name.charAt(0).toUpperCase() : 'U'}</span>
                                 )}

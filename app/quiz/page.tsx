@@ -10,7 +10,7 @@ import { Suspense } from 'react';
 const Quiz = () => {
     const router = useRouter();
 
-    const handleNavigate = (page: 'profile' | 'list' | 'hero' | 'quiz') => {
+    const handleNavigate = (page: 'profile' | 'list' | '' | 'quiz') => {
         router.push(`/${page}`);
     };
 

@@ -16,7 +16,7 @@ interface ProblemSolvingPageProps {
   onBack: () => void;
   onToggleStar: (id: string) => void;
   onUpdateNotes: (id: string, notes: string) => void;
-  onNavigate: (page: 'profile' | 'list' | 'hero' | 'quiz') => void;
+  onNavigate: (page: 'profile' | 'list' | '' | 'quiz') => void;
   onLogin: () => void;
   onLogout: () => void;
 }
@@ -157,7 +157,7 @@ const ProblemSolvingPage: React.FC<ProblemSolvingPageProps> = ({ problem, onStat
                                 <TestResultsDisplay results={testResults} />
                             ) : (
                                 <div className="text-gray-500 dark:text-gray-400 text-sm h-full flex items-center justify-center">
-                                    Click "Run" to see test results.
+                                    Click &quot;Run&quot; to see test results.
                                 </div>
                             )}
                         </TabsContent>

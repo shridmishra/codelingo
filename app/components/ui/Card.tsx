@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useId } from 'react';
 import { Difficulty } from '../../types';
+import PropTypes from 'prop-types';
 
 // --- Card ---
 interface CardProps {
@@ -19,11 +20,40 @@ const Card: React.FC<CardProps> & {
     </div>
   );
 };
+Card.displayName = 'Card';
+
+Card.propTypes = {
+  children: PropTypes.node,
+  className: PropTypes.string,
+};
 
 Card.Header = ({ children, className }) => <div className={`flex flex-col space-y-1.5 p-6 ${className}`}>{children}</div>;
+Card.Header.displayName = 'Card.Header';
+Card.Header.propTypes = {
+  children: PropTypes.node,
+  className: PropTypes.string,
+};
+
 Card.Title = ({ children, className }) => <h3 className={`text-lg font-semibold leading-none tracking-tight ${className}`}>{children}</h3>;
+Card.Title.displayName = 'Card.Title';
+Card.Title.propTypes = {
+  children: PropTypes.node,
+  className: PropTypes.string,
+};
+
 Card.Description = ({ children, className }) => <p className={`text-sm text-gray-500 dark:text-gray-400 ${className}`}>{children}</p>;
+Card.Description.displayName = 'Card.Description';
+Card.Description.propTypes = {
+  children: PropTypes.node,
+  className: PropTypes.string,
+};
+
 Card.Content = ({ children, className }) => <div className={`p-6 pt-0 ${className}`}>{children}</div>;
+Card.Content.displayName = 'Card.Content';
+Card.Content.propTypes = {
+  children: PropTypes.node,
+  className: PropTypes.string,
+};
 
 export default Card;
 
@@ -37,26 +67,59 @@ export const Input = React.forwardRef<HTMLInputElement, React.InputHTMLAttribute
         />
     );
 });
+Input.displayName = 'Input';
+Input.propTypes = {
+  className: PropTypes.string,
+};
 
 // --- Table ---
 export const Table = React.forwardRef<HTMLTableElement, React.HTMLAttributes<HTMLTableElement>>(({ className, ...props }, ref) => (
     <div className="w-full overflow-auto"><table ref={ref} className={`w-full caption-bottom text-sm ${className}`} {...props} /></div>
 ));
+Table.displayName = 'Table';
+Table.propTypes = {
+  className: PropTypes.string,
+};
+
 export const TableHeader = React.forwardRef<HTMLTableSectionElement, React.HTMLAttributes<HTMLTableSectionElement>>(({ className, ...props }, ref) => (
     <thead ref={ref} className={`[&_tr]:border-b [&_tr]:border-gray-200 dark:[&_tr]:border-gray-800 ${className}`} {...props} />
 ));
+TableHeader.displayName = 'TableHeader';
+TableHeader.propTypes = {
+  className: PropTypes.string,
+};
+
 export const TableBody = React.forwardRef<HTMLTableSectionElement, React.HTMLAttributes<HTMLTableSectionElement>>(({ className, ...props }, ref) => (
     <tbody ref={ref} className={`[&_tr:last-child]:border-0 ${className}`} {...props} />
 ));
+TableBody.displayName = 'TableBody';
+TableBody.propTypes = {
+  className: PropTypes.string,
+};
+
 export const TableRow = React.forwardRef<HTMLTableRowElement, React.HTMLAttributes<HTMLTableRowElement>>(({ className, ...props }, ref) => (
     <tr ref={ref} className={`border-b border-gray-200 dark:border-gray-800 transition-colors hover:bg-gray-100/50 dark:hover:bg-gray-800/50 ${className}`} {...props} />
 ));
+TableRow.displayName = 'TableRow';
+TableRow.propTypes = {
+  className: PropTypes.string,
+};
+
 export const TableHead = React.forwardRef<HTMLTableCellElement, React.ThHTMLAttributes<HTMLTableCellElement>>(({ className, ...props }, ref) => (
     <th ref={ref} className={`h-12 px-4 text-left align-middle font-medium text-gray-500 dark:text-gray-400 ${className}`} {...props} />
 ));
+TableHead.displayName = 'TableHead';
+TableHead.propTypes = {
+  className: PropTypes.string,
+};
+
 export const TableCell = React.forwardRef<HTMLTableCellElement, React.TdHTMLAttributes<HTMLTableCellElement>>(({ className, ...props }, ref) => (
     <td ref={ref} className={`p-4 align-middle ${className}`} {...props} />
 ));
+TableCell.displayName = 'TableCell';
+TableCell.propTypes = {
+  className: PropTypes.string,
+};
 
 // --- Badge ---
 interface BadgeProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -69,6 +132,11 @@ export const Badge: React.FC<BadgeProps> = ({ className, difficulty, ...props })
         [Difficulty.Hard]: 'border-red-300 dark:border-red-700/50 bg-red-100 dark:bg-red-900/50 text-red-800 dark:text-red-300',
     };
     return <div className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors ${colorClasses[difficulty]} ${className}`} {...props} />;
+};
+Badge.displayName = 'Badge';
+Badge.propTypes = {
+  className: PropTypes.string,
+  difficulty: PropTypes.oneOf(Object.values(Difficulty)).isRequired,
 };
 
 // --- Tabs ---
@@ -131,6 +199,13 @@ export const Tabs = React.forwardRef<HTMLDivElement, TabsProps>(({
     );
 });
 Tabs.displayName = "Tabs";
+Tabs.propTypes = {
+  value: PropTypes.string,
+  onValueChange: PropTypes.func,
+  defaultValue: PropTypes.string,
+  children: PropTypes.node,
+  className: PropTypes.string,
+};
 
 export const TabsList = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(({ className, ...props }, ref) => (
     <div 
@@ -142,6 +217,10 @@ export const TabsList = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HT
     />
 ));
 TabsList.displayName = "TabsList";
+TabsList.propTypes = {
+  className: PropTypes.string,
+  children: PropTypes.node,
+};
 
 interface TabsTriggerProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     value: string;
@@ -168,6 +247,11 @@ export const TabsTrigger = React.forwardRef<HTMLButtonElement, TabsTriggerProps>
     );
 });
 TabsTrigger.displayName = "TabsTrigger";
+TabsTrigger.propTypes = {
+  className: PropTypes.string,
+  value: PropTypes.string.isRequired,
+  children: PropTypes.node,
+};
 
 interface TabsContentProps extends React.HTMLAttributes<HTMLDivElement> {
     value: string;
@@ -193,6 +277,11 @@ export const TabsContent = React.forwardRef<HTMLDivElement, TabsContentProps>(({
     );
 });
 TabsContent.displayName = "TabsContent";
+TabsContent.propTypes = {
+  className: PropTypes.string,
+  value: PropTypes.string.isRequired,
+  children: PropTypes.node,
+};
 
 // --- Checkbox ---
 export const Checkbox = React.forwardRef<HTMLInputElement, React.InputHTMLAttributes<HTMLInputElement>>(({ className, ...props }, ref) => (
@@ -203,3 +292,7 @@ export const Checkbox = React.forwardRef<HTMLInputElement, React.InputHTMLAttrib
         {...props}
     />
 ));
+Checkbox.displayName = 'Checkbox';
+Checkbox.propTypes = {
+  className: PropTypes.string,
+};
