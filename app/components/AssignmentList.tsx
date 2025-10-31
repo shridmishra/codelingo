@@ -3,10 +3,10 @@ import { Problem, ProblemStatus, Difficulty } from '../types';
 import Card from './ui/Card';
 import { Input, Checkbox } from './ui/Card';
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from './ui/Card';
-import { Badge, Tabs, TabsList, TabsTrigger, TabsContent } from './ui/Card';
+import { Badge } from './ui/Card';
 import Button from './ui/Button';
 
-import { StarIcon, NoteIcon } from './Icons';
+import { BookmarkIcon, PenIcon, SearchIcon } from './Icons';
 import NotesModal from './NotesModal';
 import { useAuth } from '../context/AuthContext';
 import ProgressBar from './ProgressBar';
@@ -144,12 +144,26 @@ const ProblemListPage: React.FC<ProblemListPageProps> = ({ problems, onSelectPro
         <main className="flex-grow container mx-auto p-4 md:p-6 lg:p-8 flex flex-col">
             <ProgressSummary problems={problems} />
 
-            <Tabs value={activeTab} onValueChange={handleTabChange}>
+            
                 <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
-                    <TabsList className="p-0 border-0">
-                        <TabsTrigger value="all">All Problems</TabsTrigger>
-                        <TabsTrigger value="revision">For Revision</TabsTrigger>
-                    </TabsList>
+                    <div className="flex items-center gap-2 p-1 bg-gray-100 dark:bg-gray-900 rounded-md">
+                        <Button
+                            variant={activeTab === 'all' ? 'secondary' : 'ghost'}
+                            size="sm"
+                            onClick={() => handleTabChange('all')}
+                            className={activeTab === 'all' ? 'bg-white dark:bg-gray-700' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-800'}
+                        >
+                            All Problems
+                        </Button>
+                        <Button
+                            variant={activeTab === 'revision' ? 'secondary' : 'ghost'}
+                            size="sm"
+                            onClick={() => handleTabChange('revision')}
+                            className={activeTab === 'revision' ? 'bg-white dark:bg-gray-700' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-800'}
+                        >
+                            For Revision
+                        </Button>
+                    </div>
                     <div className="flex items-center gap-2 p-1 bg-gray-100 dark:bg-gray-900 rounded-md">
                         {(['all', ...Object.values(Difficulty)] as const).map(diff => (
                             <Button 
@@ -166,12 +180,17 @@ const ProblemListPage: React.FC<ProblemListPageProps> = ({ problems, onSelectPro
                 </div>
 
                 <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
-                    <Input 
-                        placeholder="Search problems..."
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                        className="max-w-xs"
-                    />
+                    <div className="relative max-w-xs">
+                        <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                            <SearchIcon className="h-5 w-5 text-gray-400" />
+                        </div>
+                        <Input 
+                            placeholder="Search problems..."
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            className="pl-10"
+                        />
+                    </div>
                     <Button variant="secondary" onClick={handlePickRandom} className="flex items-center gap-2">
                         <ShuffleIcon /> Pick Random
                     </Button>
@@ -219,10 +238,10 @@ const ProblemListPage: React.FC<ProblemListPageProps> = ({ problems, onSelectPro
                                                 <TableCell className="text-center">
                                                     <div className="flex items-center justify-center gap-2">
                                                         <button onClick={() => auth.isAuthenticated ? onToggleStar(problem.id) : onLogin()} className="p-1 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700">
-                                                            <StarIcon filled={!!problem.isStarred} />
+                                                            <BookmarkIcon filled={!!problem.isStarred} />
                                                         </button>
                                                         <button onClick={() => auth.isAuthenticated ? setEditingNotesFor(problem) : onLogin()} className="p-1 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700">
-                                                            <NoteIcon />
+                                                            <PenIcon filled={!!problem.notes} />
                                                         </button>
                                                     </div>
                                                 </TableCell>
@@ -234,7 +253,7 @@ const ProblemListPage: React.FC<ProblemListPageProps> = ({ problems, onSelectPro
                         </details>
                     );
                 })}
-            </Tabs>
+
         </main>
         {editingNotesFor && (
             <NotesModal

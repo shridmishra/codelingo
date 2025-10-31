@@ -5,7 +5,7 @@ import { Providers } from './providers';
 import { ToastProvider } from './components/Toast';
 import { ModalProvider } from './components/ModalProvider';
 import React from 'react';
-import Header from './components/Header';
+import { ThemeProvider } from 'next-theme';
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -16,6 +16,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link href="https://api.fontshare.com/v2/css?f[]=satoshi@700,500,400,900&display=swap" rel="stylesheet" />
       </head>
       <body className="bg-white dark:bg-black text-gray-900 dark:text-white antialiased" suppressHydrationWarning={true}>
+          <ThemeProvider attribute="class" defaultTheme="system">
         <Providers>
           <ToastProvider>
             <ModalProvider>
@@ -23,6 +24,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </ModalProvider>
           </ToastProvider>
         </Providers>
+        </ThemeProvider>
       </body>
     </html>
   );

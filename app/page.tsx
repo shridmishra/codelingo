@@ -9,6 +9,7 @@ import { problemsData as staticProblemsData } from './data/assignments';
 import Header from './components/Header';
 import { ToastProvider, useToast } from './components/Toast';
 import Button from './components/ui/Button';
+import { ChevronLeftIcon, ChevronRightIcon } from './components/Icons';
 import QuizPage from './components/QuizPage';
 import { useAuth } from './context/AuthContext';
 
@@ -26,9 +27,9 @@ const HeroPage = ({ onStart, onQuiz }: { onStart: () => void; onQuiz: () => void
                         practice<span className="text-yellow-400">JS</span>
                     </h1>
                     <div className="flex items-center gap-2 sm:gap-4">
-                        <Button variant="ghost" size="sm" className="hidden sm:inline-flex" onClick={onQuiz}>Quiz</Button>
                         <Button variant="ghost" size="sm" onClick={onStart}>Challenges</Button>
-                        { !auth.isAuthenticated && <Button variant="secondary" size="sm" onClick={() => window.dispatchEvent(new Event('openLoginModal'))}>Login</Button> }
+                        <Button variant="ghost" size="sm" className="hidden sm:inline-flex" onClick={onQuiz}>Quiz</Button>
+                        {!auth.isAuthenticated && <Button variant="secondary" size="sm" onClick={() => window.dispatchEvent(new Event('openLoginModal'))}>Login</Button>}
                     </div>
                 </header>
 
@@ -44,14 +45,14 @@ const HeroPage = ({ onStart, onQuiz }: { onStart: () => void; onQuiz: () => void
                             View Challenges
                         </Button>
                     </div>
-                    
+
                     <div className="md:col-span-2 hidden md:flex items-center justify-center">
                         <div className="w-64 h-64 relative flex items-center justify-center">
                             <div className="absolute inset-0 bg-yellow-500/10 rounded-full blur-2xl"></div>
                             <svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" className="opacity-75 relative">
-                                <path d="M70 50L40 80L70 110" stroke="#FBBF24" strokeWidth="10" strokeLinecap="round" strokeLinejoin="round"/>
-                                <path d="M130 50L160 80L130 110" stroke="#FBBF24" strokeWidth="10" strokeLinecap="round" strokeLinejoin="round"/>
-                                <path d="M110 40L90 160" stroke="#D1D5DB" className="dark:stroke-gray-600" strokeWidth="10" strokeLinecap="round"/>
+                                <path d="M70 50L40 80L70 110" stroke="#FBBF24" strokeWidth="10" strokeLinecap="round" strokeLinejoin="round" />
+                                <path d="M130 50L160 80L130 110" stroke="#FBBF24" strokeWidth="10" strokeLinecap="round" strokeLinejoin="round" />
+                                <path d="M110 40L90 160" stroke="#D1D5DB" className="dark:stroke-gray-600" strokeWidth="10" strokeLinecap="round" />
                             </svg>
                         </div>
                     </div>
@@ -100,7 +101,7 @@ const AppContent: React.FC = () => {
             setIsLoadingProblems(false);
         }
     }, []);
-    
+
     useEffect(() => {
         fetchProblems();
     }, [fetchProblems, auth.isAuthenticated]);
@@ -122,12 +123,12 @@ const AppContent: React.FC = () => {
         handleHashChange(); // Check hash on initial load
         return () => window.removeEventListener('hashchange', handleHashChange);
     }, []);
-    
+
     const handleUpdateProblemData = async (id: string, updates: Partial<Pick<Problem, 'status' | 'isStarred' | 'notes'>>) => {
-       if (!auth.isAuthenticated) {
-           window.dispatchEvent(new Event('openLoginModal'));
-           return;
-       }
+        if (!auth.isAuthenticated) {
+            window.dispatchEvent(new Event('openLoginModal'));
+            return;
+        }
 
         // Optimistic update
         const originalProblems = problems;
@@ -145,7 +146,7 @@ const AppContent: React.FC = () => {
             if (!res.ok) {
                 throw new Error('Failed to update problem progress');
             }
-            
+
             if (updates.notes !== undefined) {
                 addToast('Notes saved successfully!', 'success');
             }
@@ -159,7 +160,7 @@ const AppContent: React.FC = () => {
             setProblems(originalProblems);
         }
     };
-    
+
     const handleProblemStatusChange = (id: string, newStatus: ProblemStatus) => {
         handleUpdateProblemData(id, { status: newStatus });
     };
@@ -187,7 +188,7 @@ const AppContent: React.FC = () => {
                 </div>
             );
         }
-        
+
         switch (page) {
             case 'hero':
                 return <HeroPage onStart={() => setPage('list')} onQuiz={() => setPage('quiz')} />;
@@ -218,7 +219,7 @@ const AppContent: React.FC = () => {
                 setPage('list'); // Go back to list if problem not found
                 return null;
             case 'profile':
-                 if (!auth.isAuthenticated) {
+                if (!auth.isAuthenticated) {
                     setPage('hero');
                     return null;
                 }
@@ -233,9 +234,9 @@ const AppContent: React.FC = () => {
     return (
         <div className="min-h-screen">
             {page !== 'hero' && (
-                <Header 
-                    onNavigate={setPage} 
-                    onBack={page === 'problem' || page === 'quiz' ? () => setPage('list') : undefined} 
+                <Header
+                    onNavigate={setPage}
+                    onBack={page === 'problem' || page === 'quiz' ? () => setPage('list') : undefined}
                     problemTitle={page === 'problem' ? selectedProblem?.title : page === 'quiz' ? 'JavaScript Quiz' : undefined}
                     onLogin={() => window.dispatchEvent(new Event('openLoginModal'))}
                     onLogout={auth.logout}

@@ -1,5 +1,8 @@
 @import 'tailwindcss';
 
+
+@custom-variant dark (&:where(.dark, .dark *));
+
 body {
     overscroll-behavior: none;
     font-family: 'Satoshi', sans-serif;
