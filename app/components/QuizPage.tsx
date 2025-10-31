@@ -20,7 +20,7 @@ const XIcon = () => (
 
 const ChevronDownIcon = () => (
     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="m6 9 6 6 6-6"/>
+        <path d="m6 9 6 6 6-6" />
     </svg>
 );
 
@@ -59,7 +59,7 @@ const DifficultyDropdown: React.FC<{
                 variant="secondary"
                 onClick={() => setIsOpen(!isOpen)}
                 disabled={disabled}
-                className="w-48 flex items-center justify-between"
+                className="w-40 flex items-center justify-center gap-2 mb-4"
             >
                 <span>{selected === 'All' ? 'Select Difficulty' : selected}</span>
                 <ChevronDownIcon />
@@ -85,6 +85,7 @@ const DifficultyDropdown: React.FC<{
 
 import { useSearchParams } from 'next/navigation';
 import { IUserAnsweredQuestion } from '../models/UserAnsweredQuestion';
+import { ChevronLeftIcon, ChevronRightIcon } from './Icons';
 
 const QuizPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
     const searchParams = useSearchParams();
@@ -97,7 +98,7 @@ const QuizPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
     const [selectedAnswerIndex, setSelectedAnswerIndex] = useState<number | null>(null);
     const [isAnswered, setIsAnswered] = useState(false);
     const [userQuizHistory, setUserQuizHistory] = useState<IUserAnsweredQuestion[]>([]);
-    
+
     const auth = useAuth();
     const { addToast } = useToast();
 
@@ -148,7 +149,7 @@ const QuizPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
                             nextUnsolvedQuestionIndex = 0; // All questions in this difficulty are solved. Start from the beginning.
                         }
                     }
-                    
+
                     setCurrentQuestionIndex(nextUnsolvedQuestionIndex);
 
                 } else {
@@ -248,12 +249,14 @@ const QuizPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
     };
 
     const progressPercent = questions.length > 0 ? ((currentQuestionIndex + 1) / questions.length) * 100 : 0;
-    
+
     return (
         <div className="min-h-screen flex flex-col bg-gray-50 dark:bg-black">
             <main className="grow container mx-auto p-4 md:p-6 lg:p-8 flex flex-col items-center">
                 <div className="w-full max-w-2xl">
-                    <div className="mb-6 flex flex-row items-center justify-end gap-4">
+                    <div className=" flex flex-row items-center justify-between ">
+                        <p className="text-md text-gray-500 dark:text-gray-200 text-center mb-2 font-normal">Question {currentQuestionIndex + 1} of {questions.length}</p>
+
                         <DifficultyDropdown 
                             selected={difficulty}
                             onSelect={(d) => {
@@ -268,7 +271,6 @@ const QuizPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
                     {currentQuestion && (
                         <div className="animate-fade-in-up">
                             <div className="mb-4">
-                                <p className="text-sm text-gray-500 dark:text-gray-400 text-center mb-2">Question {currentQuestionIndex + 1} of {questions.length}</p>
                                 <ProgressBar value={progressPercent} />
                             </div>
 
@@ -282,8 +284,8 @@ const QuizPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
                                             const isSelected = selectedAnswerIndex === index;
                                             const isCorrect = currentQuestion.correctAnswerIndex === index;
                                             let optionClasses = 'w-full text-left p-3 rounded-md border-2 transition-colors text-gray-800 dark:text-gray-200';
-                                            
-                                            if(isAnswered || hasBeenAnswered) {
+
+                                            if (isAnswered || hasBeenAnswered) {
                                                 if (isCorrect) {
                                                     optionClasses += ' bg-green-100 dark:bg-green-900/40 border-green-500 dark:border-green-600';
                                                 } else if (isSelected) {
@@ -292,13 +294,13 @@ const QuizPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
                                                     optionClasses += ' bg-gray-100 dark:bg-gray-800 border-gray-200 dark:border-gray-700 opacity-70';
                                                 }
                                             } else {
-                                                optionClasses += isSelected 
-                                                    ? ' bg-yellow-100/80 dark:bg-yellow-900/50 border-yellow-500' 
+                                                optionClasses += isSelected
+                                                    ? ' bg-yellow-100/80 dark:bg-yellow-900/50 border-yellow-500'
                                                     : ' bg-gray-100 dark:bg-gray-800 border-gray-200 dark:border-gray-700 hover:border-gray-400 dark:hover:border-gray-600';
                                             }
 
                                             return (
-                                                <button 
+                                                <button
                                                     key={index}
                                                     onClick={() => handleAnswerSelect(index)}
                                                     disabled={isAnswered || hasBeenAnswered}
@@ -317,12 +319,12 @@ const QuizPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
                                 </Card.Content>
                             </Card>
 
-                            <div className="flex justify-between mt-6">
-                                <Button onClick={handlePreviousQuestion} disabled={currentQuestionIndex === 0}>
-                                   Previous
+                            <div className="flex justify-between mt-6 ">
+                                <Button onClick={handlePreviousQuestion} disabled={currentQuestionIndex === 0} className="gap-4 p-0">
+                                   <ChevronLeftIcon/> <p>Previous</p>
                                 </Button>
-                                <Button onClick={handleNextQuestion} disabled={!isAnswered && !hasBeenAnswered}>
-                                     Next 
+                                <Button  onClick={handleNextQuestion} disabled={!isAnswered && !hasBeenAnswered} className="gap-6">
+                                    Next <ChevronRightIcon/>
                                 </Button>
                             </div>
                         </div>

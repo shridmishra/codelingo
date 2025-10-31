@@ -1,7 +1,7 @@
 import React from 'react';
 import Button from './ui/Button';
 import { useAuth } from '../context/AuthContext';
-import { SunIcon, MoonIcon, ChevronLeftIcon } from './Icons';
+import { SunIcon, MoonIcon, ChevronLeftIcon, UserIcon, LogOutIcon } from './Icons';
 import { useTheme } from 'next-themes';
 import Dropdown from './ui/Dropdown';
 import { usePathname } from 'next/navigation';
@@ -46,6 +46,18 @@ const Header: React.FC<HeaderProps> = ({ problemTitle, onBack, onNavigate }) => 
                   Quiz
                 </a>
               </nav>
+              <nav className="md:hidden">
+                {pathname === '/challenges' && (
+                  <a href="/quiz" className={getLinkClass('/quiz')}>
+                    Quiz
+                  </a>
+                )}
+                {pathname === '/quiz' && (
+                  <a href="/challenges" className={getLinkClass('/challenges')}>
+                    Challenges
+                  </a>
+                )}
+              </nav>
             </div>
           )}
         </div>
@@ -58,17 +70,28 @@ const Header: React.FC<HeaderProps> = ({ problemTitle, onBack, onNavigate }) => 
                   className="w-9 h-9 bg-yellow-500 rounded-full flex items-center justify-center text-black text-lg font-bold hover:opacity-90 transition-opacity focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-gray-900"
                   aria-label="View Profile"
                 >
-                  {auth.user?.name?.charAt(0)?.toUpperCase() || 'U'}
+                  {auth.user?.image ? (
+                    <img src={auth.user.image} alt="user avatar" className="w-full h-full rounded-full object-cover object-center bject-cover" />
+                  ) : (
+                    auth.user?.name?.charAt(0)?.toUpperCase() || 'U'
+                  )}
                 </div>
               }
             >
               <div className="p-2">
+                <a href="/profile" className="block w-full">
+                  <Button variant="ghost" size="sm" className="w-full flex justify-start items-center gap-2">
+                    <UserIcon />
+                    <span>Profile</span>
+                  </Button>
+                </a>
                 <Button variant="ghost" size="sm" onClick={() => setTheme(currentTheme === 'light' ? 'dark' : 'light')} className="w-full flex justify-start items-center gap-2">
                   {currentTheme === 'light' ? <MoonIcon /> : <SunIcon />}
-                  <span>Toggle Theme</span>
+                  <span>{currentTheme === 'light' ? 'Dark Mode' : 'Light Mode'}</span>
                 </Button>
-                <Button variant="ghost" size="sm" onClick={() => auth.logout()} className="w-full flex justify-start">
-                  Sign out
+                <Button variant="ghost" size="sm" onClick={() => auth.logout()} className="w-full flex justify-start items-center gap-2">
+                  <LogOutIcon />
+                  <span>Sign out</span>
                 </Button>
               </div>
             </Dropdown>
