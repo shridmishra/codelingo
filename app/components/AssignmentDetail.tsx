@@ -114,7 +114,7 @@ const ProblemSolvingPage: React.FC<ProblemSolvingPageProps> = ({ problem, onStat
                     <div>
                         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">Examples</h3>
                         <div className="space-y-3">
-                        {problem.testCases.map((tc, i) => (
+                        {problem.testCases && problem.testCases.map((tc, i) => (
                             <div key={i} className="p-3 bg-gray-100 dark:bg-gray-800 rounded-md font-mono text-sm">
                                 <p className="font-semibold text-gray-700 dark:text-gray-300">Example {i + 1}:</p>
                                 <p><span className="text-gray-500 dark:text-gray-400">Input:</span> {JSON.stringify(tc.input)}</p>
@@ -122,7 +122,7 @@ const ProblemSolvingPage: React.FC<ProblemSolvingPageProps> = ({ problem, onStat
                             </div>
                         ))}
                         </div>
-                    </div>
+                        </div>
 
                     <a href={problem.docsUrl} target="_blank" rel="noopener noreferrer" className="text-yellow-500 dark:text-yellow-400 hover:text-yellow-600 dark:hover:text-yellow-300 mt-6 inline-block text-sm">
                         Related Documentation &rarr;

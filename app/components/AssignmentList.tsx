@@ -14,7 +14,7 @@ import ProgressBar from './ProgressBar';
 
 interface ProblemListPageProps {
   problems: Problem[];
-  onSelectProblem: (id: string) => void;
+  onSelectProblem: (problem: Problem) => void;
   onToggleStar: (id: string) => void;
   onUpdateNotes: (id: string, notes: string) => void;
   onNavigate: (page: 'profile' | '' | 'list' | 'quiz') => void;
@@ -123,7 +123,7 @@ const ProblemListPage: React.FC<ProblemListPageProps> = ({ problems, onSelectPro
     const handlePickRandom = () => {
         if (filteredProblems.length > 0) {
             const randomIndex = Math.floor(Math.random() * filteredProblems.length);
-            onSelectProblem(filteredProblems[randomIndex].id);
+            onSelectProblem(filteredProblems[randomIndex]);
         }
     };
     
@@ -230,9 +230,9 @@ const ProblemListPage: React.FC<ProblemListPageProps> = ({ problems, onSelectPro
                                     <TableBody>
                                         {groupProblems.map((problem) => (
                                             <TableRow key={problem.id} className="group/row">
-                                                <TableCell onClick={() => onSelectProblem(problem.id)} className="cursor-pointer"><Checkbox checked={problem.status === ProblemStatus.Solved} readOnly disabled /></TableCell>
-                                                <TableCell onClick={() => onSelectProblem(problem.id)} className="font-medium text-gray-800 dark:text-gray-200 cursor-pointer">{problem.title}</TableCell>
-                                                <TableCell onClick={() => onSelectProblem(problem.id)} className="cursor-pointer">
+                                                <TableCell onClick={() => onSelectProblem(problem)} className="cursor-pointer"><Checkbox checked={problem.status === ProblemStatus.Solved} readOnly disabled /></TableCell>
+                                                <TableCell onClick={() => onSelectProblem(problem)} className="font-medium text-gray-800 dark:text-gray-200 cursor-pointer">{problem.title}</TableCell>
+                                                <TableCell onClick={() => onSelectProblem(problem)} className="cursor-pointer">
                                                     <Badge difficulty={problem.difficulty}>{problem.difficulty}</Badge>
                                                 </TableCell>
                                                 <TableCell className="text-center">

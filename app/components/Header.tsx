@@ -64,6 +64,15 @@ const Header: React.FC<HeaderProps> = ({ problemTitle, onBack, onNavigate }) => 
         </div>
         {problemTitle && <h2 className="text-md font-medium text-gray-600 dark:text-gray-300 truncate hidden md:block">{problemTitle}</h2>}
         <div className="flex items-center gap-2">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => setTheme(currentTheme === 'light' ? 'dark' : 'light')}
+            className="text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
+            aria-label="Toggle theme"
+          >
+            {currentTheme === 'light' ? <MoonIcon className="h-5 w-5" /> : <SunIcon className="h-5 w-5" />}
+          </Button>
           {auth.isAuthenticated && auth.user ? (
             <Dropdown
               trigger={
@@ -86,10 +95,6 @@ const Header: React.FC<HeaderProps> = ({ problemTitle, onBack, onNavigate }) => 
                     <span>Profile</span>
                   </Button>
                 </a>
-                <Button variant="ghost" size="sm" onClick={() => setTheme(currentTheme === 'light' ? 'dark' : 'light')} className="w-full flex justify-start items-center gap-2">
-                  {currentTheme === 'light' ? <MoonIcon /> : <SunIcon />}
-                  <span>{currentTheme === 'light' ? 'Dark Mode' : 'Light Mode'}</span>
-                </Button>
                 <Button variant="ghost" size="sm" onClick={() => auth.logout()} className="w-full flex justify-start items-center gap-2">
                   <LogOutIcon />
                   <span>Sign out</span>
@@ -98,7 +103,7 @@ const Header: React.FC<HeaderProps> = ({ problemTitle, onBack, onNavigate }) => 
             </Dropdown>
           ) : (
             <Button variant="secondary" size="sm" onClick={() => auth.login()}>
-              Sign in with Google
+              Sign in
             </Button>
           )}
         </div>

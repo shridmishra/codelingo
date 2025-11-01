@@ -29,6 +29,25 @@ export async function GET(req: NextRequest) {
     const solvedCount = userProgress.filter(p => p.status === 'Solved').length;
     const totalCount = problemsData.length;
 
+    let easySolved = 0;
+    let mediumSolved = 0;
+    let hardSolved = 0;
+
+    userProgress.forEach(userProb => {
+        if (userProb.status === 'Solved') {
+            const problem = problemsData.find(p => p.id === userProb.problemId);
+            if (problem) {
+                if (problem.difficulty === 'Easy') {
+                    easySolved++;
+                } else if (problem.difficulty === 'Medium') {
+                    mediumSolved++;
+                } else if (problem.difficulty === 'Hard') {
+                    hardSolved++;
+                }
+            }
+        }
+    });
+
     const contributions: { [key: string]: number } = {};
     const today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -60,6 +79,9 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({
         solvedCount,
         totalCount,
+        easySolved,
+        mediumSolved,
+        hardSolved,
         contributions,
         streak,
         joinDate: userFromDb.createdAt,

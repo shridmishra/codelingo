@@ -4,6 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import Card, { Badge } from './ui/Card';
 import Button from './ui/Button';
 import ContributionGraph from './ContributionGraph';
+import DifficultyProgressBar from './DifficultyProgressBar';
 
 const CheckIcon: React.FC<{ className?: string }> = ({ className }) => (
     <svg xmlns="http://www.w3.org/2000/svg" className={`h-5 w-5 text-green-500 ${className || ''}`} viewBox="0 0 20 20" fill="currentColor">
@@ -22,6 +23,9 @@ import { IUserAnsweredQuestion } from '../models/UserAnsweredQuestion';
 interface ProfileData {
     solvedCount: number;
     totalCount: number;
+    easySolved: number;
+    mediumSolved: number;
+    hardSolved: number;
     contributions: { [date: string]: number };
     streak: number;
     joinDate: string;
@@ -118,7 +122,7 @@ const ProfilePage: React.FC = () => {
         );
     }
     
-    const { solvedCount, totalCount, contributions, streak, joinDate, quizHistory } = profileData;
+    const { solvedCount, totalCount, easySolved, mediumSolved, hardSolved, contributions, streak, joinDate, quizHistory } = profileData;
     const progressPercent = totalCount > 0 ? (solvedCount / totalCount) * 100 : 0;
     const totalSubmissions = Object.values(contributions).reduce((a, b) => a + b, 0);
 
@@ -154,9 +158,14 @@ const ProfilePage: React.FC = () => {
                         </div>
                     </Card>
                     <Card>
-                        <div className="p-6">
-                            <h3 className="text-gray-500 dark:text-gray-400 mb-2">Progress</h3>
-                            <p className="text-4xl font-bold">{progressPercent.toFixed(1)}%</p>
+                        <div className="p-6 flex flex-col items-center">
+                            <h3 className="text-gray-500 dark:text-gray-400 mb-4">Difficulty Progress</h3>
+                            <DifficultyProgressBar easy={easySolved} medium={mediumSolved} hard={hardSolved} />
+                            <div className="mt-4 text-sm text-gray-600 dark:text-gray-300">
+                                <p><span className="text-green-500">●</span> Easy: {easySolved}</p>
+                                <p><span className="text-yellow-500">●</span> Medium: {mediumSolved}</p>
+                                <p><span className="text-red-500">●</span> Hard: {hardSolved}</p>
+                            </div>
                         </div>
                     </Card>
                     <Card>
