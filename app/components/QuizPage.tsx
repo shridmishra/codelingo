@@ -20,7 +20,7 @@ const XIcon = () => (
 
 const ChevronDownIcon = () => (
     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="m6 9 6 6 6-6" />
+        <path d="m6 9 6 6 6-6"/>
     </svg>
 );
 
@@ -59,7 +59,7 @@ const DifficultyDropdown: React.FC<{
                 variant="secondary"
                 onClick={() => setIsOpen(!isOpen)}
                 disabled={disabled}
-                className="w-40 flex items-center justify-center gap-2 mb-4"
+                className="w-48 flex items-center justify-between"
             >
                 <span>{selected === 'All' ? 'Select Difficulty' : selected}</span>
                 <ChevronDownIcon />
@@ -68,14 +68,16 @@ const DifficultyDropdown: React.FC<{
                 <div className="absolute z-10 mt-2 w-48 rounded-md bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-lg">
                     <ul className="py-1">
                         {difficulties.map(d => (
-                            <button
-                                key={d}
-                                onClick={() => handleSelect(d)}
-                                className="w-full text-left px-4 py-2 text-sm text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer"
-                            >
-                                {d}
-                            </button>
-                        ))}
+                                                            <li
+                                                                key={d}
+                                                                onClick={() => handleSelect(d)}
+                                                                onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') handleSelect(d); }}
+                                                                className="px-4 py-2 text-sm text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer"
+                                                                tabIndex={0}
+                                                                role="menuitem"
+                                                            >
+                                                                {d}
+                                                            </li>                        ))}
                     </ul>
                 </div>
             )}
@@ -85,7 +87,6 @@ const DifficultyDropdown: React.FC<{
 
 import { useSearchParams } from 'next/navigation';
 import { IUserAnsweredQuestion } from '../models/UserAnsweredQuestion';
-import { ChevronLeftIcon, ChevronRightIcon } from './Icons';
 
 const QuizPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
     const searchParams = useSearchParams();
@@ -95,11 +96,10 @@ const QuizPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
     const [difficulty, setDifficulty] = useState<Difficulty>('All');
     const [initialQuestionIndex, setInitialQuestionIndex] = useState(0);
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-
-    const [selectedAnswerIndex, setSelectedAnswerIndex] = useState<number | null>(null);
-
+    const [selectedAnswerIndexState, setSelectedAnswerIndexState] = useState<number | null>(null);
+    const [isAnswered, setIsAnswered] = useState(false);
     const [userQuizHistory, setUserQuizHistory] = useState<IUserAnsweredQuestion[]>([]);
-
+    
     const auth = useAuth();
     const { addToast } = useToast();
 
@@ -150,7 +150,7 @@ const QuizPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
                             nextUnsolvedQuestionIndex = 0; // All questions in this difficulty are solved. Start from the beginning.
                         }
                     }
-
+                    
                     setCurrentQuestionIndex(nextUnsolvedQuestionIndex);
 
                 } else {
@@ -177,6 +177,15 @@ const QuizPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
         const historyItem = userQuizHistory.find(item => item.question === currentQuestion.question);
         return historyItem ? historyItem.userAnswer : null;
     }, [currentQuestion, userQuizHistory]);
+
+    const finalSelectedAnswerIndex = useMemo(() => {
+        if (hasBeenAnswered) {
+            const prevAnswerIndex = userAnswerForCurrentQuestion !== null ? currentQuestion.options.indexOf(userAnswerForCurrentQuestion) : -1;
+            return prevAnswerIndex !== -1 ? prevAnswerIndex : null;
+        } else {
+            return selectedAnswerIndexState;
+        }
+    }, [hasBeenAnswered, userAnswerForCurrentQuestion, currentQuestion, selectedAnswerIndexState]);
 
 
 
@@ -215,13 +224,15 @@ const QuizPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
     }, [auth.isAuthenticated, addToast]);
 
     const handleAnswerSelect = (optionIndex: number) => {
-        if (hasBeenAnswered) return;
-        setSelectedAnswerIndex(optionIndex);
+        if (isAnswered || hasBeenAnswered) return; // Prevent answering if already answered or in history
+        setSelectedAnswerIndexState(optionIndex);
+        setIsAnswered(true);
         saveAnsweredQuestion(currentQuestion, optionIndex);
     };
 
     const handleNextQuestion = () => {
-        setSelectedAnswerIndex(null);
+        setSelectedAnswerIndexState(null);
+        setIsAnswered(false);
         if (currentQuestionIndex < questions.length - 1) {
             setCurrentQuestionIndex(prevIndex => prevIndex + 1);
         } else {
@@ -231,27 +242,26 @@ const QuizPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
     };
 
     const handlePreviousQuestion = () => {
-        setSelectedAnswerIndex(null);
+        setSelectedAnswerIndexState(null);
+        setIsAnswered(false);
         if (currentQuestionIndex > 0) {
             setCurrentQuestionIndex(prevIndex => prevIndex - 1);
         }
     };
 
     const progressPercent = questions.length > 0 ? ((currentQuestionIndex + 1) / questions.length) * 100 : 0;
-
+    
     return (
         <div className="min-h-screen flex flex-col bg-gray-50 dark:bg-black">
             <main className="grow container mx-auto p-4 md:p-6 lg:p-8 flex flex-col items-center">
                 <div className="w-full max-w-2xl">
-                    <div className=" flex flex-row items-center justify-between ">
-                        <p className="text-md text-gray-500 dark:text-gray-200 text-center mb-2 font-normal">Question {currentQuestionIndex + 1} of {questions.length}</p>
-
+                    <div className="mb-6 flex flex-row items-center justify-end gap-4">
                         <DifficultyDropdown 
                             selected={difficulty}
                             onSelect={(d) => {
                                 setDifficulty(d);
-                                setSelectedAnswerIndex(null);
-                                // setIsAnswered(false); // This line is no longer needed as isAnswered is removed
+                                setSelectedAnswerIndexState(null);
+                                setIsAnswered(false);
                             }}
                             disabled={false}
                         />
@@ -260,6 +270,7 @@ const QuizPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
                     {currentQuestion && (
                         <div className="animate-fade-in-up">
                             <div className="mb-4">
+                                <p className="text-sm text-gray-500 dark:text-gray-400 text-center mb-2">Question {currentQuestionIndex + 1} of {questions.length}</p>
                                 <ProgressBar value={progressPercent} />
                             </div>
 
@@ -270,11 +281,11 @@ const QuizPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
                                 <Card.Content>
                                     <div className="space-y-3">
                                         {currentQuestion.options.map((option, index) => {
-                                            const isSelected = selectedAnswerIndex === index;
+                                            const isSelected = finalSelectedAnswerIndex === index;
                                             const isCorrect = currentQuestion.correctAnswerIndex === index;
                                             let optionClasses = 'w-full text-left p-3 rounded-md border-2 transition-colors text-gray-800 dark:text-gray-200';
-
-                                            if (hasBeenAnswered || hasBeenAnswered) {
+                                            
+                                            if(isAnswered || hasBeenAnswered) {
                                                 if (isCorrect) {
                                                     optionClasses += ' bg-green-100 dark:bg-green-900/40 border-green-500 dark:border-green-600';
                                                 } else if (isSelected) {
@@ -283,16 +294,16 @@ const QuizPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
                                                     optionClasses += ' bg-gray-100 dark:bg-gray-800 border-gray-200 dark:border-gray-700 opacity-70';
                                                 }
                                             } else {
-                                                optionClasses += isSelected
-                                                    ? ' bg-yellow-100/80 dark:bg-yellow-900/50 border-yellow-500'
+                                                optionClasses += isSelected 
+                                                    ? ' bg-yellow-100/80 dark:bg-yellow-900/50 border-yellow-500' 
                                                     : ' bg-gray-100 dark:bg-gray-800 border-gray-200 dark:border-gray-700 hover:border-gray-400 dark:hover:border-gray-600';
                                             }
 
                                             return (
-                                                <button
+                                                <button 
                                                     key={index}
                                                     onClick={() => handleAnswerSelect(index)}
-                                                    disabled={hasBeenAnswered}
+                                                    onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') handleAnswerSelect(index); }}
                                                     className={optionClasses}
                                                 >
                                                     {option}
@@ -300,7 +311,7 @@ const QuizPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
                                             );
                                         })}
                                     </div>
-                                    {hasBeenAnswered && (
+                                    {(isAnswered || hasBeenAnswered) && (
                                         <div className="mt-4 p-3 bg-gray-100 dark:bg-gray-800/50 rounded-md text-gray-700 dark:text-gray-300 animate-fade-in-up">
                                             <p><span className="font-semibold text-yellow-600 dark:text-yellow-500">Explanation: </span>{currentQuestion.explanation}</p>
                                         </div>
@@ -308,12 +319,12 @@ const QuizPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
                                 </Card.Content>
                             </Card>
 
-                            <div className="flex justify-between mt-6 ">
-                                <Button onClick={handlePreviousQuestion} disabled={currentQuestionIndex === 0} className="gap-4 p-0">
-                                   <ChevronLeftIcon/> <p>Previous</p>
+                            <div className="flex justify-between mt-6">
+                                <Button onClick={handlePreviousQuestion} disabled={currentQuestionIndex === 0}>
+                                   Previous
                                 </Button>
-                                <Button  onClick={handleNextQuestion} disabled={!hasBeenAnswered} className="gap-6">
-                                    Next <ChevronRightIcon/>
+                                <Button onClick={handleNextQuestion} disabled={!isAnswered && !hasBeenAnswered}>
+                                     Next 
                                 </Button>
                             </div>
                         </div>
