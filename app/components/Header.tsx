@@ -36,7 +36,7 @@ const Header: React.FC<HeaderProps> = ({ problemTitle, onBack, onNavigate }) => 
             </Button>
           ) : (
             <div className="flex items-center gap-8">
-              <button onClick={() => onNavigate && onNavigate('')} className="text-xl font-bold text-gray-900 dark:text-white tracking-tight">
+              <button onClick={() => onNavigate && onNavigate('')} className="text-xl font-bold text-gray-900 dark:text-white tracking-tight cursor-pointer">
                 practice<span className="text-yellow-400">JS</span>
               </button>
               <nav className="hidden md:flex items-center gap-6">

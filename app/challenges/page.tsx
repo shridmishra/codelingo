@@ -39,7 +39,6 @@ function ChallengesPage() {
             notes: p.notes || '',
           })));
         } else {
-          console.error("Failed to fetch problems");
           // Fallback to static problems with default metadata
           setUserProblemMetadata(staticProblems.map(p => ({
             id: p.id,
@@ -49,7 +48,6 @@ function ChallengesPage() {
           })));
         }
       } catch (error) {
-        console.error("Error fetching problems:", error);
         // Fallback to static problems on network error
         setUserProblemMetadata(staticProblems.map(p => ({
           id: p.id,
@@ -108,10 +106,8 @@ function ChallengesPage() {
         // If the selected assignment is the one being updated, update its status too
         setSelectedAssignment(prev => prev && prev.id === id ? { ...prev, status: newStatus } : prev);
       } else {
-        console.error("Failed to update problem status");
       }
     } catch (error) {
-      console.error("Error updating problem status:", error);
     }
   };
 
@@ -133,10 +129,8 @@ function ChallengesPage() {
         // If the selected assignment is the one being updated, update its starred status too
         setSelectedAssignment(prev => prev && prev.id === id ? { ...prev, isStarred: !prev.isStarred } : prev);
       } else {
-        console.error("Failed to toggle star status");
       }
     } catch (error) {
-      console.error("Error toggling star status:", error);
     }
   };
 
@@ -155,10 +149,8 @@ function ChallengesPage() {
         // If the selected assignment is the one being updated, update its notes too
         setSelectedAssignment(prev => prev && prev.id === id ? { ...prev, notes: newNotes } : prev);
       } else {
-        console.error("Failed to update notes");
       }
     } catch (error) {
-      console.error("Error updating notes:", error);
     }
   };
 

@@ -154,11 +154,9 @@ const QuizPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
                     setCurrentQuestionIndex(nextUnsolvedQuestionIndex);
 
                 } else {
-                    console.error("Failed to fetch quiz history");
                     setCurrentQuestionIndex(0); // Default to first question on error
                 }
             } catch (error) {
-                console.error("Failed to fetch quiz history", error);
                 setCurrentQuestionIndex(0); // Default to first question on error
             }
         };
@@ -214,11 +212,9 @@ const QuizPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
                 setUserQuizHistory(prev => [...prev, newHistoryItem]); // Update history with new answer
                 addToast("Answer saved!", "success");
             } else {
-                console.error("Failed to save answered question", res.statusText);
                 addToast("Could not save your answer.", "error");
             }
         } catch (error) {
-            console.error("Failed to save answered question", error);
             addToast("Could not save your answer.", "error");
         }
     }, [auth.isAuthenticated, addToast]);

@@ -86,10 +86,8 @@ const ProfilePage: React.FC = () => {
                     const data = await res.json();
                     setProfileData(data);
                 } else {
-                    console.error("Failed to fetch profile data");
                 }
             } catch (error) {
-                console.error(error);
             } finally {
                 setIsLoading(false);
             }

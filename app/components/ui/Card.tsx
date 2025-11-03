@@ -15,7 +15,7 @@ const Card: React.FC<CardProps> & {
   Content: React.FC<CardProps>;
 } = ({ children, className }) => {
   return (
-    <div className={`rounded-lg border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900/50 text-gray-900 dark:text-gray-100 shadow-sm ${className}`}>
+    <div className={`rounded-lg border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900/50 text-gray-900 dark:text-gray-100 shadow-sm cursor-pointer ${className}`}>
       {children}
     </div>
   );
@@ -177,7 +177,6 @@ export const Tabs = React.forwardRef<HTMLDivElement, TabsProps>(({
     const value = isControlled ? valueProp : internalValue;
 
     if (value === undefined) {
-        console.error("Tabs component must be used in controlled mode with `value` and `onValueChange` props, or in uncontrolled mode with a `defaultValue` prop.");
         return null;
     }
     

@@ -38,11 +38,6 @@ export async function POST(req: Request) {
     }, { status: 201 });
 
   } catch (error) {
-    if (error instanceof Error) {
-      console.error(error.message);
-    } else {
-      console.error(error);
-    }
     return NextResponse.json({ message: 'Server Error' }, { status: 500 });
   }
 }

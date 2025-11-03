@@ -72,7 +72,6 @@ const authOptions: NextAuthOptions = {
             await newUser.save();
           }
         } catch (err) {
-          console.error("Error in signIn callback:", err);
           return false;
         }
       }

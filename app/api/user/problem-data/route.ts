@@ -47,11 +47,6 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json(updatedUserProblemData);
   } catch (error) {
-    if (error instanceof Error) {
-      console.error(error.message);
-    } else {
-      console.error(error);
-    }
     return NextResponse.json({ message: 'Server Error' }, { status: 500 });
   }
 }

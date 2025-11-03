@@ -24,8 +24,6 @@ export async function GET(req: NextRequest) {
     const userProgress = await UserProblemData.find({ userId: userFromDb._id });
     const userQuizHistory = await UserAnsweredQuestion.find({ userId: userFromDb._id }).sort({ answeredAt: -1 }); // Fetch from UserAnsweredQuestion
 
-    console.log("Profile API: Retrieved answered questions for user", userFromDb._id, ":", userQuizHistory.length + " items");
-
     const solvedCount = userProgress.filter(p => p.status === 'Solved').length;
     const totalCount = problemsData.length;
 
@@ -89,11 +87,6 @@ export async function GET(req: NextRequest) {
     });
 
   } catch (error) {
-    if (error instanceof Error) {
-      console.error(error.message);
-    } else {
-      console.error(error);
-    }
     return NextResponse.json({ message: 'Server Error' }, { status: 500 });
   }
 }

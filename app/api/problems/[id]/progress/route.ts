@@ -36,11 +36,6 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
     return NextResponse.json(updatedProgress);
 
   } catch (error) {
-    if (error instanceof Error) {
-      console.error(error.message);
-    } else {
-      console.error(error);
-    }
     return NextResponse.json({ message: 'Server Error' }, { status: 500 });
   }
 }
