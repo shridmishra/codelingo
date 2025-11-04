@@ -1,36 +1,47 @@
-"use client"
-import ProductImage from "@/assets/product-image.png"
+'use client';
 import Image from "next/image";
-import pyramidImage from "@/assets/pyramid.png";
-import tubeImage from "@/assets/tube.png";
-import {motion , useScroll, useTransform} from "framer-motion";
-import { useRef } from "react";
+import jsImage from "@/assets/javascript.png";
+import tsImage from "@/assets/typescript.png";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef, useEffect, useState } from "react";
+import ProductImage from '@/assets/product-image.png';
+import ProductImageDark from '@/assets/product-image-dark.png';
+import { useTheme } from "next-themes";
 
 export const ProductShowcase = () => {
-
+  const [mounted, setMounted] = useState(false);
   const sectionRef = useRef(null);
+  const { theme, resolvedTheme } = useTheme();
+  const currentTheme = resolvedTheme || theme;
 
-  const {scrollYProgress} = useScroll({
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setMounted(true);
+  }, []);
+
+  const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start end", "end start"]
   });
 
-  const translateY = useTransform(scrollYProgress, [0,1],[150 ,-150])
+  const translateY = useTransform(scrollYProgress, [0, 1], [150, -150]);
 
+  const src = mounted && currentTheme === 'dark' ? ProductImageDark : ProductImage;
 
-  return <section ref={sectionRef} className="pt-32 pb-10 bg-gradient-to-b from-white to-[#D2DCFF] overflow-x-clip">
+  return <section ref={sectionRef} className="pt-20 pb-10 sm:pt-32 bg-linear-to-b from-white to-[#fefce8] dark:from-black dark:to-[#1a202c] overflow-x-clip">
     <div className="container">
       <div className="">
         <div className=" md:mx-28 lg:mx-44 flex flex-col  items-center text-center">
-          <div className="tag" >Boost your productivity</div>
-          <h1 className="text-3xl lg:text-7xl bg-gradient-to-b from-black to-[#001E80] text-transparent bg-clip-text font-bold tracking-tighter mt-6 ">A more effective way to track progress</h1>
-          <p className="sub-heading">Celebrate the joy of accomplishment with an app designed to track your progress, motivate your efforts.</p>
+
+          <div className="tag" >Master JavaScript</div>
+          <h1 className="text-3xl lg:text-7xl bg-linear-to-b from-black to-[#733e0a] dark:from-white dark:to-[#fff085] text-transparent bg-clip-text font-bold tracking-tighter mt-6 ">Learn by Doing</h1>
+          <p className="sub-heading">The best way to learn JavaScript is by solving challenges and building projects. Our platform provides a curated set of problems to help you master the language.</p>
         </div>
 
-        <div className="relative mt-20">
-          <Image src={ProductImage} alt="product-image"/>
-          <motion.img src={pyramidImage.src} alt="pyramid-image" height={220} width={220} className=" hidden md:block md:absolute -top-24 -right-28" style={{translateY}}/>
-          <motion.img src={tubeImage.src} alt="tube-image" height={220} width={220} className="hidden md:block md:absolute top-40 -left-28" style={{translateY}}/>
+        <div className="relative mt-10 sm:mt-20">
+          <Image src={src} alt="product-image" className="mx-auto w-full max-w-7xl rounded-lg " />
+          <motion.img src={jsImage.src} alt="js-image" height={220} width={220} className=" hidden md:block md:absolute -top-24 -right-10" style={{ translateY }} />
+          <motion.img src={tsImage.src} alt="ts-image" height={220} width={220} className="hidden md:block md:absolute bottom-40 left-0" style={{ translateY }} />
         </div>
 
       </div>

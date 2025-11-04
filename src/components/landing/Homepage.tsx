@@ -1,0 +1,62 @@
+'use client';
+
+import React from 'react';
+import { useRouter } from 'next/navigation';
+import Button from '../../components/ui/Button';
+import { useAuth } from '../../context/AuthContext';
+
+import { easeInOut, motion, } from "framer-motion";
+import { useRef } from "react";
+import ArrowIcon from "@/assets/arrow-right.svg";
+import jsImage from '@/assets/javascript.png';
+
+
+
+export const HomePage = () => {
+    const router = useRouter();
+    const auth = useAuth();
+    const heroRef = useRef(null);
+
+
+    const handleNavigate = (page: string) => {
+        router.push(`/${page}`);
+    };
+
+    return (
+        <section ref={heroRef} className="pt-8 pb-20 md:pt-10 md:pb-24 bg-[radial-gradient(ellipse_200%_100%_at_bottom_left,#fefce8,#fff_100%)] dark:bg-[radial-gradient(ellipse_200%_100%_at_bottom_left,#1a202c,#000_100%)] overflow-x-clip px-4 sm:px-6 lg:px-8 h-screen">
+            <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+                <header className="flex justify-between items-center py-4">
+                    <h1 className="text-2xl font-bold text-gray-900 dark:text-white tracking-tight">
+                        practice<span className="text-yellow-300">JS</span>
+                    </h1>
+                    <div className="flex items-center gap-2 sm:gap-4">
+                        <div className="hidden md:flex">
+                            <Button variant="ghost" size="sm" onClick={() => handleNavigate('challenges')}>Challenges</Button>
+                            <Button variant="ghost" size="sm" onClick={() => handleNavigate('quiz')}>Quiz</Button>
+
+                        </div>
+                        {!auth.isAuthenticated && <Button variant="secondary" size="sm" onClick={() => window.dispatchEvent(new Event('openLoginModal'))}>Login</Button>}
+                    </div>
+                </header>
+
+                <div className="md:flex items-center justify-center gap-8 md:gap-16 mt-16 md:mt-20">
+                    <div className="md:w-1/2">
+                        <div>
+                            <h1 className="text-5xl md:text-7xl font-bold tracking-tighter bg-linear-to-b from-black to-[#733e0a] dark:from-white dark:to-[#fff085] text-transparent bg-clip-text mt-6">Master JavaScript,<br />One Challenge at a Time.</h1>
+                            <p className="text-lg sm:text-xl text-[#010D3E] dark:text-gray-300 tracking-tight mt-6 ">Celebrate the joy of accomplishment with an app designed to track your progress, motivate your efforts, and celebrate your successes.</p>
+                        </div>
+                        <div className="mt-7 flex gap-1 md:items-center flex-col items-start md:flex-row">
+                            <button onClick={() => handleNavigate('challenges')} className="btn btn-primary bg-black text-white dark:bg-white dark:text-black">View Challenges</button>
+                            <button onClick={() => handleNavigate('quiz')} className="btn btn-text gap-1 hidden md:inline-flex"><span>Take quiz</span><ArrowIcon className="h-5 w-5" /></button>
+                        </div>
+                    </div>
+
+
+                    <div className="hidden md:flex md:w-1/2 pt-12 md:mt-0 items-center justify-center">
+                        <motion.img src={jsImage.src} alt="js image" className="max-w-sm" animate={{ translateY: [-30, 30], }} transition={{ repeat: Infinity, repeatType: "mirror", duration: 3, ease: easeInOut }} />
+                    </div>
+                </div>
+            </div>
+        </section>
+    );
+};

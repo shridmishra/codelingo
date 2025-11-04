@@ -14,58 +14,58 @@ import React from "react";
 
 const testimonials = [
   {
-    text: "As a seasoned designer always on the lookout for innovative tools, Framer.com instantly grabbed my attention.",
+    text: "The challenges on this platform are top-notch. They've helped me solidify my understanding of core JavaScript concepts.",
     imageSrc: avatar1.src,
-    name: "Jamie Rivera",
-    username: "@jamietechguru00",
+    name: "Sarah L.",
+    username: "@sarahdev",
   },
   {
-    text: "Our team's productivity has skyrocketed since we started using this tool. ",
+    text: "I love the quiz feature! It's a fun and quick way to test my knowledge and identify areas for improvement.",
     imageSrc: avatar2.src,
-    name: "Josh Smith",
-    username: "@jjsmith",
+    name: "Mike P.",
+    username: "@mikep_codes",
   },
   {
-    text: "This app has completely transformed how I manage my projects and deadlines.",
+    text: "As a beginner, I found the progressive difficulty of the challenges to be perfect. I never felt overwhelmed.",
     imageSrc: avatar3.src,
-    name: "Morgan Lee",
-    username: "@morganleewhiz",
+    name: "Emily R.",
+    username: "@emily_codes",
   },
   {
-    text: "I was amazed at how quickly we were able to integrate this app into our workflow.",
+    text: "This platform has been a great supplement to my bootcamp curriculum. The hands-on practice is invaluable.",
     imageSrc: avatar4.src,
-    name: "Casey Jordan",
-    username: "@caseyj",
+    name: "Chris T.",
+    username: "@christ_dev",
   },
   {
-    text: "Planning and executing events has never been easier. This app helps me keep track of all the moving parts, ensuring nothing slips through the cracks.",
+    text: "I finally landed my first developer job, and I owe a big part of it to the skills I gained on this platform.",
     imageSrc: avatar5.src,
-    name: "Taylor Kim",
-    username: "@taylorkimm",
+    name: "Jessica M.",
+    username: "@jess_makes_apps",
   },
   {
-    text: "The customizability and integration capabilities of this app are top-notch.",
+    text: "The community aspect is fantastic. It's great to be able to discuss solutions and learn from others.",
     imageSrc: avatar6.src,
-    name: "Riley Smith",
-    username: "@rileysmith1",
+    name: "David K.",
+    username: "@david_codes",
   },
   {
-    text: "Adopting this app for our team has streamlined our project management and improved communication across the board.",
+    text: "I've been a developer for years, but this platform helped me brush up on the latest ES6+ features.",
     imageSrc: avatar7.src,
-    name: "Jordan Patels",
-    username: "@jpatelsdesign",
+    name: "Maria G.",
+    username: "@mariacodes",
   },
   {
-    text: "With this app, we can easily assign tasks, track progress, and manage documents all in one place.",
+    text: "The code editor is clean and easy to use. I love that I can practice right in the browser.",
     imageSrc: avatar8.src,
-    name: "Sam Dawson",
-    username: "@dawsontechtips",
+    name: "Tom H.",
+    username: "@tom_the_dev",
   },
   {
-    text: "Its user-friendly interface and robust features support our diverse needs.",
+    text: "The progress tracking is super motivating. It's rewarding to see how far I've come.",
     imageSrc: avatar9.src,
-    name: "Casey Harper",
-    username: "@casey09",
+    name: "Linda S.",
+    username: "@lindas_codes",
   },
 ];
 
@@ -103,12 +103,12 @@ const TestimonialColumns = (props: { className?: string, duration?:number, testi
 )
 
 export const Testimonials = () => {
-  return <section className="lg:py-24 bg-white ">
+  return <section className="lg:py-24 bg-white dark:bg-black mt-24 lg:mt-0">
     <div className="container">
       <div className="flex flex-col justify-center items-center text-center lg:mx-44">
         <div className="tag">Testimonial</div>
-        <h2 className="heading mt-5">What our users say</h2>
-        <p className="sub-heading mt-5">From intuitive design to powerful features, our app has become an essential tool for users around the world.</p>
+        <h2 className="heading mt-5">What our learners say</h2>
+        <p className="sub-heading mt-5">Hear from our community of learners who have leveled up their JavaScript skills with our platform.</p>
       </div>
 
       <div className="flex justify-center gap-6 [mask-image:linear-gradient(to_bottom,transparent,black_25%,black_75%,transparent)] mt-10 max-h-[738px] overflow-hidden">

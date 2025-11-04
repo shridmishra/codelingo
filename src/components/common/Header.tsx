@@ -39,26 +39,7 @@ const Header: React.FC<HeaderProps> = ({ problemTitle, onBack, onNavigate }) => 
               <button onClick={() => onNavigate && onNavigate('')} className="text-xl font-bold text-gray-900 dark:text-white tracking-tight cursor-pointer">
                 practice<span className="text-yellow-400">JS</span>
               </button>
-              <nav className="hidden md:flex items-center gap-6">
-                <a href="/challenges" className={getLinkClass('/challenges')}>
-                  Challenges
-                </a>
-                <a href="/quiz" className={getLinkClass('/quiz')}>
-                  Quiz
-                </a>
-              </nav>
-              <nav className="md:hidden">
-                {pathname === '/challenges' && (
-                  <a href="/quiz" className={getLinkClass('/quiz')}>
-                    Quiz
-                  </a>
-                )}
-                {pathname === '/quiz' && (
-                  <a href="/challenges" className={getLinkClass('/challenges')}>
-                    Challenges
-                  </a>
-                )}
-              </nav>
+
             </div>
           )}
         </div>

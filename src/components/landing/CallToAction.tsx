@@ -16,11 +16,11 @@ export const CallToAction = () => {
   const translateY = useTransform(scrollYProgress, [0, 1], [150, -150])
 
 
-  return <section ref={ctaRef} className="py-24 bg-linear-to-b from-white to-[#D2DCFF] overflow-x-clip relative">
+  return <section ref={ctaRef} className="py-24 bg-linear-to-b from-white to-[#fefce8] dark:from-black dark:to-[#1a202c] overflow-x-clip relative">
     <div className="container">
       <div className="flex flex-col items-center justify-center text-center lg:mx-44">
         <h2 className="heading">Sign up for free today</h2>
-        <p className="sub-heading">Celebrate the joy of accomplishment with an app designed to track your progress, motivate your efforts.</p>
+        <p className="sub-heading">Start your journey to JavaScript mastery. Sign up for free and get instant access to our challenges and quizzes.</p>
         <div className="mt-10">
           <button className="btn btn-primary">Get started</button>
           <button className="btn btn-text gap-2"><span>Learn more</span><ArrowIcon className="h-5 w-5" /></button>
