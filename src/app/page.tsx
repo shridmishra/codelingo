@@ -4,21 +4,35 @@ import React from 'react';
 import { useRouter } from 'next/navigation';
 import Button from '../components/ui/Button';
 import { useAuth } from '../context/AuthContext';
+import { ProductShowcase } from '@/components/landing/ProductShowcase';
+import { Testimonials } from '@/components/landing/Testimonials';
+import { CallToAction } from '@/components/landing/CallToAction';
+import { Footer } from '@/components/landing/Footer';
+import { LogoTicker } from '@/components/landing/LogoTicker';
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
+import ArrowIcon from "@/assets/arrow-right.svg";
 
 const HomePage = () => {
     const router = useRouter();
     const auth = useAuth();
+    const heroRef = useRef(null);
+
+    const { scrollYProgress } = useScroll({
+        target: heroRef,
+        offset: ["start end", "end start"]
+    });
+
+    const translateY = useTransform(scrollYProgress, [0, 1], [150, -150]);
 
     const handleNavigate = (page: string) => {
         router.push(`/${page}`);
     };
 
     return (
-        <div className="my-8 w-full flex flex-col items-center justify-center bg-white dark:bg-black overflow-hidden relative">
-            <div className="absolute inset-0 bg-linear-to-b from-transparent via-transparent to-white dark:to-black z-0"></div>
-
-            <main className="z-10 w-full px-4 sm:px-8 md:px-32">
-                <header className="flex justify-between items-center mb-20 py-4">
+        <section ref={heroRef} className="pt-8 pb-20 md:pt-5 md:pb-10  bg-[radial-gradient(ellipse_200%_100%_at_bottom_left,#fefce8,#fff_100%)] overflow-x-clip px-24 h-screen">
+            <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+                <header className="flex justify-between items-center py-4">
                     <h1 className="text-2xl font-bold text-gray-900 dark:text-white tracking-tight">
                         practice<span className="text-yellow-400">JS</span>
                     </h1>
@@ -29,37 +43,41 @@ const HomePage = () => {
                     </div>
                 </header>
 
-                <div className="grid md:grid-cols-5 gap-8 items-center">
-                    <div className="md:col-span-3 text-left">
-                        <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold text-gray-900 dark:text-white mb-6 leading-tight tracking-tighter">
-                            Master JavaScript,<br />One Challenge at a Time.
-                        </h2>
-                        <p className="text-gray-600 dark:text-gray-400 mb-8 max-w-xl text-lg">
-                            Sharpen your skills with interactive exercises, from fundamental concepts to advanced algorithms. Get instant feedback and track your progress.
-                        </p>
-                        <Button onClick={() => handleNavigate('challenges')} className="px-10 py-5 text-lg font-semibold">
-                            View Challenges
-                        </Button>
-                    </div>
-
-                    <div className="md:col-span-2 hidden md:flex items-center justify-center">
-                        <div className="w-64 h-64 relative flex items-center justify-center">
-                            <div className="absolute inset-0 bg-yellow-500/10 rounded-full blur-2xl"></div>
-                            <svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" className="opacity-75 relative">
-                                <path d="M70 50L40 80L70 110" stroke="#FBBF24" strokeWidth="10" strokeLinecap="round" strokeLinejoin="round" />
-                                <path d="M130 50L160 80L130 110" stroke="#FBBF24" strokeWidth="10" strokeLinecap="round" strokeLinejoin="round" />
-                                <path d="M110 40L90 160" stroke="#D1D5DB" className="dark:stroke-gray-600" strokeWidth="10" strokeLinecap="round" />
-                            </svg>
+                <div className="md:flex items-center justify-center gap-8 mt-20">
+                    <div className="md:w-1/2">
+                        <div>
+                            <div className="text-sm border border-[#222]/10 inline-flex px-3 py-1 rounded-lg tracking-tight">Version 1.0 is here</div>
+                            <h1 className="text-5xl md:text-7xl font-bold tracking-tighter bg-linear-to-b from-black to-[#733e0a] text-transparent bg-clip-text mt-6">Master JavaScript,<br />One Challenge at a Time.</h1>
+                            <p className="text-xl text-[#010D3E] tracking-tight mt-6 ">Celebrate the joy of accomplishment with an app designed to track your progress, motivate your efforts, and celebrate your successes.</p>
+                        </div>
+                        <div className="mt-7 flex gap-1 items-center">
+                            <button onClick={() => handleNavigate('challenges')} className="btn btn-primary bg-black text-white dark:bg-white dark:text-black">View Challenges</button>
+                            <button onClick={() => handleNavigate('quiz')} className="btn btn-text gap-1"><span>Take quiz</span><ArrowIcon className="h-5 w-5" /></button>
                         </div>
                     </div>
+
+                    <div className="hidden md:flex items-center justify-center md:w-1/2">
+                        <motion.svg width="250" height="250" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" className="opacity-75" style={{ translateY }}>
+                            <path d="M70 50L40 80L70 110" stroke="#FBBF24" strokeWidth="10" strokeLinecap="round" strokeLinejoin="round" />
+                            <path d="M130 50L160 80L130 110" stroke="#FBBF24" strokeWidth="10" strokeLinecap="round" strokeLinejoin="round" />
+                            <path d="M110 40L90 160" stroke="#D1D5DB" className="dark:stroke-gray-600" strokeWidth="10" strokeLinecap="round" />
+                        </motion.svg>
+                    </div>
                 </div>
-            </main>
-        </div>
+            </div>
+        </section>
     );
 };
 
 export default function Page() {
-    return (
+    return (<main>
         <HomePage />
+        {/* <LogoTicker />
+        <ProductShowcase />
+        <Testimonials />
+        <CallToAction />
+        <Footer /> */}
+    </main>
+
     );
 }
