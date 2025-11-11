@@ -1,11 +1,9 @@
 import React, { useState, useMemo } from 'react';
 import { Problem, ProblemStatus, Difficulty } from '../../types';
-import Card from '../ui/Card';
-import { Input, Checkbox } from '../ui/Card';
-import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from '../ui/Card';
-import { Badge } from '../ui/Card';
+import Card, { Input, Checkbox, Table, TableHeader, TableRow, TableHead, TableBody, TableCell, Badge } from '../ui/Card';
 import Button from '../ui/Button';
 
+import Dropdown from '../ui/Dropdown';
 import { BookmarkIcon, PenIcon, SearchIcon } from '../common/Icons';
 import NotesModal from '../modals/NotesModal';
 import { useAuth } from '../../context/AuthContext';
@@ -13,13 +11,13 @@ import ProgressBar from '../progress/ProgressBar';
 
 
 interface ProblemListPageProps {
-  problems: Problem[];
-  onSelectProblem: (problem: Problem) => void;
-  onToggleStar: (id: string) => void;
-  onUpdateNotes: (id: string, notes: string) => void;
-  onNavigate: (page: 'profile' | '' | 'list' | 'quiz') => void;
-  onLogout: () => void;
-  onLogin: () => void;
+    problems: Problem[];
+    onSelectProblem: (problem: Problem) => void;
+    onToggleStar: (id: string) => void;
+    onUpdateNotes: (id: string, notes: string) => void;
+    onNavigate: (page: 'profile' | '' | 'list' | 'quiz') => void;
+    onLogout: () => void;
+    onLogin: () => void;
 }
 
 const ProgressSummary = ({ problems }: { problems: Problem[] }) => {
@@ -96,11 +94,19 @@ const ChevronDownIcon = () => (
 
 const ProblemListPage: React.FC<ProblemListPageProps> = ({ problems, onSelectProblem, onToggleStar, onUpdateNotes, onLogin, onNavigate: _onNavigate, onLogout: _onLogout }) => {
     const [searchTerm, setSearchTerm] = useState('');
+    const [isSearchVisible, setIsSearchVisible] = useState(false);
     const [difficultyFilter, setDifficultyFilter] = useState<Difficulty | 'all'>('all');
     const [activeTab, setActiveTab] = useState('all');
     const [editingNotesFor, setEditingNotesFor] = useState<Problem | null>(null);
     const auth = useAuth();
-    
+
+    const handleDropdownKeyDown = (e: React.KeyboardEvent<HTMLDivElement>, onClick: () => void) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            onClick();
+        }
+    };
+
     const handleTabChange = (newTab: string) => {
         if (newTab === 'revision' && !auth.isAuthenticated) {
             onLogin();
@@ -126,7 +132,7 @@ const ProblemListPage: React.FC<ProblemListPageProps> = ({ problems, onSelectPro
             onSelectProblem(filteredProblems[randomIndex]);
         }
     };
-    
+
     const groupedProblems = useMemo(() => {
         const groups: Record<string, Problem[]> = {};
         for (const problem of filteredProblems) {
@@ -135,23 +141,23 @@ const ProblemListPage: React.FC<ProblemListPageProps> = ({ problems, onSelectPro
             }
             groups[problem.group].push(problem);
         }
-        return Object.entries(groups).sort((a,b) => a[0].localeCompare(b[0])).map(([name, problems]) => ({ name, problems }));
+        return Object.entries(groups).sort((a, b) => a[0].localeCompare(b[0])).map(([name, problems]) => ({ name, problems }));
     }, [filteredProblems]);
 
 
     return (
-    <div className="min-h-screen flex flex-col bg-gray-50 dark:bg-black">
-        <main className="grow container mx-auto p-4 md:p-6 lg:p-8 flex flex-col">
-            <ProgressSummary problems={problems} />
+        <div className="min-h-screen flex flex-col bg-gray-50 dark:bg-black">
+            <main className="grow container mx-auto p-4 md:p-6 lg:p-8 flex flex-col">
+                <ProgressSummary problems={problems} />
 
-            
-                <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
-                    <div className="flex items-center gap-2 p-1 bg-gray-100 dark:bg-gray-900 rounded-md">
+
+                <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
+                    <div className="flex items-center gap-2 p-1 bg-gray-100 dark:bg-gray-900 rounded-lg">
                         <Button
                             variant={activeTab === 'all' ? 'secondary' : 'ghost'}
                             size="sm"
                             onClick={() => handleTabChange('all')}
-                            className={activeTab === 'all' ? 'bg-white dark:bg-gray-700' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-800'}
+                            className={activeTab === 'all' ? 'bg-white dark:bg-gray-700 rounded-2xl' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-800'}
                         >
                             All Problems
                         </Button>
@@ -159,41 +165,87 @@ const ProblemListPage: React.FC<ProblemListPageProps> = ({ problems, onSelectPro
                             variant={activeTab === 'revision' ? 'secondary' : 'ghost'}
                             size="sm"
                             onClick={() => handleTabChange('revision')}
-                            className={activeTab === 'revision' ? 'bg-white dark:bg-gray-700' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-800'}
+                            className={`${activeTab === 'revision' ? 'bg-white dark:bg-gray-700' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-800'} rounded-full`}
                         >
                             For Revision
                         </Button>
                     </div>
-                    <div className="flex items-center gap-2 p-1 bg-gray-100 dark:bg-gray-900 rounded-md">
-                        {(['all', ...Object.values(Difficulty)] as const).map(diff => (
-                            <Button 
-                                key={diff} 
-                                variant={difficultyFilter === diff ? 'secondary' : 'ghost'} 
-                                size="sm" 
-                                onClick={() => setDifficultyFilter(diff)}
-                                className={difficultyFilter === diff ? 'bg-white dark:bg-gray-700' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-800'}
-                            >
-                                {diff === 'all' ? 'All' : diff}
-                            </Button>
-                        ))}
-                    </div>
-                </div>
+                    <div className="flex items-center gap-4 ">
 
-                <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
-                    <div className="relative max-w-xs">
-                        <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                            <SearchIcon className="h-5 w-5 text-gray-400" />
+                        <div className="flex items-center gap-2">
+                            {isSearchVisible ? (
+                                <div className="relative">
+                                    <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                        <SearchIcon className="h-5 w-5 text-gray-400" />
+                                    </div>
+                                    <Input
+                                        placeholder="Search problems..."
+                                        value={searchTerm}
+                                        onChange={(e) => setSearchTerm(e.target.value)}
+                                        onBlur={() => setIsSearchVisible(false)}
+                                        className="pl-10"
+                                    />
+                                </div>
+                            ) : (
+                                <Button variant="secondary" onClick={() => setIsSearchVisible(true)} >
+                                    <SearchIcon className="h-5 w-5 text-gray-500 dark:text-gray-400" />
+                                </Button>
+                            )}
                         </div>
-                        <Input 
-                            placeholder="Search problems..."
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
-                            className="pl-10"
-                        />
+                        <div className="flex items-center gap-2">
+                            <Dropdown
+                                trigger={
+                                    <div className=" p-2 text-sm font-medium flex rounded-md items-center justify-between w-48 bg-gray-100 text-gray-900 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-50 dark:hover:bg-gray-700 cursor-pointer">
+                                        <div>{difficultyFilter === 'all' ? 'Select Difficulty' : difficultyFilter}</div>
+                                        <ChevronDownIcon />
+                                    </div>
+
+                                }
+                            >
+                                {(close) => (
+                                    <div className="py-1">
+                                        <div
+                                            role="button"
+                                            tabIndex={0}
+                                            onClick={() => {
+                                                setDifficultyFilter('all');
+                                                close();
+                                            }}
+                                            onKeyDown={(e) => handleDropdownKeyDown(e, () => {
+                                                setDifficultyFilter('all');
+                                                close();
+                                            })}
+                                            className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer"
+                                        >
+                                            All
+                                        </div>
+                                        {Object.values(Difficulty).map(diff => (
+                                            <div
+                                                key={diff}
+                                                role="button"
+                                                tabIndex={0}
+                                                onClick={() => {
+                                                    setDifficultyFilter(diff);
+                                                    close();
+                                                }}
+                                                onKeyDown={(e) => handleDropdownKeyDown(e, () => {
+                                                    setDifficultyFilter(diff);
+                                                    close();
+                                                })}
+                                                className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer"
+                                            >
+                                                {diff}
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+                            </Dropdown>
+                        </div>
+
+                        <Button variant="secondary" onClick={handlePickRandom} className="flex items-center gap-2">
+                            <ShuffleIcon /> Pick Random
+                        </Button>
                     </div>
-                    <Button variant="secondary" onClick={handlePickRandom} className="flex items-center gap-2">
-                        <ShuffleIcon /> Pick Random
-                    </Button>
                 </div>
 
                 {groupedProblems.map(({ name, problems: groupProblems }, index) => {
@@ -254,15 +306,15 @@ const ProblemListPage: React.FC<ProblemListPageProps> = ({ problems, onSelectPro
                     );
                 })}
 
-        </main>
-        {editingNotesFor && (
-            <NotesModal
-                problem={editingNotesFor}
-                onClose={() => setEditingNotesFor(null)}
-                onSave={(notes) => onUpdateNotes(editingNotesFor.id, notes)}
-            />
-        )}
-    </div>
+            </main>
+            {editingNotesFor && (
+                <NotesModal
+                    problem={editingNotesFor}
+                    onClose={() => setEditingNotesFor(null)}
+                    onSave={(notes) => onUpdateNotes(editingNotesFor.id, notes)}
+                />
+            )}
+        </div>
     );
 };
 

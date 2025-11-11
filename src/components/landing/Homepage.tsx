@@ -52,18 +52,20 @@ export const HomePage = () => {
                     </div>
                   }
                 >
+                  {(close) => (
                   <div className="p-2 flex flex-col items-start">
-                    <a href="/profile" className="block w-full">
+                    <a href="/profile" className="block w-full" onClick={close}>
                       <Button variant="ghost" size="sm" className="w-full flex justify-start items-center gap-2">
                         <UserIcon />
                         <span>Profile</span>
                       </Button>
                     </a>
-                    <Button variant="ghost" size="sm" onClick={() => auth.logout()} className="w-full flex justify-start items-center gap-2">
+                    <Button variant="ghost" size="sm" onClick={() => { auth.logout(); close(); }} className="w-full flex justify-start items-center gap-2">
                       <LogOutIcon />
                       <span>Sign out</span>
                     </Button>
                   </div>
+                  )}
                 </Dropdown>
               ) : (
                 <Button variant="secondary" size="sm" onClick={() => auth.login()} className="whitespace-nowrap">

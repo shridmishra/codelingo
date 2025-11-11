@@ -3,7 +3,7 @@ import React, { useState, useRef, useEffect } from 'react';
 
 interface DropdownProps {
   trigger: React.ReactNode;
-  children: React.ReactNode;
+  children: (close: () => void) => React.ReactNode;
 }
 
 const Dropdown: React.FC<DropdownProps> = ({ trigger, children }) => {
@@ -13,6 +13,10 @@ const Dropdown: React.FC<DropdownProps> = ({ trigger, children }) => {
   const handleToggle = () => {
     setIsOpen(!isOpen);
   };
+
+  const close = () => {
+    setIsOpen(false);
+  }
 
   const handleClickOutside = (event: MouseEvent) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
@@ -29,12 +33,17 @@ const Dropdown: React.FC<DropdownProps> = ({ trigger, children }) => {
 
   return (
     <div className="relative" ref={dropdownRef}>
-      <button onClick={handleToggle} className="cursor-pointer" type="button">
+      <div 
+        onClick={handleToggle} 
+        onKeyDown={(e) => e.key === 'Enter' && handleToggle()}
+        role="button"
+        tabIndex={0}
+      >
         {trigger}
-      </button>
+      </div>
       {isOpen && (
         <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg z-20">
-          {children}
+          {children(close)}
         </div>
       )}
     </div>
