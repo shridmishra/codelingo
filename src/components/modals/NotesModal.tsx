@@ -24,7 +24,7 @@ const NotesModal: React.FC<NotesModalProps> = ({ problem, onClose, onSave }) => 
                     value={notes}
                     onChange={(e) => setNotes(e.target.value)}
                     rows={8}
-                    className="w-full p-2 font-mono text-sm bg-gray-100 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-md resize-y focus:outline-none focus:ring-1 focus:ring-yellow-500 text-gray-900 dark:text-gray-200"
+                    className="w-full p-2 font-mono text-sm bg-secondary border border-border rounded-md resize-y focus:outline-none focus:ring-1 focus:ring-primary text-foreground"
                     placeholder="Add your notes here..."
                 />
                 <div className="flex justify-end gap-2">

@@ -84,14 +84,21 @@ const ContributionGraph: React.FC<ContributionGraphProps> = ({ contributions }) 
                     <div key={weekIndex} className="flex flex-col gap-1">
                         {week.contributionDays.map((day, dayIndex) =>
                             day ? (
-                                <div
-                                    key={dayIndex}
-                                    className={`w-3.5 h-3.5 rounded-sm cursor-pointer transition-all duration-150 hover:border-gray-400 ${getContributionIntensity(
-                                        day.contributionCount
-                                    )}`}
-                                    onMouseEnter={(e) => handleMouseEnter(e, day)}
-                                    onMouseLeave={handleMouseLeave}
-                                />
+            <div
+              key={day.date}
+              className={`w-3 h-3 rounded-sm ${
+                day.contributionCount === 0
+                  ? 'bg-secondary'
+                  : day.contributionCount === 1
+                  ? 'bg-primary/20'
+                  : day.contributionCount <= 3
+                  ? 'bg-primary/40'
+                  : day.contributionCount <= 5
+                  ? 'bg-primary/60'
+                  : 'bg-primary'
+              }`}
+              title={`${day.contributionCount} contributions on ${day.date}`}
+            ></div>
                             ) : (
                                 <div key={dayIndex} className="w-3.5 h-3.5" />
                             )

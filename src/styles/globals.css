@@ -50,14 +50,14 @@ button,
     @apply px-4 py-2 rounded-lg font-medium inline-flex items-center justify-center  tracking-tight;
   }
   .btn-primary {
-    @apply bg-black text-white;
+    @apply bg-primary text-primary-foreground;
   }
 
   .btn-text {
     @apply bg-transparent text-black dark:text-white;
   }
   .tag {
-    @apply text-sm border border-[#222]/20 dark:border-white/20 inline-flex px-3 py-1 rounded-lg tracking-tight;
+    @apply text-sm border border-border inline-flex px-3 py-1 rounded-lg tracking-tight;
   }
 
   .heading {
@@ -65,10 +65,10 @@ button,
   }
 
   .sub-heading {
-    @apply text-lg lg:text-xl text-[#432004] dark:text-gray-300 tracking-tight mt-6;
+    @apply text-lg lg:text-xl text-muted-foreground tracking-tight mt-6;
   }
   .card {
-    @apply p-10 rounded-3xl border border-[#F1F1F1] dark:border-[#222] shadow-[0_7px_14px_#EAEAEA] dark:shadow-[0_7px_14px_#1a202c] max-w-xs w-full dark:text-white;
+    @apply p-10 rounded-3xl border border-border shadow-sm max-w-xs w-full text-foreground;
   }
 
   .logo-ticker-image {
@@ -76,10 +76,9 @@ button,
   }
 
   .gradient-text {
-    @apply font-bold tracking-tighter bg-linear-to-b from-yellow-500 to-[#ecc94b] dark:from-white dark:to-[#fff085]  text-transparent bg-clip-text mt-6 leading-normal;
+    @apply font-bold tracking-tighter bg-linear-to-b from-primary to-primary/70 dark:from-primary-foreground dark:to-primary-foreground/70  text-transparent bg-clip-text mt-6 leading-normal;
 
   }
-
 }
 
 ::-webkit-scrollbar {
@@ -160,13 +159,17 @@ button,
   --popover-foreground: oklch(0.145 0 0);
   --primary: oklch(0.205 0 0);
   --primary-foreground: oklch(0.985 0 0);
+  --primary-hover: oklch(0.1 0 0);
   --secondary: oklch(0.97 0 0);
   --secondary-foreground: oklch(0.205 0 0);
+  --secondary-hover: oklch(0.95 0 0);
   --muted: oklch(0.97 0 0);
   --muted-foreground: oklch(0.556 0 0);
   --accent: oklch(0.97 0 0);
   --accent-foreground: oklch(0.205 0 0);
   --destructive: oklch(0.577 0.245 27.325);
+  --success: oklch(0.45 0.15 140);
+  --warning: oklch(0.7 0.15 80);
   --border: oklch(0.922 0 0);
   --input: oklch(0.922 0 0);
   --ring: oklch(0.708 0 0);
@@ -194,13 +197,17 @@ button,
   --popover-foreground: oklch(0.985 0 0);
   --primary: oklch(0.922 0 0);
   --primary-foreground: oklch(0.205 0 0);
+  --primary-hover: oklch(0.9 0 0);
   --secondary: oklch(0.269 0 0);
   --secondary-foreground: oklch(0.985 0 0);
+  --secondary-hover: oklch(0.3 0 0);
   --muted: oklch(0.269 0 0);
   --muted-foreground: oklch(0.708 0 0);
   --accent: oklch(0.269 0 0);
   --accent-foreground: oklch(0.985 0 0);
   --destructive: oklch(0.704 0.191 22.216);
+  --success: oklch(0.6 0.15 140);
+  --warning: oklch(0.8 0.15 80);
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 15%);
   --ring: oklch(0.556 0 0);

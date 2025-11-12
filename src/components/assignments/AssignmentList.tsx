@@ -45,14 +45,14 @@ const ProgressSummary = ({ problems }: { problems: Problem[] }) => {
             <div className="p-6 flex flex-wrap items-center justify-between gap-x-12 gap-y-6">
                 <div className="flex items-center gap-6">
                     <div>
-                        <p className="text-gray-500 dark:text-gray-400 text-sm">Total Progress</p>
+                        <p className="text-muted-foreground text-sm">Total Progress</p>
                         <p className="text-3xl font-bold mt-1">{solved} / {total}</p>
                     </div>
                     <div className="relative h-20 w-20">
                         <svg className="h-full w-full" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="18" cy="18" r="16" fill="none" className="stroke-current text-gray-200 dark:text-gray-800" strokeWidth="3"></circle>
+                            <circle cx="18" cy="18" r="16" fill="none" className="stroke-current text-muted" strokeWidth="3"></circle>
                             <circle cx="18" cy="18" r="16" fill="none"
-                                className="stroke-current text-yellow-500"
+                                className="stroke-current text-primary"
                                 strokeWidth="3"
                                 strokeDasharray={`${progress}, 100`}
                                 strokeLinecap="round"
@@ -65,17 +65,17 @@ const ProgressSummary = ({ problems }: { problems: Problem[] }) => {
                     </div>
                 </div>
                 <div className="flex items-center gap-x-8 gap-y-4 flex-wrap">
-                    <div className="border-l border-gray-200 dark:border-gray-700 pl-6">
-                        <p className="text-sm text-gray-500 dark:text-gray-400">Easy</p>
-                        <div className="font-semibold text-lg">{easy.solved} / {easy.total} <span className="text-xs text-gray-600 dark:text-gray-500">completed</span></div>
+                    <div className="border-l border-border pl-6">
+                        <p className="text-sm text-muted-foreground">Easy</p>
+                        <div className="font-semibold text-lg">{easy.solved} / {easy.total} <span className="text-xs text-muted-foreground">completed</span></div>
                     </div>
-                    <div className="border-l border-gray-200 dark:border-gray-700 pl-6">
-                        <p className="text-sm text-gray-500 dark:text-gray-400">Medium</p>
-                        <p className="font-semibold text-lg">{medium.solved} / {medium.total} <span className="text-xs text-gray-600 dark:text-gray-500">completed</span></p>
+                    <div className="border-l border-border pl-6">
+                        <p className="text-sm text-muted-foreground">Medium</p>
+                        <p className="font-semibold text-lg">{medium.solved} / {medium.total} <span className="text-xs text-muted-foreground">completed</span></p>
                     </div>
-                    <div className="border-l border-gray-200 dark:border-gray-700 pl-6">
-                        <p className="text-sm text-gray-500 dark:text-gray-400">Hard</p>
-                        <p className="font-semibold text-lg">{hard.solved} / {hard.total} <span className="text-xs text-gray-600 dark:text-gray-500">completed</span></p>
+                    <div className="border-l border-border pl-6">
+                        <p className="text-sm text-muted-foreground">Hard</p>
+                        <p className="font-semibold text-lg">{hard.solved} / {hard.total} <span className="text-xs text-muted-foreground">completed</span></p>
                     </div>
                 </div>
             </div>
@@ -151,18 +151,19 @@ const ProblemListPage: React.FC<ProblemListPageProps> = ({ problems, onSelectPro
 
 
     return (
-        <div className="min-h-screen flex flex-col bg-gray-50 dark:bg-black">
+        <div className="min-h-screen flex flex-col bg-background">
             <main className="grow container mx-auto p-4 md:p-6 lg:p-8 flex flex-col">
                 <ProgressSummary problems={problems} />
 
 
                 <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
-                    <div className="flex items-center gap-2 p-1 bg-gray-100 dark:bg-gray-900 rounded-lg">
+                    <div className="flex items-center gap-2 p-1 bg-secondary rounded-2xl">
                         <Button
                             variant={activeTab === 'all' ? 'secondary' : 'ghost'}
                             size="sm"
                             onClick={() => handleTabChange('all')}
-                            className={activeTab === 'all' ? 'bg-white dark:bg-gray-700 rounded-2xl' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-800'}
+                            className={activeTab === 'all' ? 'bg-secondary rounded-2xl' : 'text-muted-foreground hover:bg-accent'}
+
                         >
                             All Problems
                         </Button>
@@ -170,7 +171,7 @@ const ProblemListPage: React.FC<ProblemListPageProps> = ({ problems, onSelectPro
                             variant={activeTab === 'revision' ? 'secondary' : 'ghost'}
                             size="sm"
                             onClick={() => handleTabChange('revision')}
-                            className={`${activeTab === 'revision' ? 'bg-white dark:bg-gray-700' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-800'} rounded-full`}
+                            className={`${activeTab === 'revision' ? 'bg-secondary' : 'text-muted-foreground hover:bg-accent'} rounded-2xl`}
                         >
                             For Revision
                         </Button>
@@ -181,7 +182,7 @@ const ProblemListPage: React.FC<ProblemListPageProps> = ({ problems, onSelectPro
                             {isSearchVisible ? (
                                 <div className="relative">
                                     <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                                        <SearchIcon className="h-5 w-5 text-gray-400" />
+                                        <SearchIcon className="h-5 w-5 text-muted-foreground" />
                                     </div>
                                     <Input
                                         placeholder="Search problems..."
@@ -193,15 +194,14 @@ const ProblemListPage: React.FC<ProblemListPageProps> = ({ problems, onSelectPro
                                 </div>
                             ) : (
                                 <Button variant="secondary" onClick={() => setIsSearchVisible(true)} >
-                                    <SearchIcon className="h-5 w-5 text-gray-500 dark:text-gray-400" />
+                                    <SearchIcon className="h-5 w-5 text-muted-foreground" />
                                 </Button>
                             )}
                         </div>
                         <div className="flex items-center gap-2">
                             <Dropdown
                                 trigger={
-                                    <div className=" p-2 text-sm font-medium flex rounded-md items-center justify-between w-48 bg-gray-100 text-gray-900 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-50 dark:hover:bg-gray-700 cursor-pointer">
-                                        <div>{difficultyFilter === 'all' ? 'Select Difficulty' : difficultyFilter}</div>
+                                                                         <div className=" p-2 text-sm font-medium flex rounded-md items-center justify-between w-48 bg-secondary text-secondary-foreground hover:bg-secondary-hover cursor-pointer">                                        <div>{difficultyFilter === 'all' ? 'Select Difficulty' : difficultyFilter}</div>
                                         <ChevronDownIcon />
                                     </div>
 
@@ -220,9 +220,9 @@ const ProblemListPage: React.FC<ProblemListPageProps> = ({ problems, onSelectPro
                                                 setDifficultyFilter('all');
                                                 close();
                                             })}
-                                            className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer"
+                                            className="block px-4 py-2 text-sm text-foreground hover:bg-accent cursor-pointer"
                                         >
-                                            All
+                                            Select Difficulty
                                         </div>
                                         {Object.values(Difficulty).map(diff => (
                                             <div
@@ -237,8 +237,7 @@ const ProblemListPage: React.FC<ProblemListPageProps> = ({ problems, onSelectPro
                                                     setDifficultyFilter(diff);
                                                     close();
                                                 })}
-                                                className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer"
-                                            >
+                                                className="block px-4 py-2 text-sm text-foreground hover:bg-accent cursor-pointer"                                            >
                                                 {diff}
                                             </div>
                                         ))}
@@ -259,8 +258,8 @@ const ProblemListPage: React.FC<ProblemListPageProps> = ({ problems, onSelectPro
                     const progress = totalCount > 0 ? (solvedCount / totalCount) * 100 : 0;
 
                     return (
-                        <details key={name} className="bg-white dark:bg-gray-900/50 rounded-lg mb-4 border border-gray-200 dark:border-gray-800 group" open={index === 0}>
-                            <summary className="p-4 cursor-pointer font-semibold list-none text-gray-800 dark:text-gray-200 hover:bg-gray-100/50 dark:hover:bg-gray-800/50 rounded-t-lg relative">
+                        <details key={name} className="bg-card rounded-lg mb-4 border border-border group" open={index === 0}>
+                            <summary className="p-4 cursor-pointer font-semibold list-none text-foreground hover:bg-accent rounded-t-lg relative">
                                 <div className="flex justify-between items-center text-lg">
                                     <div className="flex items-center gap-4">
                                         <span className="group-open:rotate-180 transition-transform duration-200">
@@ -268,13 +267,13 @@ const ProblemListPage: React.FC<ProblemListPageProps> = ({ problems, onSelectPro
                                         </span>
                                         <span>{name}</span>
                                     </div>
-                                    <span className="text-sm text-gray-500 dark:text-gray-400 font-medium">{solvedCount} / {totalCount}</span>
+                                    <span className="text-sm text-muted-foreground font-medium">{solvedCount} / {totalCount}</span>
                                 </div>
                                 <div className="absolute bottom-0 left-0 w-full">
                                     <ProgressBar value={progress} />
                                 </div>
                             </summary>
-                            <div className="border-t border-gray-200 dark:border-gray-800">
+                            <div className="border-t border-border">
                                 <Table>
                                     <TableHeader>
                                         <TableRow className="hover:bg-transparent">
@@ -288,17 +287,15 @@ const ProblemListPage: React.FC<ProblemListPageProps> = ({ problems, onSelectPro
                                         {groupProblems.map((problem) => (
                                             <TableRow key={problem.id} className="group/row">
                                                 <TableCell className="cursor-pointer"><Checkbox checked={problem.status === ProblemStatus.Solved} /></TableCell>
-                                                <TableCell onClick={() => onSelectProblem(problem)} className="font-medium text-gray-800 dark:text-gray-200 cursor-pointer">{problem.title}</TableCell>
+                                                <TableCell onClick={() => onSelectProblem(problem)} className="font-medium text-foreground cursor-pointer">{problem.title}</TableCell>
                                                 <TableCell onClick={() => onSelectProblem(problem)} className="cursor-pointer">
                                                     <Badge variant={problem.difficulty === 'Easy' ? 'default' : problem.difficulty === 'Medium' ? 'secondary' : 'destructive'}>{problem.difficulty}</Badge>
                                                 </TableCell>
                                                 <TableCell className="text-center">
                                                     <div className="flex items-center justify-center gap-2">
-                                                        <button onClick={() => auth.isAuthenticated ? onToggleStar(problem.id) : onLogin()} className="p-1 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700">
-                                                            <BookmarkIcon filled={!!problem.isStarred} />
+                                                                                                                 <button onClick={() => auth.isAuthenticated ? onToggleStar(problem.id) : onLogin()} className="p-1 rounded-full hover:bg-accent">                                                            <BookmarkIcon filled={!!problem.isStarred} />
                                                         </button>
-                                                        <button onClick={() => auth.isAuthenticated ? setEditingNotesFor(problem) : onLogin()} className="p-1 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700">
-                                                            <PenIcon filled={!!problem.notes} />
+                                                                                                                 <button onClick={() => auth.isAuthenticated ? setEditingNotesFor(problem) : onLogin()} className="p-1 rounded-full hover:bg-accent">                                                            <PenIcon filled={!!problem.notes} />
                                                         </button>
                                                     </div>
                                                 </TableCell>

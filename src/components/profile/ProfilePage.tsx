@@ -87,23 +87,21 @@ const ProfilePage: React.FC = () => {
 
     if (!auth.isAuthenticated || !auth.user) {
         return (
-            <div className="min-h-screen bg-white dark:bg-black text-gray-900 dark:text-white flex items-center justify-center">
-                <p>Redirecting...</p>
+            <div className="min-h-screen bg-background text-foreground flex items-center justify-center">
             </div>
         );
     }
 
     if (isLoading) {
         return (
-            <div className="min-h-screen bg-white dark:bg-black text-gray-900 dark:text-white flex items-center justify-center">
-                <p>Loading Profile...</p>
-            </div>
+                        <div className="min-h-screen bg-background text-foreground flex items-center justify-center">
+                        </div>
         );
     }
     
     if (!profileData) {
          return (
-            <div className="min-h-screen bg-white dark:bg-black text-gray-900 dark:text-white flex items-center justify-center">
+            <div className="min-h-screen bg-background text-foreground flex items-center justify-center">
                 <p>Could not load profile data.</p>
             </div>
         );
@@ -117,7 +115,7 @@ const ProfilePage: React.FC = () => {
     
         return (
     
-            <div className="min-h-screen  bg-white dark:bg-black text-white flex flex-col items-center p-4 md:p-6 lg:p-8">
+            <div className="min-h-screen  bg-background text-foreground flex flex-col items-center p-4 md:p-6 lg:p-8">
     
                 <main className="w-full max-w-7xl">
     
@@ -140,9 +138,9 @@ const ProfilePage: React.FC = () => {
     
                                         <h1 className="text-xl font-bold">{auth.user.name}</h1>
     
-                                        <p className="text-xs text-gray-500 dark:text-gray-400">{auth.user.email}</p>
+                                        <p className="text-xs text-muted-foreground">{auth.user.email}</p>
     
-                                        <p className="flex items-center text-xs text-gray-500 dark:text-gray-400 mt-1">
+                                        <p className="flex items-center text-xs text-muted-foreground mt-1">
     
                                             <FaCalendarAlt className="mr-2" /> Member for {formatDateToRelativeTime(joinDate)}
     
@@ -160,7 +158,7 @@ const ProfilePage: React.FC = () => {
     
                                             <div className="flex justify-between items-center mb-2">
     
-                                                <h3 className="flex items-center text-sm font-medium text-gray-500 dark:text-gray-400">
+                                                <h3 className="flex items-center text-sm font-medium text-muted-foreground">
     
                                                     <FaClipboardList className="mr-2" /> Solved
     
@@ -174,13 +172,13 @@ const ProfilePage: React.FC = () => {
                                             <DifficultyProgressBar easy={easySolved} medium={mediumSolved} hard={hardSolved} />
                                         </div>
     
-                                            <div className="mt-3 text-xs text-gray-500 dark:text-gray-400 flex justify-center gap-3">
+                                            <div className="mt-3 text-xs text-muted-foreground flex justify-center gap-3">
     
-                                                <p className='flex items-center'><FaCheck className="mr-1 text-green-500" />Easy: {easySolved}</p>
+                                                <p className='flex items-center'><FaCheck className="mr-1 text-success" />Easy: {easySolved}</p>
     
-                                                <p className='flex items-center'><FaCheck className="mr-1 text-yellow-500" />Medium: {mediumSolved}</p>
+                                                <p className='flex items-center'><FaCheck className="mr-1 text-primary" />Medium: {mediumSolved}</p>
     
-                                                <p className='flex items-center'><FaCheck className="mr-1 text-red-500" />Hard: {hardSolved}</p>
+                                                <p className='flex items-center'><FaCheck className="mr-1 text-destructive" />Hard: {hardSolved}</p>
     
                                             </div>
     
@@ -192,17 +190,17 @@ const ProfilePage: React.FC = () => {
     
                                             <div>
     
-                                                <p className="text-sm text-gray-500 dark:text-gray-400">Streak</p>
+                                                <p className="text-sm text-muted-foreground">Streak</p>
     
-                                                <p className="text-lg font-bold flex items-center justify-center"><FaFire className="mr-1 text-orange-500" />{streak} days</p>
+                                                <p className="text-lg font-bold flex items-center justify-center"><FaFire className="mr-1 text-warning" />{streak} days</p>
     
                                             </div>
     
                                             <div>
     
-                                                <p className="text-sm text-gray-500 dark:text-gray-400">Max Streak</p>
+                                                <p className="text-sm text-muted-foreground">Max Streak</p>
     
-                                                <p className="text-lg font-bold flex items-center justify-center"><FaFire className="mr-1 text-red-500" />{highestStreak} days</p>
+                                                <p className="text-lg font-bold flex items-center justify-center"><FaFire className="mr-1 text-destructive" />{highestStreak} days</p>
     
                                             </div>
     
@@ -238,19 +236,19 @@ const ProfilePage: React.FC = () => {
     
                                         </div>
     
-                                        <div className="flex justify-center items-center gap-2 mt-2 text-xs text-gray-500">
+                                        <div className="flex justify-center items-center gap-2 mt-2 text-xs text-muted-foreground">
     
                                            <span>Less</span>
     
-                                           <div className="w-3.5 h-3.5 bg-gray-200 dark:bg-gray-800 rounded-sm"></div>
+                                           <div className="w-3.5 h-3.5 bg-secondary rounded-sm"></div>
     
-                                           <div className="w-3.5 h-3.5 bg-yellow-200 dark:bg-yellow-900/50 rounded-sm"></div>
+                                           <div className="w-3.5 h-3.5 bg-primary/20 rounded-sm"></div>
     
-                                           <div className="w-3.5 h-3.5 bg-yellow-300 dark:bg-yellow-900/80 rounded-sm"></div>
+                                           <div className="w-3.5 h-3.5 bg-primary/40 rounded-sm"></div>
     
-                                           <div className="w-3.5 h-3.5 bg-yellow-400 dark:bg-yellow-600 rounded-sm"></div>
+                                           <div className="w-3.5 h-3.5 bg-primary/60 rounded-sm"></div>
     
-                                           <div className="w-3.5 h-3.5 bg-yellow-500 dark:bg-yellow-400 rounded-sm"></div>
+                                           <div className="w-3.5 h-3.5 bg-primary rounded-sm"></div>
     
                                            <span>More</span>
     
@@ -264,7 +262,7 @@ const ProfilePage: React.FC = () => {
     
                                     <CardHeader className="items-start">
     
-                                        <CardTitle className="flex items-center"><FaHistory className="mr-2 text-gray-500 dark:text-gray-400" />Recent History</CardTitle>
+                                        <CardTitle className="flex items-center"><FaHistory className="mr-2 text-muted-foreground" />Recent History</CardTitle>
     
                                     </CardHeader>
     
@@ -276,17 +274,17 @@ const ProfilePage: React.FC = () => {
     
                                                 {quizHistory.slice(0, 5).map((item, index) => (
     
-                                                    <li key={index} className="flex items-center justify-between gap-2 p-2 bg-gray-100 dark:bg-gray-800/50 rounded-md">
+                                                    <li key={index} className="flex items-center justify-between gap-2 p-2 bg-secondary rounded-md">
     
                                                         <div className="flex items-center gap-3 min-w-0">
     
-                                                            {item.isCorrect ? <FaCheckCircle className="text-green-500 w-4 h-4" /> : <FaTimesCircle className="text-red-500 w-4 h-4" />}
+                                                            {item.isCorrect ? <FaCheckCircle className="text-success w-4 h-4" /> : <FaTimesCircle className="text-destructive w-4 h-4" />}
     
                                                             <div>
     
                                                                 <p className="font-medium">{item.question.slice(0, 50) + '...'}</p>
     
-                                                                <p className="text-xs text-gray-500 dark:text-gray-400">
+                                                                <p className="text-xs text-muted-foreground">
     
                                                                     Answered {formatDateToRelativeTime(new Date(item.answeredAt).toISOString())}
     
@@ -306,7 +304,7 @@ const ProfilePage: React.FC = () => {
     
                                         ) : (
     
-                                            <p className="text-gray-500 dark:text-gray-400 text-center py-8">No recent activity.</p>
+                                            <p className="text-muted-foreground text-center py-8">No recent activity.</p>
     
                                         )}
     

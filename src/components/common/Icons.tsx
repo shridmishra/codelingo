@@ -1,14 +1,14 @@
 import React from 'react';
 
 export const BookmarkIcon = ({ filled, className = '' }: { filled: boolean, className?: string }) => (
-  <svg width="24" height="24" viewBox="0 0 24 24" fill={filled ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={`transition-colors ${filled ? "text-gray-500 dark:text-gray-500" : "text-gray-500 hover:text-gray-900 dark:text-gray-500 dark:hover:text-white"} ${className}`}>
+  <svg width="24" height="24" viewBox="0 0 24 24" fill={filled ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={`transition-colors ${filled ? "text-primary" : "text-muted-foreground hover:text-foreground"} ${className}`}>
     <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
   </svg>
 );
 
 export const PenIcon = ({ filled, className = '' }: { filled?: boolean, className?: string }) => (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill={filled ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={`transition-colors text-gray-500 hover:text-gray-900 dark:hover:text-white ${className}`}>
-        <path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+    <svg width="24" height="24" viewBox="0 0 24 24" fill={filled ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={`transition-colors text-muted-foreground hover:text-foreground ${className}`}>
+        <path d="M12 20h9"></path><path d="M16.5 3.5a2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
     </svg>
 );
 

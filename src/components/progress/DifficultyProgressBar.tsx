@@ -19,7 +19,7 @@ const DifficultyProgressBar: React.FC<DifficultyProgressBarProps> = ({ easy, med
       <svg className="w-full h-full" viewBox="0 0 100 100">
         {/* Background circle */}
         <circle
-          className="text-gray-200 dark:text-gray-700"
+          className="text-muted"
           strokeWidth="10"
           stroke="currentColor"
           fill="transparent"
@@ -30,7 +30,7 @@ const DifficultyProgressBar: React.FC<DifficultyProgressBarProps> = ({ easy, med
 
         {/* Hard progress */}
         <circle
-          className="text-red-500"
+          className="text-destructive"
           strokeWidth="10"
           strokeDasharray={circumference}
           strokeDashoffset={circumference - (circumference * hardPercentage) / 100}
@@ -45,7 +45,7 @@ const DifficultyProgressBar: React.FC<DifficultyProgressBarProps> = ({ easy, med
 
         {/* Medium progress */}
         <circle
-          className="text-yellow-500"
+          className="text-primary"
           strokeWidth="10"
           strokeDasharray={circumference}
           strokeDashoffset={circumference - (circumference * mediumPercentage) / 100}
@@ -60,7 +60,7 @@ const DifficultyProgressBar: React.FC<DifficultyProgressBarProps> = ({ easy, med
 
         {/* Easy progress */}
         <circle
-          className="text-green-500"
+          className="text-success"
           strokeWidth="10"
           strokeDasharray={circumference}
           strokeDashoffset={circumference - (circumference * easyPercentage) / 100}
@@ -74,7 +74,7 @@ const DifficultyProgressBar: React.FC<DifficultyProgressBarProps> = ({ easy, med
         />
       </svg>
       <div className="absolute inset-0 flex items-center justify-center">
-        <span className="text-lg font-bold text-gray-800 dark:text-gray-200">
+        <span className="text-lg font-bold text-foreground">
           {total}
         </span>
       </div>

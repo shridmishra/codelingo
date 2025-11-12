@@ -21,23 +21,23 @@ const Header: React.FC<HeaderProps> = ({ problemTitle, onBack, onNavigate }) => 
 
   const getLinkClass = (path: string) => {
     return pathname.startsWith(path)
-      ? 'text-sm font-medium text-yellow-400 transition-colors'
-      : 'text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors';
+      ? 'text-sm font-medium text-primary transition-colors'
+      : 'text-sm font-medium text-muted-foreground hover:text-foreground transition-colors';
   };
 
   return (
-    <header className="bg-white/10 dark:bg-gray-900/10 backdrop-blur-sm border-b border-gray-200 dark:border-gray-800 sticky top-0 z-20 h-16 flex items-center">
+    <header className="bg-background/10 backdrop-blur-sm border-b border-border sticky top-0 z-20 h-16 flex items-center">
       <div className="container mx-auto px-4 md:px-6 lg:px-8 flex items-center justify-between">
         <div className="flex items-center gap-4">
           {onBack ? (
-            <Button variant="ghost" size="sm" onClick={onBack} className="text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">
+            <Button variant="ghost" size="sm" onClick={onBack} className="text-muted-foreground hover:text-foreground">
               <ChevronLeftIcon className="h-4 w-4" />
               Challenges
             </Button>
           ) : (
             <div className="flex items-center gap-8">
-              <button onClick={() => onNavigate && onNavigate('')} className="text-xl font-bold text-gray-900 dark:text-white tracking-tight cursor-pointer">
-                practice<span className="text-yellow-400">JS</span>
+              <button onClick={() => onNavigate && onNavigate('')} className="text-xl font-bold text-foreground tracking-tight cursor-pointer">
+                practice<span className="text-primary">JS</span>
               </button>
               <nav className="hidden md:flex items-center gap-6">
                 <a href="/challenges" className={getLinkClass('/challenges')}>
@@ -62,13 +62,13 @@ const Header: React.FC<HeaderProps> = ({ problemTitle, onBack, onNavigate }) => 
             </div>
           )}
         </div>
-        {problemTitle && <h2 className="text-md font-medium text-gray-600 dark:text-gray-300 truncate hidden md:block">{problemTitle}</h2>}
+        {problemTitle && <h2 className="text-md font-medium text-muted-foreground truncate hidden md:block">{problemTitle}</h2>}
         <div className="flex items-center gap-2">
           <Button
             variant="ghost"
             size="sm"
             onClick={() => setTheme(currentTheme === 'light' ? 'dark' : 'light')}
-            className="text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
+            className="text-muted-foreground hover:text-foreground"
             aria-label="Toggle theme"
           >
             {currentTheme === 'light' ? <MoonIcon className="h-5 w-5" /> : <SunIcon className="h-5 w-5" />}
@@ -77,7 +77,7 @@ const Header: React.FC<HeaderProps> = ({ problemTitle, onBack, onNavigate }) => 
             <Dropdown
               trigger={
                 <div
-                  className="w-9 h-9 bg-yellow-500 rounded-full flex items-center justify-center text-black text-lg font-bold hover:opacity-90 transition-opacity focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-gray-900"
+                  className="w-9 h-9 bg-primary rounded-full flex items-center justify-center text-primary-foreground text-lg font-bold hover:opacity-90 transition-opacity focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background"
                   aria-label="View Profile"
                 >
                   {auth.user?.image ? (

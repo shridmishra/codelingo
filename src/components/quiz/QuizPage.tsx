@@ -53,14 +53,14 @@ const DifficultyDropdown: React.FC<{
                 <ChevronDownIcon />
             </Button>
             {isOpen && (
-                <div className="absolute z-10 mt-2 w-48 rounded-md bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-lg">
+                <div className="absolute z-10 mt-2 w-48 rounded-md bg-card border border-border shadow-lg">
                     <ul className="py-1">
                         {difficulties.map(d => (
                                                             <li
                                                                 key={d}
                                                                 onClick={() => handleSelect(d)}
                                                                 onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') handleSelect(d); }}
-                                                                className="px-4 py-2 text-sm text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer"
+                                                                className="px-4 py-2 text-sm text-foreground hover:bg-accent cursor-pointer"
                                                                 tabIndex={0}
                                                                 role="menuitem"
                                                             >
@@ -219,7 +219,7 @@ const QuizPage: React.FC<{ onBack: () => void }> = ({ onBack: _onBack }) => {
     const progressPercent = questions.length > 0 ? ((currentQuestionIndex + 1) / questions.length) * 100 : 0;
     
     return (
-        <div className="min-h-screen flex flex-col bg-gray-50 dark:bg-black">
+        <div className="min-h-screen flex flex-col bg-background">
             <main className="grow container mx-auto p-4 md:p-6 lg:p-8 flex flex-col items-center">
                 <div className="w-full max-w-2xl">
                     <div className="mb-6 flex flex-row items-center justify-end gap-4">
@@ -237,7 +237,7 @@ const QuizPage: React.FC<{ onBack: () => void }> = ({ onBack: _onBack }) => {
                     {currentQuestion && (
                         <div className="animate-fade-in-up">
                             <div className="mb-4">
-                                <p className="text-sm text-gray-500 dark:text-gray-400 text-center mb-2">Question {currentQuestionIndex + 1} of {questions.length}</p>
+                                <p className="text-sm text-muted-foreground text-center mb-2">Question {currentQuestionIndex + 1} of {questions.length}</p>
                                 <ProgressBar value={progressPercent} />
                             </div>
 
@@ -250,20 +250,20 @@ const QuizPage: React.FC<{ onBack: () => void }> = ({ onBack: _onBack }) => {
                                         {currentQuestion.options.map((option, index) => {
                                             const isSelected = finalSelectedAnswerIndex === index;
                                             const isCorrect = currentQuestion.correctAnswerIndex === index;
-                                            let optionClasses = 'w-full text-left p-3 rounded-md border-2 transition-colors text-gray-800 dark:text-gray-200';
+                                            let optionClasses = 'w-full text-left p-3 rounded-md border-2 transition-colors text-foreground';
                                             
                                             if(isAnswered || hasBeenAnswered) {
                                                 if (isCorrect) {
-                                                    optionClasses += ' bg-green-100 dark:bg-green-900/40 border-green-500 dark:border-green-600';
+                                                    optionClasses += ' bg-success/10 border-success';
                                                 } else if (isSelected) {
-                                                    optionClasses += ' bg-red-100 dark:bg-red-900/40 border-red-500 dark:border-red-600 line-through';
+                                                    optionClasses += ' bg-destructive/10 border-destructive line-through';
                                                 } else {
-                                                    optionClasses += ' bg-gray-100 dark:bg-gray-800 border-gray-200 dark:border-gray-700 opacity-70';
+                                                    optionClasses += ' bg-secondary border-border opacity-70';
                                                 }
                                             } else {
                                                 optionClasses += isSelected 
-                                                    ? ' bg-yellow-100/80 dark:bg-yellow-900/50 border-yellow-500' 
-                                                    : ' bg-gray-100 dark:bg-gray-800 border-gray-200 dark:border-gray-700 hover:border-gray-400 dark:hover:border-gray-600';
+                                                    ? ' bg-primary/20 border-primary' 
+                                                    : ' bg-secondary border-border hover:border-accent';
                                             }
 
                                             return (
@@ -279,8 +279,8 @@ const QuizPage: React.FC<{ onBack: () => void }> = ({ onBack: _onBack }) => {
                                         })}
                                     </div>
                                     {(isAnswered || hasBeenAnswered) && (
-                                        <div className="mt-4 p-3 bg-gray-100 dark:bg-gray-800/50 rounded-md text-gray-700 dark:text-gray-300 animate-fade-in-up">
-                                            <p><span className="font-semibold text-yellow-600 dark:text-yellow-500">Explanation: </span>{currentQuestion.explanation}</p>
+                                        <div className="mt-4 p-3 bg-secondary rounded-md text-foreground animate-fade-in-up">
+                                            <p><span className="font-semibold text-primary">Explanation: </span>{currentQuestion.explanation}</p>
                                         </div>
                                     )}
                                 </CardContent>
