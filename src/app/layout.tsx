@@ -2,8 +2,8 @@
 
 import '../styles/globals.css';
 import { Providers } from './providers';
-import { ToastProvider } from '../components/common/Toast';
 import { ModalProvider } from '../components/modals/ModalProvider';
+import { Toaster } from '@/components/ui/sonner';
 import React from 'react';
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -17,12 +17,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className="bg-white dark:bg-black text-gray-900 dark:text-white antialiased" suppressHydrationWarning={true}>
         <Providers>
-          <ToastProvider>
             <ModalProvider>
               {children}
             </ModalProvider>
-          </ToastProvider>
         </Providers>
+        <Toaster />
       </body>
     </html>
   );

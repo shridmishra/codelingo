@@ -1478,7 +1478,7 @@ const typescriptProblems: Omit<Problem, 'status' | 'isStarred' | 'notes'>[] = [
     docsUrl: 'https://www.typescriptlang.org/docs/handbook/2/classes.html#abstract-classes',
     starterCode: 'abstract class Shape { /* ... */ }\nclass Circle extends Shape { /* ... */ }',
     testCases: [{ input: [5], expectedOutput: Math.PI * 25 }],
-    solutionCheck: (userCode: string) => {
+    solutionCheck: (_userCode: string) => {
       // This is a conceptual test, actual execution of abstract class is tricky in a simple eval.
       // We'll check for the presence of the class and method.
       return [{ input: 'N/A', expected: 'Conceptual', actual: 'Abstract class and concrete implementation should be present.', passed: true }];
@@ -1519,7 +1519,7 @@ const typescriptProblems: Omit<Problem, 'status' | 'isStarred' | 'notes'>[] = [
     docsUrl: 'https://www.typescriptlang.org/docs/handbook/2/generics.html#generic-interfaces',
     starterCode: 'interface Box<T> { /* ... */ }\nconst numberBox: any = { value: 10 };\nconst stringBox: any = { value: "text" };',
     testCases: [{ input: [], expectedOutput: { numberBox: { value: 10 }, stringBox: { value: "text" } } }],
-    solutionCheck: (userCode: string) => {
+    solutionCheck: (_userCode: string) => {
       // Conceptual check for interface definition
       return [{ input: 'N/A', expected: 'Conceptual', actual: 'Generic interface definition should be present.', passed: true }];
     },

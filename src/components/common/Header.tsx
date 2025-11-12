@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import React from 'react';
-import Button from '../ui/Button';
+import { Button } from '@/components/ui/button';
 import { useAuth } from '../../context/AuthContext';
 import { SunIcon, MoonIcon, ChevronLeftIcon, UserIcon, LogOutIcon } from './Icons';
 import { useTheme } from 'next-themes';

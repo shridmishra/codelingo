@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { Problem, ProblemStatus, TestResult } from '../../types';
-import Button from '../ui/Button';
+import { Button } from '@/components/ui/button';
 import CodeEditor from '../common/CodeEditor';
 import TestResultsDisplay from '../quiz/TestResultsDisplay';
 import { FiMaximize, FiMinimize, FiTrash2 } from 'react-icons/fi';
 import { FaPlus, FaBookmark } from 'react-icons/fa';
-import { Badge } from '../ui/Card';
+import { Badge } from '@/components/ui/badge';
 import NotesModal from '../modals/NotesModal';
 import { useAuth } from '../../context/AuthContext';
-import { useToast } from '../common/Toast';
+import { toast } from 'sonner';
 
 interface ProblemSolvingPageProps {
   problem: Problem;
@@ -31,11 +31,10 @@ const ProblemSolvingPage: React.FC<ProblemSolvingPageProps> = ({ problem, onStat
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [isNotesModalOpen, setIsNotesModalOpen] = useState(false);
   const auth = useAuth();
-  const { addToast } = useToast();
 
   const handleClearCode = () => {
     setCode(problem.starterCode);
-    addToast('Code has been reset.', 'info');
+    toast.info('Code has been reset.');
   };
 
   const handleRunTests = () => {
@@ -48,11 +47,11 @@ const ProblemSolvingPage: React.FC<ProblemSolvingPageProps> = ({ problem, onStat
       const allPassed = results.every(r => r.passed);
       
       if (allPassed) {
-          addToast('All tests passed!', 'success');
+          toast.success('All tests passed!');
           onStatusChange(problem.id, ProblemStatus.Attempted);
       } else {
           const passedCount = results.filter(r => r.passed).length;
-          addToast(`${passedCount}/${results.length} tests passed. Keep trying!`, 'error');
+          toast.error(`${passedCount}/${results.length} tests passed. Keep trying!`);
           onStatusChange(problem.id, ProblemStatus.Attempted);
       }
       setIsRunning(false);
@@ -72,9 +71,9 @@ const ProblemSolvingPage: React.FC<ProblemSolvingPageProps> = ({ problem, onStat
 
       if (allPassed) {
         onStatusChange(problem.id, ProblemStatus.Solved);
-        addToast('Solution submitted successfully!', 'success');
+        toast.success('Solution submitted successfully!');
       } else {
-        addToast('Submission failed. Please pass all tests first.', 'error');
+        toast.error('Submission failed. Please pass all tests first.');
         onStatusChange(problem.id, ProblemStatus.Attempted);
       }
       setIsRunning(false);
@@ -113,7 +112,7 @@ const ProblemSolvingPage: React.FC<ProblemSolvingPageProps> = ({ problem, onStat
             </div>
             <div className="p-6 overflow-y-auto">
                     <div className="flex items-center gap-4 mb-4">
-                        <Badge difficulty={problem.difficulty}>{problem.difficulty}</Badge>
+                        <Badge variant={problem.difficulty === 'Easy' ? 'default' : problem.difficulty === 'Medium' ? 'secondary' : 'destructive'}>{problem.difficulty}</Badge>
                         <span className="text-sm text-gray-500 dark:text-gray-400">{problem.category}</span>
                     </div>
                     <p className="text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-wrap mb-6">{renderDescription(problem.description)}</p>

@@ -1,10 +1,10 @@
 import React, { useState, useMemo, useEffect, useCallback, useRef } from 'react';
 import { quizData, QuizQuestion } from '../../data/quizData';
-import Button from '../ui/Button';
-import Card from '../ui/Card';
+import { Button } from '../ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
 import ProgressBar from '../progress/ProgressBar';
 import { useAuth } from '../../context/AuthContext';
-import { useToast } from '../common/Toast';
+import { toast } from 'sonner';
 
 const ChevronDownIcon = () => (
     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -89,7 +89,6 @@ const QuizPage: React.FC<{ onBack: () => void }> = ({ onBack: _onBack }) => {
     const [userQuizHistory, setUserQuizHistory] = useState<IUserAnsweredQuestion[]>([]);
     
     const auth = useAuth();
-    const { addToast } = useToast();
 
     const questions = useMemo(() => {
         return difficulty === 'All'
@@ -181,15 +180,15 @@ const QuizPage: React.FC<{ onBack: () => void }> = ({ onBack: _onBack }) => {
             if (res.ok) {
                 const newHistoryItem = await res.json();
                 setUserQuizHistory(prev => [...prev, newHistoryItem]); // Update history with new answer
-                addToast("Answer saved!", "success");
+                toast.success("Answer saved!");
             } else {
-                addToast("Could not save your answer.", "error");
+                toast.error("Could not save your answer.");
             }
         } catch (_error) {
             console.error(_error);
-            addToast("Could not save your answer.", "error");
+            toast.error("Could not save your answer.");
         }
-    }, [auth.isAuthenticated, addToast]);
+    }, [auth.isAuthenticated]);
 
     const handleAnswerSelect = (optionIndex: number) => {
         if (isAnswered || hasBeenAnswered) return; // Prevent answering if already answered or in history
@@ -205,7 +204,7 @@ const QuizPage: React.FC<{ onBack: () => void }> = ({ onBack: _onBack }) => {
             setCurrentQuestionIndex(prevIndex => prevIndex + 1);
         } else {
             setCurrentQuestionIndex(0);
-            addToast("You've gone through all questions in this difficulty! Looping back.", "info");
+            toast.info("You've gone through all questions in this difficulty! Looping back.");
         }
     };
 
@@ -243,10 +242,10 @@ const QuizPage: React.FC<{ onBack: () => void }> = ({ onBack: _onBack }) => {
                             </div>
 
                             <Card>
-                                <Card.Header>
-                                    <Card.Title className="text-xl leading-relaxed">{currentQuestion.question}</Card.Title>
-                                </Card.Header>
-                                <Card.Content>
+                                <CardHeader>
+                                    <CardTitle className="text-xl leading-relaxed">{currentQuestion.question}</CardTitle>
+                                </CardHeader>
+                                <CardContent>
                                     <div className="space-y-3">
                                         {currentQuestion.options.map((option, index) => {
                                             const isSelected = finalSelectedAnswerIndex === index;
@@ -284,7 +283,7 @@ const QuizPage: React.FC<{ onBack: () => void }> = ({ onBack: _onBack }) => {
                                             <p><span className="font-semibold text-yellow-600 dark:text-yellow-500">Explanation: </span>{currentQuestion.explanation}</p>
                                         </div>
                                     )}
-                                </Card.Content>
+                                </CardContent>
                             </Card>
 
                             <div className="flex justify-between mt-6">

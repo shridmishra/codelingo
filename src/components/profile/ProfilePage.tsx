@@ -1,13 +1,14 @@
 
 import './ProfilePage.css';
-import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 import { FaCheckCircle, FaTimesCircle, FaCalendarAlt, FaClipboardList, FaFire, FaCheck, FaHistory } from 'react-icons/fa';
 import { useAuth } from '../../context/AuthContext';
-import Card, { Badge } from '../ui/Card';
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import ContributionGraph from '../progress/ContributionGraph';
 import DifficultyProgressBar from '../progress/DifficultyProgressBar';
 import { IUserAnsweredQuestion } from '../../models/UserAnsweredQuestion';
+import { Badge } from '../ui/badge';
 
 interface ProfileData {
     solvedCount: number;
@@ -128,23 +129,14 @@ const ProfilePage: React.FC = () => {
     
                             <Card className="h-full">
     
-                                <Card.Header>
+                                <CardHeader>
     
                                     <div className="p-4 flex flex-col items-center">
     
-                                        <div className="relative w-28 h-28 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center text-5xl font-bold text-gray-600 dark:text-gray-300 overflow-hidden mb-4">
-    
-                                            {auth.user.image ? (
-    
-                                                <Image src={auth.user.image} alt="User Avatar" layout="fill" objectFit="cover" />
-    
-                                            ) : (
-    
-                                                <span>{auth.user.name ? auth.user.name.charAt(0).toUpperCase() : 'U'}</span>
-    
-                                            )}
-    
-                                        </div>
+                                        <Avatar className="w-28 h-28 mb-4">
+                                            <AvatarImage src={auth.user.image || ''} alt="User Avatar" />
+                                            <AvatarFallback>{auth.user.name ? auth.user.name.charAt(0).toUpperCase() : 'U'}</AvatarFallback>
+                                        </Avatar>
     
                                         <h1 className="text-xl font-bold">{auth.user.name}</h1>
     
@@ -158,9 +150,9 @@ const ProfilePage: React.FC = () => {
     
                                     </div>
     
-                                </Card.Header>
+                                </CardHeader>
     
-                                <Card.Content>
+                                <CardContent>
     
                                     <div className="space-y-4">
     
@@ -218,7 +210,7 @@ const ProfilePage: React.FC = () => {
     
                                     </div>
     
-                                </Card.Content>
+                                </CardContent>
     
                             </Card>
     
@@ -232,13 +224,13 @@ const ProfilePage: React.FC = () => {
     
                                 <Card>
     
-                                    <Card.Header className="items-center">
+                                    <CardHeader className="items-center">
     
-                                        <Card.Title>{totalSubmissions} Submissions</Card.Title>
+                                        <CardTitle>{totalSubmissions} Submissions</CardTitle>
     
-                                    </Card.Header>
+                                    </CardHeader>
     
-                                    <Card.Content>
+                                    <CardContent>
     
                                         <div className="flex justify-center">
     
@@ -264,19 +256,19 @@ const ProfilePage: React.FC = () => {
     
                                         </div>
     
-                                    </Card.Content>
+                                    </CardContent>
     
                                 </Card>
     
                                 <Card>
     
-                                    <Card.Header className="items-start">
+                                    <CardHeader className="items-start">
     
-                                        <Card.Title className="flex items-center"><FaHistory className="mr-2 text-gray-500 dark:text-gray-400" />Recent History</Card.Title>
+                                        <CardTitle className="flex items-center"><FaHistory className="mr-2 text-gray-500 dark:text-gray-400" />Recent History</CardTitle>
     
-                                    </Card.Header>
+                                    </CardHeader>
     
-                                    <Card.Content>
+                                    <CardContent>
     
                                         {quizHistory.length > 0 ? (
     
@@ -304,7 +296,7 @@ const ProfilePage: React.FC = () => {
     
                                                         </div>
     
-                                                        <Badge difficulty={item.difficulty} className="text-xs px-1.5 py-0.5">{item.difficulty}</Badge>
+                                                        <Badge variant={item.difficulty === 'Easy' ? 'default' : item.difficulty === 'Medium' ? 'secondary' : 'destructive'} className="text-xs px-1.5 py-0.5">{item.difficulty}</Badge>
     
                                                     </li>
     
@@ -318,7 +310,7 @@ const ProfilePage: React.FC = () => {
     
                                         )}
     
-                                     </Card.Content>
+                                     </CardContent>
     
                                     </Card>
     

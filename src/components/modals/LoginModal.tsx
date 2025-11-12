@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Modal from '../ui/Modal';
-import Button from '../ui/Button';
-import { Input } from '../ui/Card';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { useAuth } from '../../context/AuthContext';
 import { signIn } from 'next-auth/react';
 

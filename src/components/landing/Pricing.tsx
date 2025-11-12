@@ -1,4 +1,5 @@
 "use client"
+import { Button } from '@/components/ui/button';
 import {motion} from "framer-motion"
 import CheckIcon from "@/assets/check.svg";
 import { twMerge } from "tailwind-merge";
@@ -78,7 +79,7 @@ export const Pricing = () => {
                 <span className="text-4xl leading-none font-bold tracking-tighter">${monthlyPrice}</span>
                 <span className={twMerge("text-black/50 dark:text-white/50 font-bold tracking-tight", inverse === true && "text-white/50 dark:text-white/60")}>/month</span>
               </div>
-              <button className={twMerge("btn btn-primary w-full mt-[30px]", inverse === true && "bg-white text-black")}>{buttonText}</button>
+              <Button className={twMerge("w-full mt-[30px]", inverse === true && "bg-white text-black")}>{buttonText}</Button>
               <ul className="flex flex-col gap-5 mt-8">
                 {features.map(features => (
                   <li key={features} className="flex  text-sm items-center gap-4">

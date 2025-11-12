@@ -1,7 +1,12 @@
 import React, { useState, useMemo } from 'react';
 import { Problem, ProblemStatus, Difficulty } from '../../types';
-import Card, { Input, Checkbox, Table, TableHeader, TableRow, TableHead, TableBody, TableCell, Badge } from '../ui/Card';
-import Button from '../ui/Button';
+import { Card } from '@/components/ui/Card';
+import { Input } from '@/components/ui/input';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+
+import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from '@/components/ui/table';
 
 import Dropdown from '../ui/Dropdown';
 import { BookmarkIcon, PenIcon, SearchIcon } from '../common/Icons';
@@ -282,10 +287,10 @@ const ProblemListPage: React.FC<ProblemListPageProps> = ({ problems, onSelectPro
                                     <TableBody>
                                         {groupProblems.map((problem) => (
                                             <TableRow key={problem.id} className="group/row">
-                                                <TableCell onClick={() => onSelectProblem(problem)} className="cursor-pointer"><Checkbox checked={problem.status === ProblemStatus.Solved} readOnly disabled /></TableCell>
+                                                <TableCell className="cursor-pointer"><Checkbox checked={problem.status === ProblemStatus.Solved} /></TableCell>
                                                 <TableCell onClick={() => onSelectProblem(problem)} className="font-medium text-gray-800 dark:text-gray-200 cursor-pointer">{problem.title}</TableCell>
                                                 <TableCell onClick={() => onSelectProblem(problem)} className="cursor-pointer">
-                                                    <Badge difficulty={problem.difficulty}>{problem.difficulty}</Badge>
+                                                    <Badge variant={problem.difficulty === 'Easy' ? 'default' : problem.difficulty === 'Medium' ? 'secondary' : 'destructive'}>{problem.difficulty}</Badge>
                                                 </TableCell>
                                                 <TableCell className="text-center">
                                                     <div className="flex items-center justify-center gap-2">
