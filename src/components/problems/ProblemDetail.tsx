@@ -24,7 +24,7 @@ interface ProblemSolvingPageProps {
 
 
 
-const ProblemSolvingPage: React.FC<ProblemSolvingPageProps> = ({ problem, onStatusChange, onToggleStar, onUpdateNotes, onLogin, onBack: _onBack, onNavigate: _onNavigate, onLogout: _onLogout }) => {
+const ProblemDetail: React.FC<ProblemSolvingPageProps> = ({ problem, onStatusChange, onToggleStar, onUpdateNotes, onLogin, onBack: _onBack, onNavigate: _onNavigate, onLogout: _onLogout }) => {
   const [code, setCode] = useState(problem.starterCode);
   const [testResults, setTestResults] = useState<TestResult[]>([]);
   const [isRunning, setIsRunning] = useState(false);
@@ -193,4 +193,4 @@ const ProblemSolvingPage: React.FC<ProblemSolvingPageProps> = ({ problem, onStat
   );
 };
 
-export default ProblemSolvingPage;
+export default ProblemDetail;

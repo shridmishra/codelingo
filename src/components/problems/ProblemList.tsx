@@ -98,7 +98,7 @@ const ChevronDownIcon = () => (
     </svg>
 );
 
-const ProblemListPage: React.FC<ProblemListPageProps> = ({ problems, onSelectProblem, onToggleStar, onUpdateNotes, onLogin, onNavigate: _onNavigate, onLogout: _onLogout }) => {
+const ProblemList: React.FC<ProblemListPageProps> = ({ problems, onSelectProblem, onToggleStar, onUpdateNotes, onLogin, onNavigate: _onNavigate, onLogout: _onLogout }) => {
     const [searchTerm, setSearchTerm] = useState('');
     const [isSearchVisible, setIsSearchVisible] = useState(false);
     const [difficultyFilter, setDifficultyFilter] = useState<Difficulty | 'all'>('all');
@@ -329,4 +329,4 @@ const ProblemListPage: React.FC<ProblemListPageProps> = ({ problems, onSelectPro
     );
 };
 
-export default ProblemListPage;
+export default ProblemList;

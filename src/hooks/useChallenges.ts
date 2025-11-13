@@ -1,6 +1,26 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Problem, ProblemStatus } from '../types';
-import { problemsData as staticProblems } from '../data/assignments';
+import { learnTheBasics } from '../data/problems/1-learn-the-basics';
+import { arrayManipulation } from '../data/problems/2-array-manipulation';
+import { stringOperations } from '../data/problems/3-string-operations';
+import { algorithms } from '../data/problems/4-algorithms';
+import { objectAndFunctionMastery } from '../data/problems/5-object-and-function-mastery';
+import { asynchronousJavaScript } from '../data/problems/6-asynchronous-javascript';
+import { domManipulation } from '../data/problems/7-dom-manipulation';
+import { advancedDomAndEvents } from '../data/problems/8-advanced-dom-and-events';
+import { typescriptFundamentals } from '../data/problems/9-typescript-fundamentals';
+
+const staticProblems = [
+    ...learnTheBasics,
+    ...arrayManipulation,
+    ...stringOperations,
+    ...algorithms,
+    ...objectAndFunctionMastery,
+    ...asynchronousJavaScript,
+    ...domManipulation,
+    ...advancedDomAndEvents,
+    ...typescriptFundamentals
+];
 import { useAuth } from '../context/AuthContext';
 
 interface UserProblemMetadata {

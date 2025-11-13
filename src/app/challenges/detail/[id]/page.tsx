@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect } from 'react';
-import ProblemSolvingPage from '../../../../components/assignments/AssignmentDetail';
+import ProblemSolvingPage from '../../../../components/problems/ProblemDetail';
 import Header from '../../../../components/common/Header';
 import { useRouter, useParams } from 'next/navigation';
 import { useChallenges } from '../../../../hooks/useChallenges';

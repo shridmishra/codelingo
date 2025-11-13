@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import ProblemListPage from '../../../components/assignments/AssignmentList';
+import ProblemListPage from '../../../components/problems/ProblemList';
 import Header from '../../../components/common/Header';
 import { useRouter } from 'next/navigation';
 import { useChallenges } from '../../../hooks/useChallenges';
@@ -13,7 +13,7 @@ function ChallengesListPage() {
   const { problems, isLoading, isAuthLoading, handleToggleStar, handleUpdateNotes } = useChallenges();
   const { isAuthenticated: _isAuthenticated } = useAuth();
 
-  const handleSelectAssignment = (problem: Problem) => {
+  const handleSelectProblem = (problem: Problem) => {
     router.push(`/challenges/detail/${problem.id}`);
   };
 
@@ -35,7 +35,7 @@ function ChallengesListPage() {
       <main className="container mx-auto px-4 md:px-6 lg:px-8 py-8 bg-background">
         <ProblemListPage
           problems={problems}
-          onSelectProblem={handleSelectAssignment}
+          onSelectProblem={handleSelectProblem}
           onToggleStar={handleToggleStar}
           onUpdateNotes={handleUpdateNotes}
           onNavigate={handleNavigate}
