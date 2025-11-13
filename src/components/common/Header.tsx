@@ -71,7 +71,7 @@ const Header: React.FC<HeaderProps> = ({ problemTitle, onBack, onNavigate }) => 
             className="text-muted-foreground hover:text-foreground"
             aria-label="Toggle theme"
           >
-            {currentTheme === 'light' ? <MoonIcon className="h-5 w-5" /> : <SunIcon className="h-5 w-5" />}
+            {currentTheme === 'light' ? <MoonIcon className="h-8 w-8" /> : <SunIcon className="h-8 w-8" />}
           </Button>
           {auth.isAuthenticated && auth.user ? (
             <Dropdown

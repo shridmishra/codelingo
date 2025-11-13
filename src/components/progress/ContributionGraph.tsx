@@ -46,14 +46,6 @@ const ContributionGraph: React.FC<ContributionGraphProps> = ({ contributions }) 
         return { contributionData: weeks.slice(-39) };
     }, [contributions]);
 
-    const getContributionIntensity = (count: number) => {
-        if (count === 0) return 'bg-gray-200 dark:bg-gray-800';
-        if (count <= 2) return 'bg-yellow-200 dark:bg-yellow-900/50';
-        if (count <= 5) return 'bg-yellow-300 dark:bg-yellow-900/80';
-        if (count <= 8) return 'bg-yellow-400 dark:bg-yellow-600';
-        return 'bg-yellow-500 dark:bg-yellow-400';
-    };
-
     const formatDate = (dateStr: string) =>
         new Date(dateStr).toLocaleDateString("en-US", {
             weekday: "short",
@@ -98,6 +90,8 @@ const ContributionGraph: React.FC<ContributionGraphProps> = ({ contributions }) 
                   : 'bg-primary'
               }`}
               title={`${day.contributionCount} contributions on ${day.date}`}
+              onMouseEnter={(e) => handleMouseEnter(e, day)}
+              onMouseLeave={handleMouseLeave}
             ></div>
                             ) : (
                                 <div key={dayIndex} className="w-3.5 h-3.5" />

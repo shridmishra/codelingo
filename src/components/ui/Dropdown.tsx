@@ -42,7 +42,7 @@ const Dropdown: React.FC<DropdownProps> = ({ trigger, children }) => {
         {trigger}
       </div>
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-48 bg-popover rounded-md shadow-lg z-20 border border-border">
+        <div className="absolute right-0 mt-2 w-40 bg-popover rounded-md shadow-lg z-20 border border-border">
           {children(close)}
         </div>
       )}

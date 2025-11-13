@@ -15,7 +15,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link href="https://api.fontshare.com/v2/css?f[]=satoshi@700,500,400,900&display=swap" rel="stylesheet" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
-      <body className="bg-white dark:bg-black text-gray-900 dark:text-white antialiased" suppressHydrationWarning={true}>
+      <body className="bg-background text-foreground antialiased" suppressHydrationWarning={true}>
         <Providers>
             <ModalProvider>
               {children}

@@ -8,8 +8,9 @@ import { Button } from '@/components/ui/button';
 
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from '@/components/ui/table';
 
+import { FaPlus } from 'react-icons/fa';
 import Dropdown from '../ui/Dropdown';
-import { BookmarkIcon, PenIcon, SearchIcon } from '../common/Icons';
+import { BookmarkIcon, SearchIcon } from '../common/Icons';
 import NotesModal from '../modals/NotesModal';
 import { useAuth } from '../../context/AuthContext';
 import ProgressBar from '../progress/ProgressBar';
@@ -157,12 +158,12 @@ const ProblemListPage: React.FC<ProblemListPageProps> = ({ problems, onSelectPro
 
 
                 <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
-                    <div className="flex items-center gap-2 p-1 bg-secondary rounded-2xl">
+                    <div className="flex items-center gap-2 p-1 bg-secondary rounded-full">
                         <Button
                             variant={activeTab === 'all' ? 'secondary' : 'ghost'}
                             size="sm"
                             onClick={() => handleTabChange('all')}
-                            className={activeTab === 'all' ? 'bg-secondary rounded-2xl' : 'text-muted-foreground hover:bg-accent'}
+                            className={activeTab === 'all' ? 'bg-background hover:bg-background rounded-full' : 'text-muted-foreground hover:bg-accent rounded-full'}
 
                         >
                             All Problems
@@ -171,7 +172,7 @@ const ProblemListPage: React.FC<ProblemListPageProps> = ({ problems, onSelectPro
                             variant={activeTab === 'revision' ? 'secondary' : 'ghost'}
                             size="sm"
                             onClick={() => handleTabChange('revision')}
-                            className={`${activeTab === 'revision' ? 'bg-secondary' : 'text-muted-foreground hover:bg-accent'} rounded-2xl`}
+                            className={`${activeTab === 'revision' ? 'bg-background hover:bg-background' : 'text-muted-foreground hover:bg-accent'} rounded-full`}
                         >
                             For Revision
                         </Button>
@@ -194,14 +195,14 @@ const ProblemListPage: React.FC<ProblemListPageProps> = ({ problems, onSelectPro
                                 </div>
                             ) : (
                                 <Button variant="secondary" onClick={() => setIsSearchVisible(true)} >
-                                    <SearchIcon className="h-5 w-5 text-muted-foreground" />
+                                    <SearchIcon className="h-5 w-5 text-foreground" />
                                 </Button>
                             )}
                         </div>
                         <div className="flex items-center gap-2">
                             <Dropdown
                                 trigger={
-                                                                         <div className=" p-2 text-sm font-medium flex rounded-md items-center justify-between w-48 bg-secondary text-secondary-foreground hover:bg-secondary-hover cursor-pointer">                                        <div>{difficultyFilter === 'all' ? 'Select Difficulty' : difficultyFilter}</div>
+                                    <div className=" p-2 text-sm font-medium flex rounded-md items-center justify-between w-40 bg-secondary text-secondary-foreground hover:bg-secondary-hover cursor-pointer">    <div>{difficultyFilter === 'all' ? 'Select Difficulty' : difficultyFilter}</div>
                                         <ChevronDownIcon />
                                     </div>
 
@@ -222,7 +223,7 @@ const ProblemListPage: React.FC<ProblemListPageProps> = ({ problems, onSelectPro
                                             })}
                                             className="block px-4 py-2 text-sm text-foreground hover:bg-accent cursor-pointer"
                                         >
-                                            Select Difficulty
+                                            All
                                         </div>
                                         {Object.values(Difficulty).map(diff => (
                                             <div
@@ -257,6 +258,13 @@ const ProblemListPage: React.FC<ProblemListPageProps> = ({ problems, onSelectPro
                     const totalCount = groupProblems.length;
                     const progress = totalCount > 0 ? (solvedCount / totalCount) * 100 : 0;
 
+                    const difficultyOrder = {
+                        [Difficulty.Easy]: 1,
+                        [Difficulty.Medium]: 2,
+                        [Difficulty.Hard]: 3,
+                    };
+                    const sortedProblems = [...groupProblems].sort((a, b) => difficultyOrder[a.difficulty] - difficultyOrder[b.difficulty]);
+
                     return (
                         <details key={name} className="bg-card rounded-lg mb-4 border border-border group" open={index === 0}>
                             <summary className="p-4 cursor-pointer font-semibold list-none text-foreground hover:bg-accent rounded-t-lg relative">
@@ -284,18 +292,19 @@ const ProblemListPage: React.FC<ProblemListPageProps> = ({ problems, onSelectPro
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
-                                        {groupProblems.map((problem) => (
+                                        {sortedProblems.map((problem) => (
                                             <TableRow key={problem.id} className="group/row">
-                                                <TableCell className="cursor-pointer"><Checkbox checked={problem.status === ProblemStatus.Solved} /></TableCell>
+                                                <TableCell className="cursor-pointer"><Checkbox checked={problem.status === ProblemStatus.Solved} className="rounded-sm" /></TableCell>
                                                 <TableCell onClick={() => onSelectProblem(problem)} className="font-medium text-foreground cursor-pointer">{problem.title}</TableCell>
                                                 <TableCell onClick={() => onSelectProblem(problem)} className="cursor-pointer">
                                                     <Badge variant={problem.difficulty === 'Easy' ? 'default' : problem.difficulty === 'Medium' ? 'secondary' : 'destructive'}>{problem.difficulty}</Badge>
                                                 </TableCell>
                                                 <TableCell className="text-center">
                                                     <div className="flex items-center justify-center gap-2">
-                                                                                                                 <button onClick={() => auth.isAuthenticated ? onToggleStar(problem.id) : onLogin()} className="p-1 rounded-full hover:bg-accent">                                                            <BookmarkIcon filled={!!problem.isStarred} />
+                                                        <button onClick={() => auth.isAuthenticated ? onToggleStar(problem.id) : onLogin()} className="p-1 rounded-full hover:bg-accent">                                                            <BookmarkIcon filled={!!problem.isStarred} className="text-gray-400" />
                                                         </button>
-                                                                                                                 <button onClick={() => auth.isAuthenticated ? setEditingNotesFor(problem) : onLogin()} className="p-1 rounded-full hover:bg-accent">                                                            <PenIcon filled={!!problem.notes} />
+                                                        <button onClick={() => auth.isAuthenticated ? setEditingNotesFor(problem) : onLogin()} className="p-1 rounded-full hover:bg-accent">
+                                                            <FaPlus className="text-gray-400" />
                                                         </button>
                                                     </div>
                                                 </TableCell>

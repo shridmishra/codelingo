@@ -21,16 +21,16 @@ export default function Profile() {
 
   if (isLoading || !isAuthenticated) {
     return (
-      <div className="min-h-screen bg-white dark:bg-black flex items-center justify-center text-gray-900 dark:text-white">
+      <div className="min-h-screen bg-background flex items-center justify-center text-gray-900 dark:text-white">
         Loading...
       </div>
     );
   }
 
   return (
-    <div className="bg-gray-50 dark:bg-black min-h-screen">
+    <div className="bg-background min-h-screen">
       <Header onNavigate={handleNavigate} />
-      <main className="container mx-auto px-4 md:px-6 lg:px-8 py-8 dark:bg-black">
+      <main className="container mx-auto px-4 md:px-6 lg:px-8 py-8 bg-background">
         <ProfilePage />
       </main>
     </div>
