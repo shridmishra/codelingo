@@ -57,7 +57,7 @@ export const HomePage = () => {
                   <div className="p-2 flex flex-col items-start">
                     <a href="/profile" className="block w-full" onClick={close}>
                       <Button variant="ghost" size="sm" className="w-full flex justify-start items-center gap-2">
-                        <UserIcon />
+                        <UserIcon className='text-foreground hover:text-muted-foreground'/>
                         <span>Profile</span>
                       </Button>
                     </a>

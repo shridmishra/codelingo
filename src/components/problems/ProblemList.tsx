@@ -210,10 +210,10 @@ const ProblemList: React.FC<ProblemListPageProps> = ({ problems, onSelectProblem
                             {isSearchVisible ? (
                                 <div className="relative w-full">
                                     <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                                        <SearchIcon className="h-5 w-5 text-muted-foreground" />
+                                        <SearchIcon className="h-5 w-5 text-foreground" />
                                     </div>
                                     <Input
-                                        placeholder="Search problems..."
+                                        placeholder="Search..."
                                         value={searchTerm}
                                         onChange={(e) => setSearchTerm(e.target.value)}
                                         className="pl-10 w-full"
@@ -221,7 +221,7 @@ const ProblemList: React.FC<ProblemListPageProps> = ({ problems, onSelectProblem
                                 </div>
                             ) : (
                                 <Button variant="secondary" onClick={() => setIsSearchVisible(true)} className="w-full justify-start text-muted-foreground">
-                                    <SearchIcon className="h-5 w-5" />
+                                    <SearchIcon className="h-5 w-5 text-foreground" />
                                     <span className="ml-2">Search...</span>
                                 </Button>
                             )}
