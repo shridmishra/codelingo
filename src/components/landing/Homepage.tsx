@@ -10,13 +10,16 @@ import { easeInOut, motion, } from "framer-motion";
 import { useRef } from "react";
 import ArrowIcon from "@/assets/arrow-right.svg";
 import jsImage from '@/assets/javascript.png';
-import { LogOutIcon, UserIcon } from '../common/Icons';
+import { LogOutIcon, UserIcon, MoonIcon, SunIcon } from '../common/Icons';
 import { VscGithubInverted } from "react-icons/vsc";
+import { useTheme } from 'next-themes';
 
 
 export const HomePage = () => {
   const router = useRouter();
   const auth = useAuth();
+  const { theme, setTheme, resolvedTheme } = useTheme();
+  const currentTheme = resolvedTheme || theme;
   const heroRef = useRef(null);
   const handleNavigate = (page: string) => {
     router.push(`/${page}`);
@@ -61,6 +64,17 @@ export const HomePage = () => {
                         <span>Profile</span>
                       </Button>
                     </a>
+                    <Button 
+                      variant="ghost" 
+                      size="sm" 
+                      onClick={() => { 
+                        setTheme(currentTheme === 'light' ? 'dark' : 'light');
+                      }} 
+                      className="w-full flex justify-start items-center gap-2"
+                    >
+                      {currentTheme === 'light' ? <MoonIcon className="h-4 w-4" /> : <SunIcon className="h-4 w-4" />}
+                      <span>{currentTheme === 'light' ? 'Dark Mode' : 'Light Mode'}</span>
+                    </Button>
                     <Button variant="ghost" size="sm" onClick={() => { auth.logout(); close(); }} className="w-full flex justify-start items-center gap-2">
                       <LogOutIcon />
                       <span>Sign out</span>

@@ -68,10 +68,10 @@ const Header: React.FC<HeaderProps> = ({ problemTitle, onBack, onNavigate }) => 
             variant="ghost"
             size="sm"
             onClick={() => setTheme(currentTheme === 'light' ? 'dark' : 'light')}
-            className="text-muted-foreground hover:text-foreground"
+            className="text-muted-foreground hover:text-foreground p-2"
             aria-label="Toggle theme"
           >
-            {currentTheme === 'light' ? <MoonIcon className="h-8 w-8" /> : <SunIcon className="h-8 w-8" />}
+            {currentTheme === 'light' ? <MoonIcon className="h-5 w-5" /> : <SunIcon className="h-5 w-5" />}
           </Button>
           {auth.isAuthenticated && auth.user ? (
             <Dropdown
@@ -96,6 +96,17 @@ const Header: React.FC<HeaderProps> = ({ problemTitle, onBack, onNavigate }) => 
                     <span>Profile</span>
                   </Button>
                 </a>
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  onClick={() => { 
+                    setTheme(currentTheme === 'light' ? 'dark' : 'light');
+                  }} 
+                  className="w-full flex justify-start items-center gap-2"
+                >
+                  {currentTheme === 'light' ? <MoonIcon className="h-4 w-4" /> : <SunIcon className="h-4 w-4" />}
+                  <span>{currentTheme === 'light' ? 'Dark Mode' : 'Light Mode'}</span>
+                </Button>
                 <Button variant="ghost" size="sm" onClick={() => { auth.logout(); close(); }} className="w-full flex justify-start items-center gap-2">
                   <LogOutIcon />
                   <span>Sign out</span>

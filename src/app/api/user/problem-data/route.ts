@@ -25,10 +25,11 @@ export async function POST(req: NextRequest) {
       isStarred?: boolean;
       notes?: string;
       lastSubmittedAt?: Date;
-      $push?: { submissionHistory: { timestamp: Date; status: ProblemStatus } };
     }
 
     const updateFields: UpdateFields = {};
+    const pushFields: { submissionHistory?: { timestamp: Date; status: ProblemStatus } } = {};
+    
     if (status !== undefined) {
       updateFields.status = status;
     }
@@ -39,17 +40,25 @@ export async function POST(req: NextRequest) {
       updateFields.notes = notes;
     }
 
-    // If status is being updated to Solved, also update lastSubmittedAt and submissionHistory
+    // If status is being updated to Solved or Attempted, also update lastSubmittedAt and submissionHistory
     if (status === ProblemStatus.Solved) {
       updateFields.lastSubmittedAt = new Date();
-      updateFields.$push = { submissionHistory: { timestamp: new Date(), status: ProblemStatus.Solved } };
+      pushFields.submissionHistory = { timestamp: new Date(), status: ProblemStatus.Solved };
     } else if (status === ProblemStatus.Attempted) {
-        updateFields.$push = { submissionHistory: { timestamp: new Date(), status: ProblemStatus.Attempted } };
+      pushFields.submissionHistory = { timestamp: new Date(), status: ProblemStatus.Attempted };
+    }
+
+    const updateOperation: {
+      $set: UpdateFields;
+      $push?: { submissionHistory: { timestamp: Date; status: ProblemStatus } };
+    } = { $set: updateFields };
+    if (pushFields.submissionHistory) {
+      updateOperation.$push = { submissionHistory: pushFields.submissionHistory };
     }
 
     const updatedUserProblemData = await UserProblemData.findOneAndUpdate(
       { userId: user.id, problemId: problemId },
-      { $set: updateFields },
+      updateOperation,
       { upsert: true, new: true, runValidators: true }
     );
 
