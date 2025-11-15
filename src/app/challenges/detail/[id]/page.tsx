@@ -7,6 +7,8 @@ import { useRouter, useParams } from 'next/navigation';
 import { useChallenges } from '../../../../hooks/useChallenges';
 import { useAuth } from '../../../../context/AuthContext';
 
+import ProblemDetailSkeleton from '../../../../components/problems/ProblemDetailSkeleton';
+
 function ChallengeDetailPage() {
   const router = useRouter();
   const params = useParams();
@@ -32,8 +34,11 @@ function ChallengeDetailPage() {
 
   if (isLoading || isAuthLoading || !problem) {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
-        Loading Challenge Details...
+      <div className="bg-background min-h-screen">
+        <Header onNavigate={handleNavigate} />
+        <main className="container mx-auto px-4 md:px-6 lg:px-8 py-8 bg-background">
+          <ProblemDetailSkeleton />
+        </main>
       </div>
     );
   }

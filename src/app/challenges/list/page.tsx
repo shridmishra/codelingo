@@ -8,6 +8,8 @@ import { useChallenges } from '../../../hooks/useChallenges';
 import { Problem } from '../../../types';
 import { useAuth } from '../../../context/AuthContext';
 
+import ProblemListSkeleton from '../../../components/problems/ProblemListSkeleton';
+
 function ChallengesListPage() {
   const router = useRouter();
   const { problems, isLoading, isAuthLoading, handleToggleStar, handleUpdateNotes } = useChallenges();
@@ -23,8 +25,11 @@ function ChallengesListPage() {
 
   if (isLoading || isAuthLoading) {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
-        Loading Challenges...
+      <div className="bg-background min-h-screen">
+        <Header onNavigate={handleNavigate} />
+        <main className="container mx-auto px-4 md:px-6 lg:px-8 py-8 bg-background">
+          <ProblemListSkeleton />
+        </main>
       </div>
     );
   }

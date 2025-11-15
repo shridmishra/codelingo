@@ -5,6 +5,10 @@ import { useEffect } from 'react';
 import Header from '../../components/common/Header';
 import ProfilePage from '../../components/profile/ProfilePage';
 
+import ProfileSkeleton from '../../components/profile/ProfileSkeleton';
+
+// ... (imports remain the same)
+
 export default function Profile() {
   const { isAuthenticated, isLoading } = useAuth();
   const router = useRouter();
@@ -21,8 +25,11 @@ export default function Profile() {
 
   if (isLoading || !isAuthenticated) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center text-gray-900 dark:text-white">
-        Loading...
+      <div className="bg-background min-h-screen">
+        <Header onNavigate={handleNavigate} />
+        <main className="container mx-auto px-4 md:px-6 lg:px-8 py-8 bg-background">
+          <ProfileSkeleton />
+        </main>
       </div>
     );
   }

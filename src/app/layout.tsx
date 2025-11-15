@@ -31,7 +31,7 @@ const satoshi = localFont({
   variable: '--font-satoshi',
 });
 
-const title = 'Practice JS | Master JavaScript with Interactive Challenges';
+const title = 'Practice JS';
 const description =
   'The ultimate platform for developers to practice JavaScript, tackle coding challenges, and prepare for technical interviews. Improve your JS skills with our interactive quizzes and real-world problem-solving exercises.';
 
@@ -193,12 +193,15 @@ export const metadata: Metadata = {
     shortcut: '/favicon/favicon.ico',
   },
   manifest: '/manifest.json',
-  themeColor: '#000000',
-  viewport: 'width=device-width, initial-scale=1',
   authors: [{ name: 'Shrid', url: 'https://shrid.in' }],
   creator: 'Shrid',
   publisher: 'Shrid',
 };
+
+export const viewport = {
+  themeColor: '#000000',
+  viewport: 'width=device-width, initial-scale=1',
+}
 
 export default function RootLayout({
   children,
