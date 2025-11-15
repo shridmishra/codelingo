@@ -26,7 +26,7 @@ export const domManipulation: Omit<Problem, 'status' | 'isStarred' | 'notes'>[] 
     title: 'Get Element By ID',
     description: 'Write a function `getById` that takes an ID string and returns the corresponding DOM element. Assume the element with the given ID exists.',
     difficulty: Difficulty.Easy,
-    category: 'DOM',
+    category: 'Selection',
     group: 'Step 5: DOM Manipulation',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/API/Document/getElementById',
     starterCode: `function getById(id) {
@@ -67,7 +67,7 @@ export const domManipulation: Omit<Problem, 'status' | 'isStarred' | 'notes'>[] 
     title: 'Change Text Content',
     description: 'Write a function `changeText` that takes a DOM element and a string, and changes the element\'s text content to the given string.',
     difficulty: Difficulty.Easy,
-    category: 'DOM',
+    category: 'Content',
     group: 'Step 5: DOM Manipulation',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/API/Node/textContent',
     starterCode: `function changeText(element, newText) {
@@ -90,7 +90,7 @@ export const domManipulation: Omit<Problem, 'status' | 'isStarred' | 'notes'>[] 
     title: 'Add a CSS Class',
     description: 'Write a function `addClass` that takes a DOM element and a class name, and adds the class to the element\'s class list.',
     difficulty: Difficulty.Easy,
-    category: 'DOM',
+    category: 'Classes',
     group: 'Step 5: DOM Manipulation',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/API/Element/classList',
     starterCode: `function addClass(element, className) {
@@ -113,7 +113,7 @@ export const domManipulation: Omit<Problem, 'status' | 'isStarred' | 'notes'>[] 
     title: 'Remove a CSS Class',
     description: 'Write a function `removeClass` that takes a DOM element and a class name, and removes the class from the element\'s class list.',
     difficulty: Difficulty.Easy,
-    category: 'DOM',
+    category: 'Classes',
     group: 'Step 5: DOM Manipulation',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/API/Element/classList',
     starterCode: `function removeClass(element, className) {
@@ -136,7 +136,7 @@ export const domManipulation: Omit<Problem, 'status' | 'isStarred' | 'notes'>[] 
     title: 'Set an Attribute',
     description: 'Write a function `setAttr` that takes a DOM element, an attribute name, and a value, and sets the attribute on the element.',
     difficulty: Difficulty.Medium,
-    category: 'DOM',
+    category: 'Attributes',
     group: 'Step 5: DOM Manipulation',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/API/Element/setAttribute',
     starterCode: `function setAttr(element, attrName, attrValue) {
@@ -159,7 +159,7 @@ export const domManipulation: Omit<Problem, 'status' | 'isStarred' | 'notes'>[] 
     title: 'Create and Append Element',
     description: 'Write a function `createAndAppendDiv` that creates a new `div` element, sets its text content to "New Div", and appends it as a child to a given parent DOM element. The function should return the newly created div.',
     difficulty: Difficulty.Medium,
-    category: 'DOM',
+    category: 'Creation',
     group: 'Step 5: DOM Manipulation',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/API/Document/createElement',
     starterCode: `function createAndAppendDiv(parentElement) {
@@ -198,7 +198,7 @@ export const domManipulation: Omit<Problem, 'status' | 'isStarred' | 'notes'>[] 
     title: 'Remove an Element',
     description: 'Write a function `removeElement` that takes a DOM element and removes it from its parent. Assume the element has a parent.',
     difficulty: Difficulty.Medium,
-    category: 'DOM',
+    category: 'Removal',
     group: 'Step 5: DOM Manipulation',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/API/Node/removeChild',
     starterCode: `function removeElement(element) {
@@ -239,7 +239,7 @@ export const domManipulation: Omit<Problem, 'status' | 'isStarred' | 'notes'>[] 
     title: 'Toggle a CSS Class',
     description: 'Write a function `toggleClass` that takes a DOM element and a class name, and toggles the class on the element. If the class is present, remove it; otherwise, add it.',
     difficulty: Difficulty.Easy,
-    category: 'DOM',
+    category: 'Classes',
     group: 'Step 5: DOM Manipulation',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/API/Element/classList',
     starterCode: `function toggleClass(element, className) {
@@ -278,7 +278,7 @@ export const domManipulation: Omit<Problem, 'status' | 'isStarred' | 'notes'>[] 
     title: 'Get an Attribute',
     description: 'Write a function `getAttr` that takes a DOM element and an attribute name, and returns the attribute\'s value.',
     difficulty: Difficulty.Medium,
-    category: 'DOM',
+    category: 'Attributes',
     group: 'Step 5: DOM Manipulation',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/API/Element/getAttribute',
     starterCode: `function getAttr(element, attrName) {
@@ -309,7 +309,7 @@ export const domManipulation: Omit<Problem, 'status' | 'isStarred' | 'notes'>[] 
     title: 'Update Element Style',
     description: 'Write a function `updateStyle` that takes a DOM element and an object of CSS properties to apply. For example, `{ color: "red", fontSize: "16px" }`.',
     difficulty: Difficulty.Medium,
-    category: 'DOM',
+    category: 'Styling',
     group: 'Step 5: DOM Manipulation',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/style',
     starterCode: `function updateStyle(element, styles) {

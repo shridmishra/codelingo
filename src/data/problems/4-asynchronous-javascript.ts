@@ -8,7 +8,7 @@ export const asynchronousJavaScript: Omit<Problem, 'status' | 'isStarred' | 'not
     title: 'Create a Resolving Promise',
     description: 'Write a function `createResolvingPromise` that returns a Promise which resolves immediately with the string "Success!".',
     difficulty: Difficulty.Easy,
-    category: 'Async',
+    category: 'Promises',
     group: 'Step 4: Asynchronous JavaScript',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/resolve',
     starterCode: `function createResolvingPromise() {
@@ -30,7 +30,7 @@ export const asynchronousJavaScript: Omit<Problem, 'status' | 'isStarred' | 'not
     title: 'Create a Rejecting Promise',
     description: 'Write a function `createRejectingPromise` that returns a Promise which rejects immediately with the string "Failed!".',
     difficulty: Difficulty.Easy,
-    category: 'Async',
+    category: 'Promises',
     group: 'Step 4: Asynchronous JavaScript',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/reject',
     starterCode: `function createRejectingPromise() {
@@ -52,7 +52,7 @@ export const asynchronousJavaScript: Omit<Problem, 'status' | 'isStarred' | 'not
     title: 'Async Delay with setTimeout',
     description: 'Write an async function `delay` that takes a number of milliseconds `ms` and returns a Promise that resolves after `ms` milliseconds with the string "Delayed by Xms".',
     difficulty: Difficulty.Medium,
-    category: 'Async',
+    category: 'Promises',
     group: 'Step 4: Asynchronous JavaScript',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/API/setTimeout',
     starterCode: `async function delay(ms) {
@@ -85,7 +85,7 @@ export const asynchronousJavaScript: Omit<Problem, 'status' | 'isStarred' | 'not
     title: 'Chain Promises',
     description: 'Write a function `chainPromises` that returns a Promise. This promise should first resolve with 1, then chain another `.then()` to multiply the result by 2, and finally chain another `.then()` to add 3 to the result. The final result should be returned.',
     difficulty: Difficulty.Medium,
-    category: 'Async',
+    category: 'Promises',
     group: 'Step 4: Asynchronous JavaScript',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises#chaining',
     starterCode: `function chainPromises() {
@@ -107,7 +107,7 @@ export const asynchronousJavaScript: Omit<Problem, 'status' | 'isStarred' | 'not
     title: 'Use Async/Await',
     description: 'Write an async function `getData` that simulates fetching data. It should `await` a Promise that resolves with the string "Data fetched!" after 50ms. The function should return this resolved value.',
     difficulty: Difficulty.Medium,
-    category: 'Async',
+    category: 'Async/Await',
     group: 'Step 4: Asynchronous JavaScript',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/AsyncFunction',
     starterCode: `async function getData() {
@@ -134,7 +134,7 @@ export const asynchronousJavaScript: Omit<Problem, 'status' | 'isStarred' | 'not
     title: 'Promise.all with Delays',
     description: 'Write an async function `fetchMultipleData` that takes an array of numbers (delays in ms). For each delay, create a Promise that resolves with the delay value after that many milliseconds. Use `Promise.all` to wait for all promises to resolve and return an array of their resolved values.',
     difficulty: Difficulty.Hard,
-    category: 'Async',
+    category: 'Promises',
     group: 'Step 4: Asynchronous JavaScript',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/all',
     starterCode: `async function fetchMultipleData(delays) {
@@ -157,7 +157,7 @@ export const asynchronousJavaScript: Omit<Problem, 'status' | 'isStarred' | 'not
     title: 'Async Error Handling',
     description: 'Write an async function `handleError` that takes a boolean `shouldFail`. If `shouldFail` is true, it should `await` a Promise that rejects with "Operation failed!". Otherwise, it should `await` a Promise that resolves with "Operation successful!". Use `try...catch` to return the error message if the promise rejects, or the success message if it resolves.',
     difficulty: Difficulty.Hard,
-    category: 'Async',
+    category: 'Async/Await',
     group: 'Step 4: Asynchronous JavaScript',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/try...catch',
     starterCode: `async function handleError(shouldFail) {

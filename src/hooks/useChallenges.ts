@@ -9,6 +9,7 @@ import { asynchronousJavaScript } from '../data/problems/4-asynchronous-javascri
 import { domManipulation } from '../data/problems/5-dom-manipulation';
 import { advancedDomAndEvents } from '../data/problems/6-advanced-dom-and-events';
 import { typescriptFundamentals } from '../data/problems/7-typescript-fundamentals';
+import { typescriptAdvanced } from '../data/problems/8-typescript-advanced';
 
 const staticProblems = [
     ...learnTheBasics,
@@ -17,7 +18,8 @@ const staticProblems = [
     ...asynchronousJavaScript,
     ...domManipulation,
     ...advancedDomAndEvents,
-    ...typescriptFundamentals
+    ...typescriptFundamentals,
+    ...typescriptAdvanced
 ];
 import { useAuth } from '../context/AuthContext';
 

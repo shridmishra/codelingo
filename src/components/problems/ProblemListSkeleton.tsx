@@ -5,7 +5,7 @@ import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from '@
 const ProblemListSkeleton = () => {
     return (
         <div className="min-h-screen flex flex-col bg-background">
-            <main className="grow container mx-auto p-4 md:p-6 lg:p-8 flex flex-col">
+            <main className="grow container mx-auto p-0 md:p-6 lg:p-8 flex flex-col">
                 {/* Progress Summary Skeleton */}
                 <Card className="mb-6">
                     <div className="p-4 md:p-6 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-6">
@@ -66,9 +66,9 @@ const ProblemListSkeleton = () => {
                                     <TableRow className="hover:bg-transparent">
                                         <TableHead className="w-12 hidden sm:table-cell"><Skeleton className="h-5 w-5" /></TableHead>
                                         <TableHead><Skeleton className="h-5 w-32" /></TableHead>
-                                        <TableHead className="hidden md:table-cell"><Skeleton className="h-5 w-24" /></TableHead>
-                                        <TableHead className="w-[120px]"><Skeleton className="h-5 w-20" /></TableHead>
-                                        <TableHead className="w-24 text-center"><Skeleton className="h-5 w-16" /></TableHead>
+                                        <TableHead className="hidden md:table-cell w-32 text-center"><Skeleton className="h-5 w-24 mx-auto" /></TableHead>
+                                        <TableHead className="w-32 text-center"><Skeleton className="h-5 w-20 mx-auto" /></TableHead>
+                                        <TableHead className="w-32 text-center"><Skeleton className="h-5 w-16 mx-auto" /></TableHead>
                                     </TableRow>
                                 </TableHeader>
                                 <TableBody>
@@ -76,9 +76,9 @@ const ProblemListSkeleton = () => {
                                         <TableRow key={j}>
                                             <TableCell className="hidden sm:table-cell"><Skeleton className="h-5 w-5" /></TableCell>
                                             <TableCell><Skeleton className="h-5 w-48" /></TableCell>
-                                            <TableCell className="hidden md:table-cell"><Skeleton className="h-5 w-20" /></TableCell>
-                                            <TableCell><Skeleton className="h-5 w-16" /></TableCell>
-                                            <TableCell className="text-center">
+                                            <TableCell className="hidden md:table-cell w-32 text-center"><Skeleton className="h-5 w-20 mx-auto" /></TableCell>
+                                            <TableCell className="w-32 text-center"><Skeleton className="h-5 w-16 mx-auto" /></TableCell>
+                                            <TableCell className="w-32 text-center">
                                                 <div className="flex items-center justify-center gap-1">
                                                     <Skeleton className="h-7 w-7 rounded-full" />
                                                     <Skeleton className="h-7 w-7 rounded-full" />

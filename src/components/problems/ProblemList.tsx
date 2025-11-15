@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { Problem, ProblemStatus, Difficulty } from '../../types';
 import { Card } from '@/components/ui/Card';
 import { Input } from '@/components/ui/input';
@@ -178,6 +178,22 @@ const ProblemList: React.FC<ProblemListPageProps> = ({ problems, onSelectProblem
         return Object.entries(groups).sort((a, b) => a[0].localeCompare(b[0])).map(([name, problems]) => ({ name, problems }));
     }, [filteredProblems]);
 
+    // Ensure only one group is open at a time
+    const [openGroup, setOpenGroup] = useState<string | null>(null);
+
+    // Initialize or correct open group when groups change
+    useEffect(() => {
+        if (groupedProblems.length === 0) {
+            setOpenGroup(null);
+            return;
+        }
+        // If no group selected or current selection is gone, open the first group
+        if (!openGroup || !groupedProblems.some(g => g.name === openGroup)) {
+            setOpenGroup(groupedProblems[0].name);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [groupedProblems]);
+
 
     return (
         <div className="min-h-screen flex flex-col bg-background">
@@ -186,7 +202,9 @@ const ProblemList: React.FC<ProblemListPageProps> = ({ problems, onSelectProblem
 
 
                 <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
-                    <div className="flex items-center gap-2 p-1 bg-secondary rounded-full">
+                    {/* Tabs + mobile shuffle */}
+                    <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-2 p-1 bg-secondary rounded-full">
                         <Button
                             variant={activeTab === 'all' ? 'secondary' : 'ghost'}
                             size="sm"
@@ -204,7 +222,19 @@ const ProblemList: React.FC<ProblemListPageProps> = ({ problems, onSelectProblem
                         >
                             For Revision
                         </Button>
+                        </div>
+                        {/* Mobile-only random icon next to tabs */}
+                        <Button
+                            variant="secondary"
+                            onClick={handlePickRandom}
+                            aria-label="Pick Random"
+                            className="md:hidden flex items-center justify-center p-2 rounded-full"
+                            title="Pick Random"
+                        >
+                            <ShuffleIcon />
+                        </Button>
                     </div>
+                    {/* Search + desktop shuffle + difficulty */}
                     <div className="flex flex-row gap-2 items-center md:gap-4">
                         <div className="grow">
                             {isSearchVisible ? (
@@ -227,7 +257,8 @@ const ProblemList: React.FC<ProblemListPageProps> = ({ problems, onSelectProblem
                             )}
                         </div>
                         <div className="flex flex-row items-center gap-2 w-full sm:w-auto">
-                            <Button variant="secondary" onClick={handlePickRandom} className=" flex items-center justify-center gap-2">
+                            {/* Desktop-only shuffle button */}
+                            <Button variant="secondary" onClick={handlePickRandom} className="hidden md:flex items-center justify-center gap-2">
                                 <ShuffleIcon />
                                 <span className="hidden md:inline">Pick Random</span>
                             </Button>
@@ -283,7 +314,7 @@ const ProblemList: React.FC<ProblemListPageProps> = ({ problems, onSelectProblem
                     </div>
                 </div>
 
-                {groupedProblems.map(({ name, problems: groupProblems }, index) => {
+                {groupedProblems.map(({ name, problems: groupProblems }) => {
                     const solvedCount = groupProblems.filter(p => p.status === ProblemStatus.Solved).length;
                     const totalCount = groupProblems.length;
                     const progress = totalCount > 0 ? (solvedCount / totalCount) * 100 : 0;
@@ -303,7 +334,19 @@ const ProblemList: React.FC<ProblemListPageProps> = ({ problems, onSelectProblem
                     }
 
                     return (
-                        <details key={name} className="bg-card rounded-lg mb-4 border border-border group" open={index === 0}>
+                        <details
+                            key={name}
+                            className="bg-card rounded-lg mb-4 border border-border group"
+                            open={openGroup === name}
+                            onToggle={(e) => {
+                                const isOpen = (e.currentTarget as HTMLDetailsElement).open;
+                                if (isOpen) {
+                                    setOpenGroup(name);
+                                } else if (openGroup === name) {
+                                    setOpenGroup(null);
+                                }
+                            }}
+                        >
                             <summary className="p-4 cursor-pointer font-semibold list-none text-foreground hover:bg-accent rounded-t-lg relative">
                                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center text-lg">
                                     <div className="flex items-center gap-4">
@@ -322,32 +365,32 @@ const ProblemList: React.FC<ProblemListPageProps> = ({ problems, onSelectProblem
                                 <Table>
                                     <TableHeader>
                                         <TableRow className="hover:bg-transparent">
-                                            <TableHead className="w-12 hidden sm:table-cell">Status</TableHead>
+                                            <TableHead className="w-12">Status</TableHead>
                                             <TableHead>Problem</TableHead>
-                                            <TableHead className="hidden md:table-cell">Category</TableHead>
-                                            <TableHead onClick={handleSort} className="cursor-pointer select-none w-[120px]">
-                                                <div className="flex items-center gap-2">
+                                            <TableHead className="hidden md:table-cell w-32 text-center">Category</TableHead>
+                                            <TableHead onClick={handleSort} className="cursor-pointer select-none w-32 text-center">
+                                                <div className="flex items-center justify-center gap-2">
                                                     Difficulty
                                                     <SortArrows sortOrder={sortOrder} />
                                                 </div>
                                             </TableHead>
-                                            <TableHead className="w-24 text-center">Actions</TableHead>
+                                            <TableHead className="w-32 text-center">Actions</TableHead>
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
                                         {sortedProblems.map((problem) => (
                                             <TableRow key={problem.id} className="group/row">
-                                                <TableCell className="hidden sm:table-cell">
+                                                <TableCell>
                                                     <Checkbox checked={problem.status === ProblemStatus.Solved} className="rounded-sm" />
                                                 </TableCell>
                                                 <TableCell onClick={() => onSelectProblem(problem)} className="font-medium text-foreground cursor-pointer">{problem.title}</TableCell>
-                                                <TableCell className="hidden md:table-cell">
-                                                    <Badge variant="outline">{problem.category}</Badge>
+                                                <TableCell className="hidden md:table-cell w-32 text-center">
+                                                    <Badge variant="outline" className="w-24 justify-center">{problem.category.split(' ')[0]}</Badge>
                                                 </TableCell>
-                                                <TableCell onClick={() => onSelectProblem(problem)} className="cursor-pointer">
+                                                <TableCell onClick={() => onSelectProblem(problem)} className="cursor-pointer w-32 text-center">
                                                     <Badge variant={problem.difficulty === 'Easy' ? 'default' : problem.difficulty === 'Medium' ? 'secondary' : 'destructive'}>{problem.difficulty}</Badge>
                                                 </TableCell>
-                                                <TableCell className="text-center">
+                                                <TableCell className="w-32 text-center">
                                                     <div className="flex items-center justify-center gap-1">
                                                         <button onClick={() => auth.isAuthenticated ? onToggleStar(problem.id) : onLogin()} className="p-1 rounded-full hover:bg-accent">
                                                             <BookmarkIcon filled={!!problem.isStarred} className="text-muted-foreground h-5 w-5" />

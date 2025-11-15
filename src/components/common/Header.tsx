@@ -64,15 +64,7 @@ const Header: React.FC<HeaderProps> = ({ problemTitle, onBack, onNavigate }) => 
         </div>
         {problemTitle && <h2 className="text-md font-medium text-muted-foreground truncate hidden md:block">{problemTitle}</h2>}
         <div className="flex items-center gap-2">
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => setTheme(currentTheme === 'light' ? 'dark' : 'light')}
-            className="text-muted-foreground hover:text-foreground p-2"
-            aria-label="Toggle theme"
-          >
-            {currentTheme === 'light' ? <MoonIcon className="h-5 w-5" /> : <SunIcon className="h-5 w-5" />}
-          </Button>
+         
           {auth.isAuthenticated && auth.user ? (
             <Dropdown
               trigger={

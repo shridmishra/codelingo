@@ -7,7 +7,7 @@ export const advancedDomAndEvents: Omit<Problem, 'status' | 'isStarred' | 'notes
     title: 'Query Selector',
     description: 'Write a function `select` that takes a CSS selector string and returns the first matching DOM element. Assume `document.querySelector` is available.',
     difficulty: Difficulty.Easy,
-    category: 'DOM',
+    category: 'Selectors',
     group: 'Step 6: Advanced DOM & Events',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector',
     starterCode: `function select(selector) {
@@ -35,7 +35,7 @@ export const advancedDomAndEvents: Omit<Problem, 'status' | 'isStarred' | 'notes
     title: 'Query Selector All',
     description: 'Write a function `selectAll` that takes a CSS selector string and returns a NodeList of all matching DOM elements. Assume `document.querySelectorAll` is available.',
     difficulty: Difficulty.Easy,
-    category: 'DOM',
+    category: 'Selectors',
     group: 'Step 6: Advanced DOM & Events',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelectorAll',
     starterCode: `function selectAll(selector) {
@@ -63,7 +63,7 @@ export const advancedDomAndEvents: Omit<Problem, 'status' | 'isStarred' | 'notes
     title: 'Add Event Listener',
     description: 'Write a function `addClickListener` that takes an element and a callback function, and attaches a "click" event listener to the element.',
     difficulty: Difficulty.Easy,
-    category: 'DOM Events',
+    category: 'Events',
     group: 'Step 6: Advanced DOM & Events',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener',
     starterCode: `function addClickListener(element, callback) {
@@ -99,7 +99,7 @@ export const advancedDomAndEvents: Omit<Problem, 'status' | 'isStarred' | 'notes
     title: 'Remove Event Listener',
     description: 'Write a function `removeClickListener` that takes an element and a callback function, and removes the "click" event listener.',
     difficulty: Difficulty.Medium,
-    category: 'DOM Events',
+    category: 'Events',
     group: 'Step 6: Advanced DOM & Events',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/removeEventListener',
     starterCode: `function removeClickListener(element, callback) {
@@ -135,7 +135,7 @@ export const advancedDomAndEvents: Omit<Problem, 'status' | 'isStarred' | 'notes
     title: 'Create and Append Element with Class',
     description: 'Write a function `createAndAppendDivWithClass` that creates a new `div` element, adds a specified class to it, sets its text content, and appends it to a given parent DOM element. The function should return the newly created div.',
     difficulty: Difficulty.Easy,
-    category: 'DOM',
+    category: 'Events',
     group: 'Step 6: Advanced DOM & Events',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/API/Document/createElement',
     starterCode: `function createAndAppendDivWithClass(parentElement, className, textContent) {
@@ -181,7 +181,7 @@ export const advancedDomAndEvents: Omit<Problem, 'status' | 'isStarred' | 'notes
     title: 'Set Inner HTML',
     description: 'Write a function `setHtml` that takes an element and a string of HTML, and sets the element\'s inner HTML.',
     difficulty: Difficulty.Medium,
-    category: 'DOM',
+    category: 'Events',
     group: 'Step 6: Advanced DOM & Events',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/API/Element/innerHTML',
     starterCode: `function setHtml(element, htmlString) {
@@ -204,7 +204,7 @@ export const advancedDomAndEvents: Omit<Problem, 'status' | 'isStarred' | 'notes
     title: 'Get Computed Style',
     description: 'Write a function `getBgColor` that takes an element and returns its computed background color. Assume `window.getComputedStyle` is available.',
     difficulty: Difficulty.Medium,
-    category: 'DOM',
+    category: 'Creation',
     group: 'Step 6: Advanced DOM & Events',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/API/Window/getComputedStyle',
     starterCode: `function getBgColor(element) {
@@ -239,7 +239,7 @@ export const advancedDomAndEvents: Omit<Problem, 'status' | 'isStarred' | 'notes
     title: 'Traverse DOM Up',
     description: 'Write a function `findParentWithClass` that takes an element and a class name, and returns the closest parent element that has that class. If no such parent is found, return `null`.',
     difficulty: Difficulty.Medium,
-    category: 'DOM',
+    category: 'Content',
     group: 'Step 6: Advanced DOM & Events',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/API/Node/parentElement',
     starterCode: `function findParentWithClass(element, className) {
@@ -276,7 +276,7 @@ export const advancedDomAndEvents: Omit<Problem, 'status' | 'isStarred' | 'notes
     title: 'Read Form Input Value',
     description: 'Write a function `getInputValue` that takes a form input element and returns its current value.',
     difficulty: Difficulty.Medium,
-    category: 'DOM Forms',
+    category: 'Forms',
     group: 'Step 6: Advanced DOM & Events',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input',
     starterCode: `function getInputValue(inputElement) {
