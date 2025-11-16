@@ -2,30 +2,17 @@
 
 import React from 'react';
 import QuizPage from '../../components/quiz/QuizPage';
-import Header from '../../components/common/Header';
-import { useRouter } from 'next/navigation';
-
-import QuizPageSkeleton from '../../components/quiz/QuizPageSkeleton';
 import { Suspense } from 'react';
+import QuizPageSkeleton from '../../components/quiz/QuizPageSkeleton';
 
 const Quiz = () => {
-    const router = useRouter();
-
-    const handleNavigate = (page: 'profile' | 'list' | '' | 'quiz') => {
-        router.push(`/${page}`);
-    };
-
     return (
         <div className="bg-background min-h-screen">
-            <Header onNavigate={handleNavigate} />
-            <main className="container mx-auto px-4 md:px-6 lg:px-8 py-8 bg-background">
-                <Suspense fallback={<QuizPageSkeleton />}>
-                    <QuizPage onBack={() => {}} />
-                </Suspense>
-            </main>
+            <Suspense fallback={<QuizPageSkeleton />}>
+                <QuizPage />
+            </Suspense>
         </div>
     );
 };
-
 
 export default Quiz;

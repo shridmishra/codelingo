@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect, useCallback, useRef } from 'react';
-import { quizData, QuizQuestion } from '../../data/quizData';
+import { quizData, QuizQuestion } from '../../data/quizzes';
 import { Button } from '../ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
 import ProgressBar from '../progress/ProgressBar';
@@ -76,7 +76,7 @@ const DifficultyDropdown: React.FC<{
 import { useSearchParams } from 'next/navigation';
 import { IUserAnsweredQuestion } from '../../models/UserAnsweredQuestion';
 
-const QuizPage: React.FC<{ onBack: () => void }> = ({ onBack: _onBack }) => {
+const QuizPage: React.FC<{ onBack?: () => void }> = ({ onBack: _onBack }) => {
     const searchParams = useSearchParams();
     const _initialQuizView = searchParams.get('view') === 'history' ? 'history' : 'quiz';
 
@@ -93,7 +93,7 @@ const QuizPage: React.FC<{ onBack: () => void }> = ({ onBack: _onBack }) => {
     const questions = useMemo(() => {
         return difficulty === 'All'
             ? quizData
-            : quizData.filter(q => q.difficulty === difficulty);
+            : quizData.filter((q: QuizQuestion) => q.difficulty === difficulty);
     }, [difficulty]);
 
     useEffect(() => {
@@ -247,7 +247,7 @@ const QuizPage: React.FC<{ onBack: () => void }> = ({ onBack: _onBack }) => {
                                 </CardHeader>
                                 <CardContent>
                                     <div className="space-y-3">
-                                        {currentQuestion.options.map((option, index) => {
+                                        {currentQuestion.options.map((option: string, index: number) => {
                                             const isSelected = finalSelectedAnswerIndex === index;
                                             const isCorrect = currentQuestion.correctAnswerIndex === index;
                                             let optionClasses = 'w-full text-left p-3 rounded-md border-2 transition-colors text-foreground';
@@ -266,14 +266,18 @@ const QuizPage: React.FC<{ onBack: () => void }> = ({ onBack: _onBack }) => {
                                                     : ' bg-secondary border-border hover:border-accent';
                                             }
 
+                                            const maxLabelLength = 60;
+                                            const displayLabel = option.length > maxLabelLength ? option.slice(0, maxLabelLength - 3) + '...' : option;
+
                                             return (
                                                 <button 
                                                     key={index}
                                                     onClick={() => handleAnswerSelect(index)}
                                                     onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') handleAnswerSelect(index); }}
                                                     className={optionClasses}
+                                                    title={option}
                                                 >
-                                                    {option}
+                                                    {displayLabel}
                                                 </button>
                                             );
                                         })}
