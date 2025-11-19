@@ -27,7 +27,7 @@ export const CallToAction = () => {
         <h2 className="heading gradient-text">Sign up for free today</h2>
         <p className="sub-heading">Start your journey to JavaScript mastery. Sign up for free and get instant access to our challenges and quizzes.</p>
         <div className="mt-10">
-          <button className="btn btn-primary bg-foreground" onClick={() => handleNavigate('challenges')}>Get started</button>
+          <button className="btn btn-primary bg-foreground text-background" onClick={() => handleNavigate('challenges')}>Get started</button>
           <button className="btn btn-text gap-2" onClick={() => handleNavigate('challenges')}><span>Learn more</span><ArrowIcon className="h-5 w-5" /></button>
         </div>
       </div>

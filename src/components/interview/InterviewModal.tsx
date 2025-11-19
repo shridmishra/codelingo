@@ -6,7 +6,7 @@ import { ChevronLeft, ChevronRight, X } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
-import { InterviewQuestion } from '@/data/interviews';
+import { InterviewQuestion } from '@/data/interviews/types';
 import { Card } from '@/components/ui/Card';
 
 
@@ -25,8 +25,6 @@ export function InterviewModal({ isOpen, onClose, questions, startIndex, onSelec
     const scrollRef = useRef<HTMLDivElement>(null);
     const [suggestedTopics, setSuggestedTopics] = useState<string[]>([]);
 
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     // Handle keyboard navigation
     useEffect(() => {
         if (!isOpen) return;
@@ -65,7 +63,15 @@ export function InterviewModal({ isOpen, onClose, questions, startIndex, onSelec
 
         window.addEventListener('keydown', handleKeyDown);
         return () => window.removeEventListener('keydown', handleKeyDown);
-    }, [isOpen, currentIndex, questions.length, onClose, showCompletion, questions, allTopics]);
+    }, [isOpen, currentIndex, questions, onClose, showCompletion, allTopics]);
+
+    // Reset state when questions change (State from props pattern)
+    const [prevQuestions, setPrevQuestions] = useState(questions);
+    if (questions !== prevQuestions) {
+        setPrevQuestions(questions);
+        setCurrentIndex(startIndex);
+        setShowCompletion(false);
+    }
 
 
 
@@ -163,7 +169,7 @@ export function InterviewModal({ isOpen, onClose, questions, startIndex, onSelec
                         </div>
 
                         {/* Content - Single Column */}
-                        <div ref={scrollRef} className="flex-1 overflow-y-auto p-6 md:p-10 space-y-8 scroll-smooth">
+                        <div ref={scrollRef} className="flex-1 overflow-y-auto p-6 md:p-10 space-y-8 bg-muted/50 scroll-smooth">
                             {/* Question Section */}
                             <div className="space-y-4 max-w-4xl mx-auto">
                                 <h2 className="text-2xl md:text-3xl font-bold text-gray-800 dark:text-gray-100 leading-tight tracking-tight">
@@ -172,7 +178,7 @@ export function InterviewModal({ isOpen, onClose, questions, startIndex, onSelec
                             </div>
 
                             {/* Answer Section */}
-                            <div className="prose prose-lg prose-neutral dark:prose-invert max-w-4xl mx-auto prose-headings:scroll-mt-20 prose-pre:bg-muted/50 prose-pre:border prose-pre:border-border/50 prose-p:text-gray-600 dark:prose-p:text-gray-300 prose-li:text-gray-600 dark:prose-li:text-gray-300">
+                            <div className="prose prose-lg prose-neutral bg-muted p-8 rounded-md dark:prose-invert max-w-4xl mx-auto prose-headings:scroll-mt-20 prose-pre:bg-muted/50 prose-pre:border prose-pre:border-border/50 prose-p:text-gray-600 dark:prose-p:text-gray-300 prose-li:text-gray-600 dark:prose-li:text-gray-300">
                                 <ReactMarkdown
                                     components={{
                                         // eslint-disable-next-line @typescript-eslint/no-explicit-any
