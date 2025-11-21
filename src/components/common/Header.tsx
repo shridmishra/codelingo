@@ -51,17 +51,14 @@ const Header: React.FC<HeaderProps> = ({ problemTitle, onBack, onNavigate }) => 
                 </a>
               </nav>
               <nav className="md:hidden">
-                {pathname === '/challenges' && (
+                {(pathname === '/' || pathname.startsWith('/challenges')) && (
                   <div className="flex gap-4">
-                    <a href="/interview" className={getLinkClass('/interview')}>
-                      Interview
-                    </a>
                     <a href="/quiz" className={getLinkClass('/quiz')}>
                       Quiz
                     </a>
                   </div>
                 )}
-                {pathname === '/quiz' && (
+                {pathname.startsWith('/quiz') && (
                   <div className="flex gap-4">
                     <a href="/challenges" className={getLinkClass('/challenges')}>
                       Challenges
@@ -71,7 +68,7 @@ const Header: React.FC<HeaderProps> = ({ problemTitle, onBack, onNavigate }) => 
                     </a>
                   </div>
                 )}
-                {pathname === '/interview' && (
+                {pathname.startsWith('/interview') && (
                   <div className="flex gap-4">
                     <a href="/challenges" className={getLinkClass('/challenges')}>
                       Challenges

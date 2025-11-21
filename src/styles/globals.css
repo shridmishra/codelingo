@@ -86,28 +86,17 @@ button,
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: var(--color-muted);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #c1c1c1;
+  background: var(--color-muted-foreground);
   border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #a8a8a8;
-}
-
-.dark ::-webkit-scrollbar-track {
-  background: #1a202c;
-}
-
-.dark ::-webkit-scrollbar-thumb {
-  background: #4a5568;
-}
-
-.dark ::-webkit-scrollbar-thumb:hover {
-  background: #718096;
+  background: var(--color-muted-foreground);
+  opacity: 0.8;
 }
 
 @theme inline {

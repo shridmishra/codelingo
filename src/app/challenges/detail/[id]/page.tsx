@@ -14,7 +14,7 @@ function ChallengeDetailPage() {
   const params = useParams();
   const problemId = params.id as string;
   const { getProblemById, isLoading, isAuthLoading, handleStatusChange, handleToggleStar, handleUpdateNotes } = useChallenges();
-  const { isAuthenticated: _isAuthenticated } = useAuth();
+  const { isAuthenticated: _isAuthenticated, login } = useAuth();
 
   const problem = getProblemById(problemId);
 
@@ -54,7 +54,7 @@ function ChallengeDetailPage() {
           onToggleStar={handleToggleStar}
           onUpdateNotes={handleUpdateNotes}
           onNavigate={handleNavigate}
-          onLogin={() => router.push('/api/auth/signin')}
+          onLogin={login}
           onLogout={() => {}}
         />
       </main>

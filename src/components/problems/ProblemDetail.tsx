@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { Problem, ProblemStatus, TestResult } from '../../types';
 import { Button } from '@/components/ui/button';
 import CodeEditor from '../common/CodeEditor';
@@ -31,6 +32,7 @@ const ProblemDetail: React.FC<ProblemSolvingPageProps> = ({ problem, onStatusCha
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [isNotesModalOpen, setIsNotesModalOpen] = useState(false);
   const auth = useAuth();
+  const router = useRouter();
 
   const handleClearCode = () => {
     setCode(problem.starterCode);
@@ -69,6 +71,7 @@ const ProblemDetail: React.FC<ProblemSolvingPageProps> = ({ problem, onStatusCha
     if (allPassed) {
       onStatusChange(problem.id, ProblemStatus.Solved);
       toast.success('Solution submitted successfully!');
+      router.push('/challenges');
     } else {
       toast.error('Submission failed. Please pass all tests first.');
       onStatusChange(problem.id, ProblemStatus.Attempted);
