@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '../../context/AuthContext';
@@ -89,14 +88,10 @@ const Header: React.FC<HeaderProps> = ({ problemTitle, onBack, onNavigate }) => 
             <Dropdown
               trigger={
                 <div
-                  className="w-9 h-9 bg-primary rounded-full flex items-center justify-center text-primary-foreground text-lg font-bold hover:opacity-90 transition-opacity focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background"
+                  className="w-9 h-9 bg-yellow-300 rounded-full flex items-center justify-center text-primary-foreground text-lg font-bold hover:opacity-90 transition-opacity focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background"
                   aria-label="View Profile"
                 >
-                  {auth.user?.image ? (
-                    <Image src={auth.user.image} alt="user avatar" width={36} height={36} className="w-full h-full rounded-full object-cover object-center bject-cover" />
-                  ) : (
-                    auth.user?.name?.charAt(0)?.toUpperCase() || 'U'
-                  )}
+                  {auth.user?.name?.charAt(0)?.toUpperCase() || 'U'}
                 </div>
               }
             >

@@ -7,7 +7,7 @@ import ProfilePage from '../../components/profile/ProfilePage';
 
 import ProfileSkeleton from '../../components/profile/ProfileSkeleton';
 
-// ... (imports remain the same)
+
 
 export default function Profile() {
   const { isAuthenticated, isLoading } = useAuth();
@@ -27,7 +27,7 @@ export default function Profile() {
     return (
       <div className="bg-background min-h-screen">
         <Header onNavigate={handleNavigate} />
-        <main className="container mx-auto px-4 md:px-6 lg:px-8 py-8 bg-background">
+        <main className="container mx-auto px-4 md:px-6 lg:px-8 bg-background">
           <ProfileSkeleton />
         </main>
       </div>
@@ -37,7 +37,7 @@ export default function Profile() {
   return (
     <div className="bg-background min-h-screen">
       <Header onNavigate={handleNavigate} />
-      <main className="container mx-auto px-4 md:px-6 lg:px-8 py-8 bg-background">
+      <main className="container mx-auto px-4 md:px-6 lg:px-8 bg-background">
         <ProfilePage />
       </main>
     </div>

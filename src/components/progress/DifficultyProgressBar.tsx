@@ -20,7 +20,7 @@ const DifficultyProgressBar: React.FC<DifficultyProgressBarProps> = ({ easy, med
         {/* Background circle */}
         <circle
           className="text-muted"
-          strokeWidth="10"
+          strokeWidth="6"
           stroke="currentColor"
           fill="transparent"
           r="40"
@@ -30,8 +30,8 @@ const DifficultyProgressBar: React.FC<DifficultyProgressBarProps> = ({ easy, med
 
         {/* Hard progress */}
         <circle
-          className="text-destructive"
-          strokeWidth="10"
+          className="text-red-300"
+          strokeWidth="6"
           strokeDasharray={circumference}
           strokeDashoffset={circumference - (circumference * hardPercentage) / 100}
           strokeLinecap="round"
@@ -45,8 +45,8 @@ const DifficultyProgressBar: React.FC<DifficultyProgressBarProps> = ({ easy, med
 
         {/* Medium progress */}
         <circle
-          className="text-primary"
-          strokeWidth="10"
+          className="text-yellow-300"
+          strokeWidth="6"
           strokeDasharray={circumference}
           strokeDashoffset={circumference - (circumference * mediumPercentage) / 100}
           strokeLinecap="round"
@@ -60,8 +60,8 @@ const DifficultyProgressBar: React.FC<DifficultyProgressBarProps> = ({ easy, med
 
         {/* Easy progress */}
         <circle
-          className="text-success"
-          strokeWidth="10"
+          className="text-green-300"
+          strokeWidth="6"
           strokeDasharray={circumference}
           strokeDashoffset={circumference - (circumference * easyPercentage) / 100}
           strokeLinecap="round"
