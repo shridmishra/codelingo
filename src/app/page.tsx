@@ -7,6 +7,7 @@ import { Footer } from '@/components/landing/Footer';
 import { LogoTicker } from '@/components/landing/LogoTicker';
 import { HomePage } from '@/components/landing/Homepage';
 import LandingPageSkeleton from '@/components/landing/LandingPageSkeleton';
+import { SponsorButton } from '@/components/landing/SponsorButton';
 
 
 export default function Page() {
@@ -19,6 +20,7 @@ export default function Page() {
                 <Testimonials />
                 <CallToAction />
                 <Footer />
+                <SponsorButton />
             </main>
         </Suspense>
     );

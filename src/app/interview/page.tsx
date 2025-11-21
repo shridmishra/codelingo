@@ -88,11 +88,6 @@ export default function InterviewPage() {
     setIsModalOpen(true);
   };
 
-  const handleChallengesClick = (topicName: string) => {
-    // Navigate to challenges filtered by topic
-    router.push(`/challenges/list?topic=${encodeURIComponent(topicName)}`);
-  };
-
   return (
     <div className="min-h-screen bg-background">
       <Header
