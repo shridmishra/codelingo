@@ -122,7 +122,7 @@ export const Testimonials = () => {
     <div className="container">
       <div className="flex flex-col justify-center items-center text-center lg:mx-44">
         <div className="tag">Testimonial</div>
-        <h2 className="heading mt-5 gradient-text">What our learners say</h2>
+        <h2 className="text-3xl lg:text-7xl font-bold tracking-tighter bg-linear-to-b from-black to-[#733e0a] dark:from-white dark:to-[#fff085] text-transparent bg-clip-text mt-6">What our learners say</h2>
         <p className="sub-heading mt-5">Hear from our community of learners who have leveled up their JavaScript skills with our platform.</p>
       </div>
 

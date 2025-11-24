@@ -4,7 +4,6 @@ import { useAuth } from '../../context/AuthContext';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/Card";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import ContributionGraph from '../progress/ContributionGraph';
 import DifficultyProgressBar from '../progress/DifficultyProgressBar';
@@ -18,8 +17,6 @@ import {
     CheckCircle2, 
     XCircle, 
     Activity,
-    Share2,
-    Settings,
     Medal
 } from 'lucide-react';
 

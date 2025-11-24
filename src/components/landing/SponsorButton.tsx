@@ -47,10 +47,27 @@ export const SponsorButton = () => {
           onMouseLeave={handleMouseLeave}
         >
             <div className="p-4 flex flex-col items-center text-center space-y-4">
-                <p className="font-medium text-sm">
-                    Sponsor the project to keep it free and running
-                </p>
-                <div className="relative w-64 h-64 rounded-lg overflow-hidden border bg-white">
+                <div className="flex flex-col items-center">
+                  <div className="flex items-center space-x-3">
+                    <div className="rounded-full bg-red-50 p-2 shadow-sm">
+                      <HeartIcon className="h-5 w-5 text-red-600" />
+                    </div>
+                    <h3 className="text-lg font-semibold bg-gradient-to-r from-red-600 to-pink-500 bg-clip-text text-transparent">
+                      Support PracticeJS
+                    </h3>
+                  </div>
+
+                  <p className="mt-2 text-sm text-muted-foreground text-center max-w-[18rem]">
+                    Keep PracticeJS free — donations help cover hosting and new challenges.
+                  </p>
+
+                  <span className="mt-3 inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-red-100 text-red-700 shadow-sm">
+                    Open Source
+                  </span>
+
+                  <p className="mt-2 text-xs text-gray-500">Scan to donate via UPI</p>
+                </div>
+                <div className="relative w-64 h-64 rounded-lg overflow-hidden border bg-blue-50">
                     <Image 
                         src={upiImage} 
                         alt="UPI QR Code" 

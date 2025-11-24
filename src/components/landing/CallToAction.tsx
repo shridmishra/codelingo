@@ -24,7 +24,7 @@ export const CallToAction = () => {
   return <section ref={ctaRef} className="py-24 bg-linear-to-b from-white to-[#fefce8] dark:from-black dark:to-[#1a202c] overflow-x-clip relative">
     <div className="container">
       <div className="flex flex-col items-center justify-center text-center lg:mx-44">
-        <h2 className="heading gradient-text">Sign up for free today</h2>
+        <h2 className="text-3xl lg:text-7xl font-bold tracking-tighter bg-linear-to-b from-black to-[#733e0a] dark:from-white dark:to-[#fff085] text-transparent bg-clip-text mt-6">Sign up for free today</h2>
         <p className="sub-heading">Start your journey to JavaScript mastery. Sign up for free and get instant access to our challenges and quizzes.</p>
         <div className="mt-10">
           <button className="btn btn-primary bg-foreground text-background" onClick={() => handleNavigate('challenges')}>Get started</button>

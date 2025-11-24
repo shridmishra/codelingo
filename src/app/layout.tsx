@@ -33,7 +33,7 @@ const satoshi = localFont({
 
 const title = 'Practice JS';
 const description =
-  'The ultimate platform for developers to practice JavaScript, tackle coding challenges, and prepare for technical interviews. Improve your JS skills with our interactive quizzes and real-world problem-solving exercises.';
+  'The ultimate platform for developers to practice JavaScript, tackle coding challenges, and prepare for technical interviews.';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://practicejs.shrid.in'),
