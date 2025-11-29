@@ -227,17 +227,17 @@ const ProblemList: React.FC<ProblemListPageProps> = ({ problems, onSelectProblem
                                 <span className="hidden sm:inline">For Revision</span>
                             </Button>
                         </div>
-                        {/* Interview Button (navigates to page) */}
+                        {/* Topics Button (navigates to page) */}
                         <Button
                             variant="default"
                             size="sm"
-                            onClick={() => router.push('/interview')}
+                            onClick={() => router.push('/topics')}
                             className="rounded-full gap-2 bg-foreground text-background hover:bg-foreground/90"
                         >
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                 <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
                             </svg>
-                            <span className="hidden sm:inline">Interview</span>
+                            <span className="hidden sm:inline">Topics</span>
                         </Button>
                         {/* Mobile-only random icon next to tabs */}
                         <Button

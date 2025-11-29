@@ -1,34 +1,56 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Problem, ProblemStatus } from '../types';
 // JavaScript problems
-import { learnTheBasics } from '../data/problems/js/1-basics-1';
-import { arrayManipulation } from '../data/problems/js/2-basics-2';
-import { step3Basics3 } from '../data/problems/js/3-basics-3';
-import { asynchronousJavaScript } from '../data/problems/js/4-asynchronous-javascript';
-import { domManipulation } from '../data/problems/js/5-dom-manipulation';
-import { advancedDomAndEvents } from '../data/problems/js/6-advanced-dom-and-events';
+import { learnTheBasics } from '../data/topics/javascript/problems/1-basics-1';
+import { arrayManipulation } from '../data/topics/javascript/problems/2-basics-2';
+import { step3Basics3 } from '../data/topics/javascript/problems/3-basics-3';
+import { asynchronousJavaScript } from '../data/topics/javascript/problems/4-asynchronous-javascript';
+import { domManipulation } from '../data/topics/javascript/problems/5-dom-manipulation';
+import { advancedDomAndEvents } from '../data/topics/javascript/problems/6-advanced-dom-and-events';
 
 // TypeScript problems
-import { typescriptBasics } from '../data/problems/ts/1-basics-typescript';
-import { typescriptClassesInterfacesEnums } from '../data/problems/ts/2-classes-interfaces-enums-typescript';
-import { typescriptGenericsUtilityTypes } from '../data/problems/ts/3-generics-utility-types-typescript';
-import { typescriptAdvancedTypesPatterns } from '../data/problems/ts/4-advanced-types-patterns-typescript';
-import { typescriptModulesAsync } from '../data/problems/ts/5-modules-async-typescript';
-import { typescriptRealWorld } from '../data/problems/ts/6-real-world-typescript';
+import { typescriptBasics } from '../data/topics/typescript/problems/1-basics-typescript';
+import { typescriptClassesInterfacesEnums } from '../data/topics/typescript/problems/2-classes-interfaces-enums-typescript';
+import { typescriptGenericsUtilityTypes } from '../data/topics/typescript/problems/3-generics-utility-types-typescript';
+import { typescriptAdvancedTypesPatterns } from '../data/topics/typescript/problems/4-advanced-types-patterns-typescript';
+import { typescriptModulesAsync } from '../data/topics/typescript/problems/5-modules-async-typescript';
+import { typescriptRealWorld } from '../data/topics/typescript/problems/6-real-world-typescript';
+
+// Other topics
+import { reactBasics } from '../data/topics/react/problems/basics';
+import { nextjsBasics } from '../data/topics/nextjs/problems/basics';
+import { mongoBasics } from '../data/topics/mongo/problems/basics';
+import { expressBasics } from '../data/topics/express/problems/basics';
+import { nodeBasics } from '../data/topics/nodejs/problems/basics';
+import { prismaBasics } from '../data/topics/prisma/problems/basics';
+import { postgresBasics } from '../data/topics/postgres/problems/basics';
+import { htmlCssBasics } from '../data/topics/html-css/problems/basics';
 
 const staticProblems = [
-    ...learnTheBasics,
-    ...arrayManipulation,
-    ...step3Basics3,
-    ...asynchronousJavaScript,
-    ...domManipulation,
-    ...advancedDomAndEvents,
-    ...typescriptBasics,
-    ...typescriptClassesInterfacesEnums,
-    ...typescriptGenericsUtilityTypes,
-    ...typescriptAdvancedTypesPatterns,
-    ...typescriptModulesAsync,
-    ...typescriptRealWorld
+    ...[
+        ...learnTheBasics,
+        ...arrayManipulation,
+        ...step3Basics3,
+        ...asynchronousJavaScript,
+        ...domManipulation,
+        ...advancedDomAndEvents
+    ].map(p => ({ ...p, slug: 'js' })),
+    ...[
+        ...typescriptBasics,
+        ...typescriptClassesInterfacesEnums,
+        ...typescriptGenericsUtilityTypes,
+        ...typescriptAdvancedTypesPatterns,
+        ...typescriptModulesAsync,
+        ...typescriptRealWorld
+    ].map(p => ({ ...p, slug: 'ts' })),
+    ...reactBasics.map(p => ({ ...p, slug: 'react' })),
+    ...nextjsBasics.map(p => ({ ...p, slug: 'nextjs' })),
+    ...mongoBasics.map(p => ({ ...p, slug: 'mongo' })),
+    ...expressBasics.map(p => ({ ...p, slug: 'express' })),
+    ...nodeBasics.map(p => ({ ...p, slug: 'nodejs' })),
+    ...prismaBasics.map(p => ({ ...p, slug: 'prisma' })),
+    ...postgresBasics.map(p => ({ ...p, slug: 'postgres' })),
+    ...htmlCssBasics.map(p => ({ ...p, slug: 'html-css' }))
 ];
 import { useAuth } from '../context/AuthContext';
 
@@ -39,7 +61,7 @@ interface UserProblemMetadata {
   notes: string;
 }
 
-export const useChallenges = (filter?: 'js' | 'ts') => {
+export const useChallenges = (filter?: string) => {
   const [userProblemMetadata, setUserProblemMetadata] = useState<UserProblemMetadata[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const { isAuthenticated, isLoading: isAuthLoading } = useAuth();
@@ -86,8 +108,7 @@ export const useChallenges = (filter?: 'js' | 'ts') => {
   const problemsForList: Problem[] = staticProblems
     .filter((staticP) => {
       if (!filter) return true;
-      const isTypescript = staticP.group?.toLowerCase().includes('typescript') ?? false;
-      return filter === 'ts' ? isTypescript : !isTypescript;
+      return staticP.slug === filter;
     })
     .map(staticP => {
       const userMeta = userProblemMetadata.find(userP => userP.id === staticP.id);

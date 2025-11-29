@@ -94,7 +94,7 @@ export const HomePage = () => {
           <div className="md:w-1/2">
             <div>
               <h1 className="text-3xl lg:text-7xl font-bold tracking-tighter bg-linear-to-b from-black to-[#733e0a] dark:from-white dark:to-[#fff085] text-transparent bg-clip-text mt-6">Master JavaScript,<br />One Challenge at a Time.</h1>
-              <p className="text-lg lg:text-xl text-[#010D3E] dark:text-gray-300 tracking-tight mt-6 ">An interactive platform to practice JavaScript, tackle coding challenges, and prepare for technical interviews. Track your progress and master JS. </p>
+              <p className="text-lg lg:text-xl text-[#010D3E] dark:text-gray-300 tracking-tight mt-6 ">An interactive platform to practice JavaScript, tackle coding challenges, and prepare for technical topics. Track your progress and master JS. </p>
             </div>
             <div className="mt-7 flex gap-1 md:items-center items-start flex-row">
               <button onClick={() => handleNavigate('practice/js')} className="btn btn-primary bg-black text-white dark:bg-white dark:text-black">View Challenges</button>

@@ -37,4 +37,5 @@ export interface Problem {
   status: ProblemStatus;
   isStarred?: boolean;
   notes?: string;
+  slug?: string;
 }

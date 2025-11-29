@@ -42,8 +42,8 @@ const Header: React.FC<HeaderProps> = ({ problemTitle, onBack, onNavigate }) => 
                 <a href="/practice/js" className={getLinkClass('/practice')}>
                   Practice
                 </a>
-                <a href="/interview" className={getLinkClass('/interview')}>
-                  Interview
+                <a href="/topics" className={getLinkClass('/topics')}>
+                  Topics
                 </a>
                 <a href="/quiz" className={getLinkClass('/quiz')}>
                   Quiz
@@ -62,12 +62,12 @@ const Header: React.FC<HeaderProps> = ({ problemTitle, onBack, onNavigate }) => 
                     <a href="/practice/js" className={getLinkClass('/practice')}>
                       Practice
                     </a>
-                    <a href="/interview" className={getLinkClass('/interview')}>
-                      Interview
+                    <a href="/topics" className={getLinkClass('/topics')}>
+                      Topics
                     </a>
                   </div>
                 )}
-                {pathname.startsWith('/interview') && (
+                {pathname.startsWith('/topics') && (
                   <div className="flex gap-4">
                     <a href="/practice/js" className={getLinkClass('/practice')}>
                       Practice

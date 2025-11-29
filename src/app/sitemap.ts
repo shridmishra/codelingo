@@ -8,24 +8,25 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${siteUrl}/practice/js`, lastModified: new Date() },
     { url: `${siteUrl}/practice/ts`, lastModified: new Date() },
     { url: `${siteUrl}/quiz`, lastModified: new Date() },
+    { url: `${siteUrl}/topics`, lastModified: new Date() },
     { url: `${siteUrl}/profile`, lastModified: new Date() },
   ];
 
   // Try to include problem detail pages; if anything goes wrong, fall back to static routes only.
   try {
     const [m1, m2, m3, m4, m5, m6, t1, t2, t3, t4, t5, t6] = await Promise.all([
-      import('@/data/problems/js/1-basics-1'),
-      import('@/data/problems/js/2-basics-2'),
-      import('@/data/problems/js/3-basics-3'),
-      import('@/data/problems/js/4-asynchronous-javascript'),
-      import('@/data/problems/js/5-dom-manipulation'),
-      import('@/data/problems/js/6-advanced-dom-and-events'),
-      import('@/data/problems/ts/1-basics-typescript'),
-      import('@/data/problems/ts/2-classes-interfaces-enums-typescript'),
-      import('@/data/problems/ts/3-generics-utility-types-typescript'),
-      import('@/data/problems/ts/4-advanced-types-patterns-typescript'),
-      import('@/data/problems/ts/5-modules-async-typescript'),
-      import('@/data/problems/ts/6-real-world-typescript'),
+      import('@/data/topics/javascript/problems/1-basics-1'),
+      import('@/data/topics/javascript/problems/2-basics-2'),
+      import('@/data/topics/javascript/problems/3-basics-3'),
+      import('@/data/topics/javascript/problems/4-asynchronous-javascript'),
+      import('@/data/topics/javascript/problems/5-dom-manipulation'),
+      import('@/data/topics/javascript/problems/6-advanced-dom-and-events'),
+      import('@/data/topics/typescript/problems/1-basics-typescript'),
+      import('@/data/topics/typescript/problems/2-classes-interfaces-enums-typescript'),
+      import('@/data/topics/typescript/problems/3-generics-utility-types-typescript'),
+      import('@/data/topics/typescript/problems/4-advanced-types-patterns-typescript'),
+      import('@/data/topics/typescript/problems/5-modules-async-typescript'),
+      import('@/data/topics/typescript/problems/6-real-world-typescript'),
     ]);
 
     const jsProblems = [
