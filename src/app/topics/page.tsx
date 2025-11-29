@@ -14,7 +14,7 @@ import { ProblemStatus } from '@/types';
 const CircularProgress = ({ value }: { value: number }) => (
   <div className="relative w-12 h-12">
     <svg className="h-full w-full" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="18" cy="18" r="16" fill="none" className="stroke-current text-muted/20" strokeWidth="3"></circle>
+      <circle cx="18" cy="18" r="16" fill="none" className="stroke-current text-muted/60" strokeWidth="3"></circle>
       <circle cx="18" cy="18" r="16" fill="none"
         className="stroke-current text-primary"
         strokeWidth="3"
@@ -43,17 +43,17 @@ import { htmlQuestions, cssQuestions } from '@/data/topics';
 
 // Define the 11 topics with React Icons
 const topics = [
+  { name: 'HTML', questions: htmlQuestions, icon: SiHtml5, color: 'text-orange-600', slug: 'html' },
+  { name: 'CSS', questions: cssQuestions, icon: SiCss3, color: 'text-blue-500', slug: 'css' },
   { name: 'JavaScript', questions: jsQuestions, icon: SiJavascript, color: 'text-yellow-500', slug: 'js' },
   { name: 'TypeScript', questions: tsQuestions, icon: SiTypescript, color: 'text-blue-600', slug: 'ts' },
   { name: 'React', questions: reactQuestions, icon: SiReact, color: 'text-cyan-500', slug: 'react' },
   { name: 'Next.js', questions: nextjsQuestions, icon: SiNextdotjs, color: 'text-foreground', slug: 'nextjs' },
-  { name: 'MongoDB', questions: mongoQuestions, icon: SiMongodb, color: 'text-green-600', slug: 'mongo' },
-  { name: 'Express', questions: expressQuestions, icon: SiExpress, color: 'text-foreground', slug: 'express' },
   { name: 'Node.js', questions: backendQuestions, icon: SiNodedotjs, color: 'text-green-500', slug: 'nodejs' },
-  { name: 'Prisma', questions: prismaQuestions, icon: SiPrisma, color: 'text-indigo-600', slug: 'prisma' },
+  { name: 'Express', questions: expressQuestions, icon: SiExpress, color: 'text-foreground', slug: 'express' },
+  { name: 'MongoDB', questions: mongoQuestions, icon: SiMongodb, color: 'text-green-600', slug: 'mongo' },
   { name: 'PostgreSQL', questions: postgresQuestions, icon: SiPostgresql, color: 'text-blue-500', slug: 'postgres' },
-  { name: 'HTML', questions: htmlQuestions, icon: SiHtml5, color: 'text-orange-600', slug: 'html' },
-  { name: 'CSS', questions: cssQuestions, icon: SiCss3, color: 'text-blue-500', slug: 'css' }
+  { name: 'Prisma', questions: prismaQuestions, icon: SiPrisma, color: 'text-indigo-600', slug: 'prisma' },
 ];
 
 // Skeleton Card Component
@@ -95,17 +95,17 @@ export default function TopicsPage() {
   // Get all unique topic names from all questions
   const allTopicNames = Array.from(
     new Set([
+      ...htmlQuestions.map(q => q.topic),
+      ...cssQuestions.map(q => q.topic),
       ...jsQuestions.map(q => q.topic),
       ...tsQuestions.map(q => q.topic),
       ...reactQuestions.map(q => q.topic),
       ...nextjsQuestions.map(q => q.topic),
-      ...mongoQuestions.map(q => q.topic),
-      ...expressQuestions.map(q => q.topic),
       ...backendQuestions.map(q => q.topic),
-      ...prismaQuestions.map(q => q.topic),
+      ...expressQuestions.map(q => q.topic),
+      ...mongoQuestions.map(q => q.topic),
       ...postgresQuestions.map(q => q.topic),
-      ...htmlQuestions.map(q => q.topic),
-      ...cssQuestions.map(q => q.topic)
+      ...prismaQuestions.map(q => q.topic)
     ])
   );
 
@@ -118,15 +118,15 @@ export default function TopicsPage() {
     <div className="min-h-screen bg-background">
       <Header
         onBack={() => router.push('/practice/js')}
-        problemTitle="Topic Questions"
+        problemTitle="Topics"
       />
 
       {/* Main Content */}
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-7xl mx-auto">
-          <h1 className="text-3xl font-bold mb-2">Topic Questions</h1>
+          <h1 className="text-3xl font-bold mb-2">Topics</h1>
           <p className="text-muted-foreground mb-8">
-            Practice common questions across 9 different topics
+            Practice common questions across different topics
           </p>
 
           {/* 3x3 Grid */}
@@ -142,7 +142,7 @@ export default function TopicsPage() {
                 return (
                   <Card
                     key={topic.name}
-                    className="hover:border-primary/50 transition-all hover:shadow-md flex flex-col group relative"
+                    className="hover:border-primary/20 transition-all hover:shadow-md flex flex-col group relative"
                   >
                     <div className="absolute top-4 right-4">
                       <CircularProgress value={(() => {

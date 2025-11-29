@@ -5,20 +5,36 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Progress } from "@/components/ui/Progress";
 import ContributionGraph from '../progress/ContributionGraph';
 import DifficultyProgressBar from '../progress/DifficultyProgressBar';
-import { IUserAnsweredQuestion } from '../../models/UserAnsweredQuestion';
-import { 
-    CalendarDays, 
-    Trophy, 
-    Flame, 
-    Target, 
-    History, 
-    CheckCircle2, 
-    XCircle, 
+import {
+    CalendarDays,
+    Flame,
+    Target,
+    History,
+    CheckCircle2,
     Activity,
-    Medal
+    Medal,
+    Code2,
+    BookOpen
 } from 'lucide-react';
+
+interface TopicStat {
+    name: string;
+    total: number;
+    solved: number;
+    slug: string;
+}
+
+interface PracticeHistoryItem {
+    problemId: string;
+    title: string;
+    difficulty: 'Easy' | 'Medium' | 'Hard';
+    topic: string;
+    solvedAt: Date;
+    isCorrect: boolean;
+}
 
 interface ProfileData {
     solvedCount: number;
@@ -29,10 +45,9 @@ interface ProfileData {
     contributions: { [date: string]: number };
     streak: number;
     highestStreak: number;
-    rank: number;
-    percentile: number;
     joinDate: string;
-    quizHistory: IUserAnsweredQuestion[];
+    practiceHistory: PracticeHistoryItem[];
+    topicStats: TopicStat[];
 }
 
 const formatDateToRelativeTime = (dateString: string): string => {
@@ -59,7 +74,7 @@ const ProfilePage: React.FC = () => {
     const auth = useAuth();
     const [profileData, setProfileData] = useState<ProfileData | null>(null);
     const [isLoading, setIsLoading] = useState(true);
-  
+
     useEffect(() => {
         const fetchProfile = async () => {
             if (!auth.isAuthenticated) return;
@@ -94,22 +109,22 @@ const ProfilePage: React.FC = () => {
             </div>
         );
     }
-    
+
     if (!profileData) {
-         return (
+        return (
             <div className="min-h-screen bg-background flex items-center justify-center">
                 <p className="text-muted-foreground">Could not load profile data.</p>
             </div>
         );
     }
-    
-    const { solvedCount, totalCount, easySolved, mediumSolved, hardSolved, contributions, streak, highestStreak, joinDate, quizHistory, rank } = profileData;
+
+    const { solvedCount, totalCount, easySolved, mediumSolved, hardSolved, contributions, streak, highestStreak, joinDate, practiceHistory, topicStats } = profileData;
     const totalSubmissions = Object.values(contributions).reduce((a, b) => a + b, 0);
 
     return (
-        <div className="min-h-screen bg-background text-foreground space-y-8">
+        <div className="min-h-screen bg-background text-foreground space-y-8 pb-10">
             <div className="max-w-6xl mx-auto space-y-8">
-                
+
                 {/* Header Section */}
                 <Card className="overflow-hidden py-0 my-6 border-none shadow-md rounded-none md:rounded-xl">
                     <div className="h-32 bg-gradient-to-r from-primary/10 via-primary/5 to-background relative">
@@ -122,33 +137,27 @@ const ProfilePage: React.FC = () => {
                                     {auth.user.name ? auth.user.name.charAt(0).toUpperCase() : 'U'}
                                 </AvatarFallback>
                             </Avatar>
-                            
+
                             <div className="flex-1 space-y-2 mb-2">
                                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                                     <div>
                                         <h1 className="text-3xl font-bold tracking-tight">{auth.user.name}</h1>
                                         <p className="text-muted-foreground">{auth.user.email}</p>
                                     </div>
-                                   
+
                                 </div>
                                 <div className="flex items-center gap-4 text-sm text-muted-foreground">
                                     <div className="flex items-center gap-1">
                                         <CalendarDays className="w-4 h-4" />
                                         <span>Joined {new Date(joinDate).toLocaleDateString(undefined, { month: 'long', year: 'numeric' })}</span>
                                     </div>
-                                    {rank > 0 && (
-                                        <div className="flex items-center gap-1">
-                                            <Trophy className="w-4 h-4 text-yellow-500" />
-                                            <span>Rank #{rank}</span>
-                                        </div>
-                                    )}
                                 </div>
                             </div>
                         </div>
                     </CardContent>
                 </Card>
 
-                {/* Stats Grid */}
+                {/* Main Stats Grid */}
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                     <Card>
                         <CardContent className="p-6 flex flex-col items-center justify-center text-center space-y-4">
@@ -196,39 +205,52 @@ const ProfilePage: React.FC = () => {
                     </Card>
                 </div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                    {/* Contribution Graph */}
-                    <Card className="lg:col-span-2 flex flex-col">
+                {/* Topic Progress Section */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <Card className="h-full">
                         <CardHeader>
                             <CardTitle className="flex items-center gap-2">
-                                <Activity className="w-5 h-5" />
-                                Activity Map
+                                <BookOpen className="w-5 h-5" />
+                                Topic Progress
                             </CardTitle>
                             <CardDescription>
-                                {totalSubmissions} submissions in the last year
+                                Your mastery across different technical topics
                             </CardDescription>
                         </CardHeader>
-                        <CardContent className="flex-1 flex items-center justify-center pb-8">
-                            <ContributionGraph contributions={contributions} />
+                        <CardContent className="space-y-6">
+                            {topicStats && topicStats.map((topic) => (
+                                <div key={topic.slug} className="space-y-2">
+                                    <div className="flex items-center justify-between text-sm">
+                                        <div className="flex items-center gap-2 font-medium">
+                                            <Code2 className="w-4 h-4 text-muted-foreground" />
+                                            {topic.name}
+                                        </div>
+                                        <span className="text-muted-foreground">
+                                            {topic.solved} / {topic.total}
+                                        </span>
+                                    </div>
+                                    <Progress value={(topic.solved / topic.total) * 100} className="h-2" />
+                                </div>
+                            ))}
                         </CardContent>
                     </Card>
 
                     {/* Difficulty Breakdown */}
-                    <Card className="flex flex-col">
+                    <Card className="h-full">
                         <CardHeader>
                             <CardTitle className="flex items-center gap-2">
                                 <Target className="w-5 h-5" />
                                 Difficulty Breakdown
                             </CardTitle>
                             <CardDescription>
-                                Progress by difficulty
+                                Progress by difficulty level
                             </CardDescription>
                         </CardHeader>
-                        <CardContent className="flex-1 flex flex-col items-center justify-center gap-6">
-                            <div className="scale-125">
+                        <CardContent className="space-y-6">
+                            <div className="flex justify-center py-4">
                                 <DifficultyProgressBar easy={easySolved} medium={mediumSolved} hard={hardSolved} />
                             </div>
-                            <div className="w-full space-y-3">
+                            <div className="space-y-3">
                                 <div className="flex items-center justify-between text-sm">
                                     <span className="flex items-center gap-2 text-muted-foreground">
                                         <div className="w-2 h-2 rounded-full bg-green-500"></div> Easy
@@ -252,47 +274,75 @@ const ProfilePage: React.FC = () => {
                     </Card>
                 </div>
 
-                {/* Recent History */}
-                <Card>
-                    <CardHeader>
-                        <CardTitle className="flex items-center gap-2">
-                            <History className="w-5 h-5" />
-                            Recent Activity
-                        </CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                        <ScrollArea className="h-[300px] pr-4">
-                            {quizHistory.length > 0 ? (
-                                <div className="space-y-4">
-                                    {quizHistory.map((item, index) => (
-                                        <div key={index} className="flex items-center justify-between p-4 rounded-lg border bg-card hover:bg-accent/50 transition-colors">
-                                            <div className="flex items-start gap-4">
-                                                <div className={`mt-1 ${item.isCorrect ? 'text-green-500' : 'text-red-500'}`}>
-                                                    {item.isCorrect ? <CheckCircle2 className="w-5 h-5" /> : <XCircle className="w-5 h-5" />}
-                                                </div>
-                                                <div>
-                                                    <p className="font-medium line-clamp-1">{item.question}</p>
-                                                    <div className="flex items-center gap-2 mt-1 text-xs text-muted-foreground">
-                                                        <span>{formatDateToRelativeTime(new Date(item.answeredAt).toISOString())}</span>
-                                                        <span>•</span>
-                                                        <Badge variant={item.difficulty === 'Easy' ? 'secondary' : item.difficulty === 'Medium' ? 'default' : 'destructive'} className="text-[10px] h-5 px-1.5">
-                                                            {item.difficulty}
-                                                        </Badge>
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    {/* Contribution Graph */}
+                    <Card className="lg:col-span-2 flex flex-col">
+                        <CardHeader>
+                            <CardTitle className="flex items-center gap-2">
+                                <Activity className="w-5 h-5" />
+                                Activity Map
+                            </CardTitle>
+                            <CardDescription>
+                                {totalSubmissions} submissions in the last year
+                            </CardDescription>
+                        </CardHeader>
+                        <CardContent className="flex-1 flex items-center justify-center pb-8">
+                            <ContributionGraph contributions={contributions} />
+                        </CardContent>
+                    </Card>
+
+                    {/* Recent History */}
+                    <Card className="lg:col-span-1">
+                        <CardHeader>
+                            <CardTitle className="flex items-center gap-2">
+                                <History className="w-5 h-5" />
+                                Recent Solves
+                            </CardTitle>
+                            <CardDescription>
+                                Your latest solved problems
+                            </CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                            <ScrollArea className="h-[300px] pr-4">
+                                {practiceHistory && practiceHistory.length > 0 ? (
+                                    <div className="space-y-3">
+                                        {practiceHistory.map((item, index) => (
+                                            <div key={index} className="p-3 rounded-lg border bg-card hover:bg-accent/50 transition-colors">
+                                                <div className="flex items-start gap-3">
+                                                    <div className="mt-1 text-green-500">
+                                                        <CheckCircle2 className="w-4 h-4" />
+                                                    </div>
+                                                    <div className="flex-1 min-w-0">
+                                                        <p className="font-medium line-clamp-1 text-sm">{item.title}</p>
+                                                        <div className="flex items-center gap-2 mt-1.5 text-xs text-muted-foreground flex-wrap">
+                                                            <Badge variant="outline" className="text-[10px] h-5 px-1.5 bg-primary/10">
+                                                                {item.topic}
+                                                            </Badge>
+                                                            <Badge
+                                                                variant={item.difficulty === 'Easy' ? 'secondary' : item.difficulty === 'Medium' ? 'default' : 'destructive'}
+                                                                className="text-[10px] h-5 px-1.5"
+                                                            >
+                                                                {item.difficulty}
+                                                            </Badge>
+                                                            <span>•</span>
+                                                            <span>{formatDateToRelativeTime(new Date(item.solvedAt).toISOString())}</span>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    ))}
-                                </div>
-                            ) : (
-                                <div className="flex flex-col items-center justify-center h-full text-muted-foreground">
-                                    <History className="w-12 h-12 mb-4 opacity-20" />
-                                    <p>No recent activity recorded.</p>
-                                </div>
-                            )}
-                        </ScrollArea>
-                    </CardContent>
-                </Card>
+                                        ))}
+                                    </div>
+                                ) : (
+                                    <div className="flex flex-col items-center justify-center h-full text-muted-foreground">
+                                        <History className="w-12 h-12 mb-4 opacity-20" />
+                                        <p className="text-sm">No problems solved yet.</p>
+                                        <p className="text-xs mt-2">Start practicing to see your progress!</p>
+                                    </div>
+                                )}
+                            </ScrollArea>
+                        </CardContent>
+                    </Card>
+                </div>
             </div>
         </div>
     );

@@ -93,12 +93,12 @@ export const HomePage = () => {
         <div className="md:flex items-center justify-center gap-8 md:gap-16 mt-16 md:mt-20">
           <div className="md:w-1/2">
             <div>
-              <h1 className="text-3xl lg:text-7xl font-bold tracking-tighter bg-linear-to-b from-black to-[#733e0a] dark:from-white dark:to-[#fff085] text-transparent bg-clip-text mt-6">Master JavaScript,<br />One Challenge at a Time.</h1>
-              <p className="text-lg lg:text-xl text-[#010D3E] dark:text-gray-300 tracking-tight mt-6 ">An interactive platform to practice JavaScript, tackle coding challenges, and prepare for technical topics. Track your progress and master JS. </p>
+              <h1 className="text-3xl lg:text-7xl font-bold tracking-tighter bg-linear-to-b from-black to-[#733e0a] dark:from-white dark:to-[#fff085] text-transparent bg-clip-text mt-6">Escape Tutorial Hell.<br />Master Coding by Doing.</h1>
+              <p className="text-lg lg:text-xl text-[#010D3E] dark:text-gray-300 tracking-tight mt-6 ">An interactive platform to practice coding, tackle challenges across various topics, and prepare for technical interviews. Track your progress and master your skills.</p>
             </div>
-            <div className="mt-7 flex gap-1 md:items-center items-start flex-row">
-              <button onClick={() => handleNavigate('practice/js')} className="btn btn-primary bg-black text-white dark:bg-white dark:text-black">View Challenges</button>
-              <button onClick={() => handleNavigate('quiz')} className="btn btn-text gap-1 inline-flex"><span>Take quiz</span><ArrowIcon className="h-5 w-5" /></button>
+            <div className="mt-7 flex flex-col gap-4 items-start md:flex-row md:items-center md:gap-1">
+              <button onClick={() => handleNavigate('topics')} className="btn btn-primary bg-black text-white dark:bg-white dark:text-black whitespace-nowrap">Explore Topics</button>
+              <button onClick={() => handleNavigate('practice/js')} className="btn btn-text gap-1 inline-flex"><span>Practice</span><ArrowIcon className="h-5 w-5" /></button>
             </div>
           </div>
 

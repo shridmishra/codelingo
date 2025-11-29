@@ -14,7 +14,7 @@ import React from "react";
 
 const testimonials = [
   {
-    text: "The challenges on this platform are top-notch. They've helped me solidify my understanding of core JavaScript concepts.",
+    text: "The challenges on this platform are top-notch. They've helped me solidify my understanding of core coding concepts.",
     imageSrc: avatar1.src,
     name: "Sarah L.",
     username: "@sarahdev",
@@ -50,7 +50,7 @@ const testimonials = [
     username: "@david_codes",
   },
   {
-    text: "I've been a developer for years, but this platform helped me brush up on the latest ES6+ features.",
+    text: "I've been a developer for years, but this platform helped me brush up on the latest features and patterns.",
     imageSrc: avatar7.src,
     name: "Maria G.",
     username: "@mariacodes",
@@ -123,11 +123,11 @@ export const Testimonials = () => {
       <div className="flex flex-col justify-center items-center text-center lg:mx-44">
         <div className="tag">Testimonial</div>
         <h2 className="text-3xl lg:text-7xl font-bold tracking-tighter bg-linear-to-b from-black to-[#733e0a] dark:from-white dark:to-[#fff085] text-transparent bg-clip-text mt-6">What our learners say</h2>
-        <p className="sub-heading mt-5">Hear from our community of learners who have leveled up their JavaScript skills with our platform.</p>
+        <p className="sub-heading mt-5">Hear from our community of learners who have leveled up their technical skills with our platform.</p>
       </div>
 
       <div className="flex justify-center gap-6 mask-[linear-gradient(to_bottom,transparent,black_25%,black_75%,transparent)] mt-10 max-h-[738px] overflow-hidden">
-        <TestimonialColumns testimonials={firstColumn} duration={17}/>
+        <TestimonialColumns testimonials={firstColumn} duration={17} />
         <TestimonialColumns testimonials={secondColumn} className="hidden md:block" duration={17} />
         <TestimonialColumns testimonials={thirdColumn} className="hidden lg:block" duration={17} />
 

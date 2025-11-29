@@ -2,40 +2,10 @@ import { NextRequest, NextResponse } from 'next/server';
 import dbConnect from '@/lib/dbConnect';
 import User from '@/models/User';
 import UserProblemData from '@/models/UserProblemData';
-import UserAnsweredQuestion from '@/models/UserAnsweredQuestion'; // Import the new model
 import { authMiddleware } from '@/lib/auth';
+import { getAllProblems } from '@/lib/problemUtils';
 
 export async function GET(req: NextRequest) {
-  // JavaScript problems
-  const { learnTheBasics } = await import('@/data/topics/javascript/problems/1-basics-1');
-  const { arrayManipulation } = await import('@/data/topics/javascript/problems/2-basics-2');
-  const { step3Basics3 } = await import('@/data/topics/javascript/problems/3-basics-3');
-  const { asynchronousJavaScript } = await import('@/data/topics/javascript/problems/4-asynchronous-javascript');
-  const { domManipulation } = await import('@/data/topics/javascript/problems/5-dom-manipulation');
-  const { advancedDomAndEvents } = await import('@/data/topics/javascript/problems/6-advanced-dom-and-events');
-  
-  // TypeScript problems
-  const { typescriptBasics } = await import('@/data/topics/typescript/problems/1-basics-typescript');
-  const { typescriptClassesInterfacesEnums } = await import('@/data/topics/typescript/problems/2-classes-interfaces-enums-typescript');
-  const { typescriptGenericsUtilityTypes } = await import('@/data/topics/typescript/problems/3-generics-utility-types-typescript');
-  const { typescriptAdvancedTypesPatterns } = await import('@/data/topics/typescript/problems/4-advanced-types-patterns-typescript');
-  const { typescriptModulesAsync } = await import('@/data/topics/typescript/problems/5-modules-async-typescript');
-  const { typescriptRealWorld } = await import('@/data/topics/typescript/problems/6-real-world-typescript');
-  
-  const problemsData = [
-    ...learnTheBasics,
-    ...arrayManipulation,
-    ...step3Basics3,
-    ...asynchronousJavaScript,
-    ...domManipulation,
-    ...advancedDomAndEvents,
-    ...typescriptBasics,
-    ...typescriptClassesInterfacesEnums,
-    ...typescriptGenericsUtilityTypes,
-    ...typescriptAdvancedTypesPatterns,
-    ...typescriptModulesAsync,
-    ...typescriptRealWorld
-  ];
   await dbConnect();
 
   const user = await authMiddleware(req);
@@ -45,24 +15,30 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    const userFromDb = await User.findOne({ email: user.email }).select('_id username createdAt'); // Removed quizHistory from select
+    const userFromDb = await User.findOne({ email: user.email }).select('_id username createdAt');
     if (!userFromDb) {
         return NextResponse.json({ message: 'User not found' }, { status: 404 });
     }
 
-    const userProgress = await UserProblemData.find({ userId: userFromDb._id });
-    const userQuizHistory = await UserAnsweredQuestion.find({ userId: userFromDb._id }).sort({ answeredAt: -1 }); // Fetch from UserAnsweredQuestion
+    // Get all problems from all topics
+    const allProblems = await getAllProblems();
+    
+    // Get user progress
+    const userProgress = await UserProblemData.find({ userId: userFromDb._id }).sort({ lastSubmittedAt: -1 });
 
     const solvedCount = userProgress.filter(p => p.status === 'Solved').length;
-    const totalCount = problemsData.length;
+    const totalCount = allProblems.length;
 
     let easySolved = 0;
     let mediumSolved = 0;
     let hardSolved = 0;
 
+    const solvedProblemIds = new Set(userProgress.filter(p => p.status === 'Solved').map(p => p.problemId));
+
+    // Count difficulty levels
     userProgress.forEach(userProb => {
         if (userProb.status === 'Solved') {
-            const problem = problemsData.find(p => p.id === userProb.problemId);
+            const problem = allProblems.find(p => p.id === userProb.problemId);
             if (problem) {
                 if (problem.difficulty === 'Easy') {
                     easySolved++;
@@ -75,10 +51,33 @@ export async function GET(req: NextRequest) {
         }
     });
 
-    const contributions: { [key: string]: number } = {};
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
+    // Group problems by topic dynamically
+    const topicMap = new Map<string, { name: string; total: number; solved: number; slug: string }>();
+    
+    allProblems.forEach(problem => {
+        const topicSlug = problem.topic?.toLowerCase() || 'other';
+        const topicName = problem.topic || 'Other';
+        
+        if (!topicMap.has(topicSlug)) {
+            topicMap.set(topicSlug, {
+                name: topicName,
+                total: 0,
+                solved: 0,
+                slug: topicSlug
+            });
+        }
+        
+        const topic = topicMap.get(topicSlug)!;
+        topic.total++;
+        if (solvedProblemIds.has(problem.id)) {
+            topic.solved++;
+        }
+    });
 
+    const topicStats = Array.from(topicMap.values()).sort((a, b) => a.name.localeCompare(b.name));
+
+    // Calculate contributions (activity map)
+    const contributions: { [key: string]: number } = {};
     userProgress.forEach(problem => {
         problem.submissionHistory.forEach((submission: { timestamp: Date; status: string }) => {
             const date = new Date(submission.timestamp);
@@ -87,31 +86,58 @@ export async function GET(req: NextRequest) {
         });
     });
 
+    // Calculate streaks
     const submissionDates = Object.keys(contributions).map(date => new Date(date)).sort((a, b) => a.getTime() - b.getTime());
     let streak = 0;
     let highestStreak = 0;
+    
     if (submissionDates.length > 0) {
         let currentStreak = 1;
+        let tempHighest = 1;
+        
         for (let i = 1; i < submissionDates.length; i++) {
-            const diff = (submissionDates[i].getTime() - submissionDates[i - 1].getTime()) / (1000 * 3600 * 24);
+            const diff = Math.floor((submissionDates[i].getTime() - submissionDates[i - 1].getTime()) / (1000 * 3600 * 24));
             if (diff === 1) {
                 currentStreak++;
+                tempHighest = Math.max(tempHighest, currentStreak);
             } else if (diff > 1) {
                 currentStreak = 1;
             }
         }
-        highestStreak = Math.max(highestStreak, currentStreak);
+        
+        highestStreak = tempHighest;
 
         const today = new Date();
         today.setHours(0, 0, 0, 0);
-        const lastSubmissionDate = submissionDates[submissionDates.length - 1];
-        const diffToday = (today.getTime() - lastSubmissionDate.getTime()) / (1000 * 3600 * 24);
+        const lastSubmissionDate = new Date(submissionDates[submissionDates.length - 1]);
+        lastSubmissionDate.setHours(0, 0, 0, 0);
+        const diffToday = Math.floor((today.getTime() - lastSubmissionDate.getTime()) / (1000 * 3600 * 24));
 
         if (diffToday <= 1) {
             streak = currentStreak;
         }
     }
 
+    // Get practice history (recent solved problems)
+    const practiceHistory = userProgress
+      .filter(p => p.status === 'Solved' && p.lastSubmittedAt)
+      .sort((a, b) => {
+        const dateA = a.lastSubmittedAt ? new Date(a.lastSubmittedAt).getTime() : 0;
+        const dateB = b.lastSubmittedAt ? new Date(b.lastSubmittedAt).getTime() : 0;
+        return dateB - dateA;
+      })
+      .slice(0, 20)
+      .map(p => {
+        const problem = allProblems.find(prob => prob.id === p.problemId);
+        return {
+          problemId: p.problemId,
+          title: problem?.title || 'Unknown Problem',
+          difficulty: problem?.difficulty || 'Medium',
+          topic: problem?.topic || 'Unknown',
+          solvedAt: p.lastSubmittedAt,
+          isCorrect: p.status === 'Solved'
+        };
+      });
 
     return NextResponse.json({
         solvedCount,
@@ -123,7 +149,8 @@ export async function GET(req: NextRequest) {
         streak,
         highestStreak,
         joinDate: userFromDb.createdAt,
-        quizHistory: userQuizHistory,
+        practiceHistory,
+        topicStats
     });
 
   } catch (_error) {

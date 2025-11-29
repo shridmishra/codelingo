@@ -61,11 +61,11 @@ button,
   }
 
   .heading {
-    @apply text-3xl lg:text-7xl   font-bold tracking-tighter bg-linear-to-b from-primary to-primary/70 dark:from-primary-foreground dark:to-primary-foreground/70  text-transparent bg-clip-text mt-6 leading-normal;
+    @apply text-3xl lg:text-7xl font-bold tracking-tighter bg-linear-to-b from-primary to-primary/70 dark:from-primary-foreground dark:to-primary-foreground/70 text-transparent bg-clip-text mt-6 leading-tight pb-1;
   }
 
   .sub-heading {
-    @apply text-lg lg:text-xl text-muted-foreground tracking-tight mt-6;
+    @apply text-lg lg:text-xl text-muted-foreground tracking-tight mt-6 leading-relaxed;
   }
   .card {
     @apply p-10 rounded-3xl border border-border shadow-sm max-w-xs w-full text-foreground;
@@ -76,7 +76,7 @@ button,
   }
 
   .gradient-text {
-    @apply font-bold tracking-tighter bg-linear-to-b from-primary to-primary/70 dark:from-primary-foreground dark:to-primary-foreground/70  text-transparent bg-clip-text mt-6 leading-normal;
+    @apply font-bold tracking-tighter bg-linear-to-b from-primary to-primary/70 dark:from-primary-foreground dark:to-primary-foreground/70 text-transparent bg-clip-text leading-tight pb-1;
   }
 }
 
@@ -237,6 +237,5 @@ button,
 }
 
 .gradient-text {
-    @apply font-bold tracking-tighter bg-linear-to-b from-yellow-500 to-[#ecc94b] dark:from-white dark:to-[#fff085]  text-transparent bg-clip-text mt-6 leading-normal;
-  
+    @apply font-bold tracking-tighter bg-linear-to-b from-yellow-500 to-[#ecc94b] dark:from-white dark:to-[#fff085] text-transparent bg-clip-text leading-tight pb-1;
   }
