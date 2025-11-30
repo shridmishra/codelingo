@@ -93,7 +93,7 @@ export const HomePage = () => {
         <div className="md:flex items-center justify-center gap-8 md:gap-16 mt-16 md:mt-20">
           <div className="md:w-1/2">
             <div>
-              <h1 className="text-3xl lg:text-7xl font-bold tracking-tighter bg-linear-to-b from-black to-[#733e0a] dark:from-white dark:to-[#fff085] text-transparent bg-clip-text mt-6">Escape Tutorial Hell.<br />Master Coding by Doing.</h1>
+              <h1 className="text-3xl lg:text-7xl font-bold tracking-tighter bg-linear-to-b from-black to-[#733e0a] dark:from-white dark:to-[#fff085] text-transparent bg-clip-text mt-6 leading-tight">Escape Tutorial Hell,<br />Master Coding by Doing.</h1>
               <p className="text-lg lg:text-xl text-[#010D3E] dark:text-gray-300 tracking-tight mt-6 ">An interactive platform to practice coding, tackle challenges across various topics, and prepare for technical interviews. Track your progress and master your skills.</p>
             </div>
             <div className="mt-7 flex flex-col gap-4 items-start md:flex-row md:items-center md:gap-1">

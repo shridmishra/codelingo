@@ -32,3 +32,4 @@ dist-ssr
 !.env.template
 !.env.sample
 .env.local
+.gemini

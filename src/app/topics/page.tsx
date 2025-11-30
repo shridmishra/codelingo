@@ -1,10 +1,13 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { SiJavascript, SiTypescript, SiReact, SiNextdotjs, SiMongodb, SiExpress, SiNodedotjs, SiPrisma, SiHtml5, SiPostgresql, SiCss3 } from 'react-icons/si';
+import { LayoutGrid, LayoutList } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/Card';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { TopicModal } from '@/components/topics/TopicModal';
 import type { TopicQuestion } from '@/data/topics/types';
 import Header from '@/components/common/Header';
@@ -41,19 +44,98 @@ import { prismaQuestions } from '@/data/topics/prisma';
 import { postgresQuestions } from '@/data/topics/postgres';
 import { htmlQuestions, cssQuestions } from '@/data/topics';
 
-// Define the 11 topics with React Icons
+type FilterType = 'all' | 'completed' | 'ongoing' | 'not-started';
+
+// Define the 11 topics with better descriptions
 const topics = [
-  { name: 'HTML', questions: htmlQuestions, icon: SiHtml5, color: 'text-orange-600', slug: 'html' },
-  { name: 'CSS', questions: cssQuestions, icon: SiCss3, color: 'text-blue-500', slug: 'css' },
-  { name: 'JavaScript', questions: jsQuestions, icon: SiJavascript, color: 'text-yellow-500', slug: 'js' },
-  { name: 'TypeScript', questions: tsQuestions, icon: SiTypescript, color: 'text-blue-600', slug: 'ts' },
-  { name: 'React', questions: reactQuestions, icon: SiReact, color: 'text-cyan-500', slug: 'react' },
-  { name: 'Next.js', questions: nextjsQuestions, icon: SiNextdotjs, color: 'text-foreground', slug: 'nextjs' },
-  { name: 'Node.js', questions: backendQuestions, icon: SiNodedotjs, color: 'text-green-500', slug: 'nodejs' },
-  { name: 'Express', questions: expressQuestions, icon: SiExpress, color: 'text-foreground', slug: 'express' },
-  { name: 'MongoDB', questions: mongoQuestions, icon: SiMongodb, color: 'text-green-600', slug: 'mongo' },
-  { name: 'PostgreSQL', questions: postgresQuestions, icon: SiPostgresql, color: 'text-blue-500', slug: 'postgres' },
-  { name: 'Prisma', questions: prismaQuestions, icon: SiPrisma, color: 'text-indigo-600', slug: 'prisma' },
+  {
+    name: 'HTML',
+    description: 'Master HTML5 semantics, forms, accessibility, and SEO best practices',
+    questions: htmlQuestions,
+    icon: SiHtml5,
+    color: 'text-orange-600',
+    slug: 'html'
+  },
+  {
+    name: 'CSS',
+    description: 'Learn modern CSS including Flexbox, Grid, animations, and responsive design',
+    questions: cssQuestions,
+    icon: SiCss3,
+    color: 'text-blue-500',
+    slug: 'css'
+  },
+  {
+    name: 'JavaScript',
+    description: 'Deep dive into JS fundamentals, async patterns, DOM manipulation, and algorithms',
+    questions: jsQuestions,
+    icon: SiJavascript,
+    color: 'text-yellow-500',
+    slug: 'js'
+  },
+  {
+    name: 'TypeScript',
+    description: 'Type-safe JavaScript with generics, utility types, and advanced patterns',
+    questions: tsQuestions,
+    icon: SiTypescript,
+    color: 'text-blue-600',
+    slug: 'ts'
+  },
+  {
+    name: 'React',
+    description: 'Build modern UIs with hooks, context, lifecycle methods, and best practices',
+    questions: reactQuestions,
+    icon: SiReact,
+    color: 'text-cyan-500',
+    slug: 'react'
+  },
+  {
+    name: 'Next.js',
+    description: 'Full-stack React framework with routing, SSR, API routes, and optimization',
+    questions: nextjsQuestions,
+    icon: SiNextdotjs,
+    color: 'text-foreground',
+    slug: 'nextjs'
+  },
+  {
+    name: 'Node.js',
+    description: 'Server-side JavaScript with modules, streams, events, and HTTP servers',
+    questions: backendQuestions,
+    icon: SiNodedotjs,
+    color: 'text-green-500',
+    slug: 'nodejs'
+  },
+  {
+    name: 'Express',
+    description: 'Build robust APIs with middleware, routing, error handling, and security',
+    questions: expressQuestions,
+    icon: SiExpress,
+    color: 'text-foreground',
+    slug: 'express'
+  },
+  {
+    name: 'MongoDB',
+    description: 'NoSQL database fundamentals with CRUD, aggregation, and schema design',
+    questions: mongoQuestions,
+    icon: SiMongodb,
+    color: 'text-green-600',
+    slug: 'mongo'
+  },
+  {
+    name: 'PostgreSQL',
+    description: 'Relational database mastery with joins, transactions, and advanced SQL',
+    questions: postgresQuestions,
+    icon: SiPostgresql,
+    color: 'text-blue-500',
+    slug: 'postgres'
+  },
+  {
+    name: 'Prisma',
+    description: 'Modern ORM with type-safe queries, migrations, and database optimization',
+    questions: prismaQuestions,
+    icon: SiPrisma,
+    color: 'text-indigo-600',
+    slug: 'prisma'
+  },
 ];
 
 // Skeleton Card Component
@@ -84,6 +166,8 @@ export default function TopicsPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedQuestions, setSelectedQuestions] = useState<TopicQuestion[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [viewMode, setViewMode] = useState<'card' | 'list'>('card');
+  const [filter, setFilter] = useState<FilterType>('all');
   const { problems: allProblems } = useChallenges();
 
   // Simulate loading
@@ -92,27 +176,76 @@ export default function TopicsPage() {
     return () => clearTimeout(timer);
   }, []);
 
-  // Get all unique topic names from all questions
-  const allTopicNames = Array.from(
-    new Set([
-      ...htmlQuestions.map(q => q.topic),
-      ...cssQuestions.map(q => q.topic),
-      ...jsQuestions.map(q => q.topic),
-      ...tsQuestions.map(q => q.topic),
-      ...reactQuestions.map(q => q.topic),
-      ...nextjsQuestions.map(q => q.topic),
-      ...backendQuestions.map(q => q.topic),
-      ...expressQuestions.map(q => q.topic),
-      ...mongoQuestions.map(q => q.topic),
-      ...postgresQuestions.map(q => q.topic),
-      ...prismaQuestions.map(q => q.topic)
-    ])
-  );
+  // Compute filtered topics with status
+  const filteredTopics = useMemo(() => {
+    const topicsWithProgress = topics.map((topic) => {
+      const topicProblems = allProblems.filter(p => p.slug === topic.slug);
+      const total = topicProblems.length;
+      const solved = topicProblems.filter(p => p.status === ProblemStatus.Solved).length;
+      const progress = total > 0 ? (solved / total) * 100 : 0;
+
+      let status: FilterType;
+      if (progress === 0) {
+        status = 'not-started';
+      } else if (progress === 100) {
+        status = 'completed';
+      } else {
+        status = 'ongoing';
+      }
+
+      return {
+        ...topic,
+        total,
+        solved,
+        progress,
+        status
+      };
+    });
+
+    if (filter === 'all') {
+      return topicsWithProgress;
+    }
+
+    return topicsWithProgress.filter(t => t.status === filter);
+  }, [allProblems, filter]);
 
   const handleTopicClick = (topicQuestions: TopicQuestion[]) => {
     setSelectedQuestions(topicQuestions);
     setIsModalOpen(true);
   };
+
+  // Get all unique topic names from all questions
+  const allTopicNames = useMemo(() => {
+    return Array.from(
+      new Set([
+        ...htmlQuestions.map(q => q.topic),
+        ...cssQuestions.map(q => q.topic),
+        ...jsQuestions.map(q => q.topic),
+        ...tsQuestions.map(q => q.topic),
+        ...reactQuestions.map(q => q.topic),
+        ...nextjsQuestions.map(q => q.topic),
+        ...backendQuestions.map(q => q.topic),
+        ...expressQuestions.map(q => q.topic),
+        ...mongoQuestions.map(q => q.topic),
+        ...postgresQuestions.map(q => q.topic),
+        ...prismaQuestions.map(q => q.topic)
+      ])
+    );
+  }, []);
+
+  const filterButtons: { label: string; value: FilterType; count: number }[] = useMemo(() => {
+    const completed = filteredTopics.filter(t => t.status === 'completed').length;
+    const ongoing = filteredTopics.filter(t => t.status === 'ongoing').length;
+    const notStarted = filteredTopics.filter(t => t.status === 'not-started').length;
+    const all = topics.length;
+
+    return [
+      { label: 'All', value: 'all', count: all },
+      { label: 'Completed', value: 'completed', count: completed },
+      { label: 'Ongoing', value: 'ongoing', count: ongoing },
+      { label: 'Not Started', value: 'not-started', count: notStarted },
+    ];
+  }, [filteredTopics]);
 
   return (
     <div className="min-h-screen bg-background">
@@ -124,33 +257,107 @@ export default function TopicsPage() {
       {/* Main Content */}
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-7xl mx-auto">
-          <h1 className="text-3xl font-bold mb-2">Topics</h1>
-          <p className="text-muted-foreground mb-8">
+          <div className="flex items-center justify-between mb-2">
+            <h1 className="text-3xl font-bold">Topics</h1>
+            <div className="flex items-center gap-3">
+              {/* Filter dropdown */}
+              <Select value={filter} onValueChange={(value) => setFilter(value as FilterType)}>
+                <SelectTrigger className="w-[180px]">
+                  <SelectValue placeholder="Select filter" />
+                </SelectTrigger>
+                <SelectContent>
+                  {filterButtons.map((btn) => (
+                    <SelectItem key={btn.value} value={btn.value}>
+                      <div className="flex items-center justify-between w-full gap-3">
+                        <span>{btn.label}</span>
+                        <span className="text-xs text-muted-foreground bg-muted px-2 py-0.5 rounded-full">
+                          {btn.count}
+                        </span>
+                      </div>
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+
+              <ToggleGroup type="single" value={viewMode} onValueChange={(value) => value && setViewMode(value as 'card' | 'list')}>
+                <ToggleGroupItem value="card" aria-label="Card view">
+                  <LayoutGrid className="h-4 w-4" />
+                </ToggleGroupItem>
+                <ToggleGroupItem value="list" aria-label="List view">
+                  <LayoutList className="h-4 w-4" />
+                </ToggleGroupItem>
+              </ToggleGroup>
+            </div>
+          </div>
+          <p className="text-muted-foreground mb-6">
             Practice common questions across different topics
           </p>
 
-          {/* 3x3 Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {/* Grid or List View */}
+          <div className={viewMode === 'card' ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6' : 'flex flex-col gap-4'}>
             {isLoading ? (
               // Show skeleton cards while loading
               Array.from({ length: 9 }).map((_, index) => (
                 <SkeletonCard key={index} />
               ))
+            ) : filteredTopics.length === 0 ? (
+              <div className="col-span-full text-center py-12">
+                <p className="text-muted-foreground text-lg">No topics found matching your filter.</p>
+              </div>
             ) : (
-              topics.map((topic) => {
+              filteredTopics.map((topic) => {
                 const Icon = topic.icon;
+
+                if (viewMode === 'list') {
+                  return (
+                    <Card
+                      key={topic.name}
+                      className="hover:border-primary/20 transition-all hover:shadow-md group"
+                    >
+                      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 p-6">
+                        <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center text-primary group-hover:scale-110 transition-transform duration-300 flex-shrink-0">
+                          <Icon className={`w-6 h-6 ${topic.color.replace('text-', 'text-')}`} />
+                        </div>
+
+                        <div className="flex-1 min-w-0">
+                          <h3 className="text-xl font-semibold mb-1">{topic.name}</h3>
+                          <p className="text-sm text-muted-foreground">
+                            {topic.description}
+                          </p>
+                        </div>
+
+                        <div className="flex items-center gap-4 flex-shrink-0 w-full sm:w-auto">
+                          <CircularProgress value={topic.progress} />
+
+                          <div className="flex gap-2 flex-1 sm:flex-initial">
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => handleTopicClick(topic.questions)}
+                            >
+                              Interview Questions
+                            </Button>
+                            <Button
+                              variant="default"
+                              size="sm"
+                              onClick={() => router.push(`/practice/${topic.slug}`)}
+                            >
+                              Practice
+                            </Button>
+                          </div>
+                        </div>
+                      </div>
+                    </Card>
+                  );
+                }
+
                 return (
                   <Card
                     key={topic.name}
                     className="hover:border-primary/20 transition-all hover:shadow-md flex flex-col group relative"
                   >
                     <div className="absolute top-4 right-4">
-                      <CircularProgress value={(() => {
-                        const topicProblems = allProblems.filter(p => p.slug === topic.slug);
-                        const total = topicProblems.length;
-                        const solved = topicProblems.filter(p => p.status === ProblemStatus.Solved).length;
-                        return total > 0 ? (solved / total) * 100 : 0;
-                      })()} />
+                      <CircularProgress value={topic.progress} />
                     </div>
                     <CardHeader>
                       <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4 text-primary group-hover:scale-110 transition-transform duration-300">
@@ -158,7 +365,7 @@ export default function TopicsPage() {
                       </div>
                       <CardTitle className="text-xl">{topic.name}</CardTitle>
                       <CardDescription className="line-clamp-2 text-sm mt-2">
-                        Practice {topic.name} questions
+                        {topic.description}
                       </CardDescription>
                     </CardHeader>
                     <CardContent className="mt-auto pt-0">
