@@ -14,13 +14,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // Try to include problem detail pages; if anything goes wrong, fall back to static routes only.
   try {
-    const [m1, m2, m3, m4, m5, m6, t1, t2, t3, t4, t5, t6] = await Promise.all([
+    const [m1, m2, m3, m4, m5, m6, m7, m8, t1, t2, t3, t4, t5, t6] = await Promise.all([
       import('@/data/topics/javascript/problems/1-basics-1'),
       import('@/data/topics/javascript/problems/2-basics-2'),
       import('@/data/topics/javascript/problems/3-basics-3'),
       import('@/data/topics/javascript/problems/4-asynchronous-javascript'),
       import('@/data/topics/javascript/problems/5-dom-manipulation'),
       import('@/data/topics/javascript/problems/6-advanced-dom-and-events'),
+      import('@/data/topics/javascript/problems/7-algorithms'),
+      import('@/data/topics/javascript/problems/8-mini-projects'),
       import('@/data/topics/typescript/problems/1-basics-typescript'),
       import('@/data/topics/typescript/problems/2-classes-interfaces-enums-typescript'),
       import('@/data/topics/typescript/problems/3-generics-utility-types-typescript'),
@@ -36,6 +38,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       ...(m4.asynchronousJavaScript ?? []),
       ...(m5.domManipulation ?? []),
       ...(m6.advancedDomAndEvents ?? []),
+      ...(m7.javascriptAlgorithms ?? []),
+      ...(m8.miniProjects ?? []),
     ];
 
     const tsProblems = [

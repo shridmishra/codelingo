@@ -193,5 +193,323 @@ Missing dependencies in the array can lead to stale closures or infinite loops.`
     question: 'How do you prevent memory leaks with useEffect?',
     answer: `Return a cleanup function from useEffect to unsubscribe from subscriptions, clear timers, or cancel async operations when the component unmounts or before the effect re‑runs.`,
     difficulty: 'Medium'
+  },
+  {
+    id: 'react-21',
+    topic: 'React',
+    question: 'What are Error Boundaries and how do you implement them?',
+    answer: `Error Boundaries are React components that catch JavaScript errors anywhere in their child component tree, log those errors, and display a fallback UI instead of crashing the whole app.
+
+**Implementation (Class Component only):**
+\`\`\`javascript
+class ErrorBoundary extends React.Component {
+  state = { hasError: false };
+  
+  static getDerivedStateFromError(error) {
+    return { hasError: true };
+  }
+  
+  componentDidCatch(error, errorInfo) {
+    console.error('Error:', error, errorInfo);
+  }
+  
+  render() {
+    if (this.state.hasError) {
+      return <h1>Something went wrong.</h1>;
+    }
+    return this.props.children;
+  }
+}
+\`\`\`
+
+**Key Points:**
+- Must be a class component (hooks version not available yet)
+- Does NOT catch errors in event handlers, async code, SSR, or itself
+- Use multiple boundaries to isolate different parts of your app`,
+    difficulty: 'Medium'
+  },
+  {
+    id: 'react-22',
+    topic: 'React',
+    question: 'Explain React.lazy and Suspense for code splitting.',
+    answer: `React.lazy and Suspense enable code splitting by loading components dynamically only when they're needed.
+
+**React.lazy:**
+\`\`\`javascript
+const LazyComponent = React.lazy(() => import('./HeavyComponent'));
+\`\`\`
+
+**Suspense:**
+\`\`\`javascript
+<Suspense fallback={<Loading />}>
+  <LazyComponent />
+</Suspense>
+\`\`\`
+
+**Benefits:**
+- Reduces initial bundle size
+- Faster initial page load
+- Components load on demand
+
+**Use Cases:**
+- Route-based code splitting
+- Heavy components (charts, editors)
+- Modals and dialogs`,
+    difficulty: 'Medium'
+  },
+  {
+    id: 'react-23',
+    topic: 'React',
+    question: 'What is forwardRef and when would you use it?',
+    answer: `forwardRef is a technique that lets you pass a ref through a component to a child element.
+
+**Problem:** Regular function components can't receive refs directly.
+
+**Solution:**
+\`\`\`javascript
+const FancyInput = React.forwardRef((props, ref) => (
+  <input ref={ref} className="fancy" {...props} />
+));
+
+// Usage
+const inputRef = useRef();
+<FancyInput ref={inputRef} />
+inputRef.current.focus();
+\`\`\`
+
+**Use Cases:**
+- Reusable input/button components
+- Focus management
+- Integrating with third-party libraries
+- Exposing child DOM nodes to parent components`,
+    difficulty: 'Medium'
+  },
+  {
+    id: 'react-24',
+    topic: 'React',
+    question: 'Explain useImperativeHandle and its purpose.',
+    answer: `useImperativeHandle customizes the instance value exposed to parent components when using ref with forwardRef.
+
+**Syntax:**
+\`\`\`javascript
+const FancyInput = React.forwardRef((props, ref) => {
+  const inputRef = useRef();
+  
+  useImperativeHandle(ref, () => ({
+    focus: () => inputRef.current.focus(),
+    clear: () => { inputRef.current.value = ''; }
+  }));
+  
+  return <input ref={inputRef} />;
+});
+
+// Parent can now call:
+ref.current.focus();
+ref.current.clear();
+\`\`\`
+
+**Use Cases:**
+- Exposing only specific methods (encapsulation)
+- Creating custom "handles" with specific API
+- Complex imperative logic in reusable components`,
+    difficulty: 'Hard'
+  },
+  {
+    id: 'react-25',
+    topic: 'React',
+    question: 'What are Higher-Order Components (HOCs)?',
+    answer: `A Higher-Order Component is a function that takes a component and returns a new enhanced component.
+
+**Pattern:**
+\`\`\`javascript
+function withLoading(WrappedComponent) {
+  return function WithLoading({ isLoading, ...props }) {
+    if (isLoading) return <Spinner />;
+    return <WrappedComponent {...props} />;
+  };
+}
+
+// Usage
+const EnhancedList = withLoading(UserList);
+<EnhancedList isLoading={loading} users={users} />
+\`\`\`
+
+**Common HOCs:**
+- withRouter (React Router)
+- connect (Redux)
+- withAuth (authentication)
+
+**Note:** Hooks have largely replaced HOCs, but they're still used and asked about in interviews.`,
+    difficulty: 'Medium'
+  },
+  {
+    id: 'react-26',
+    topic: 'React',
+    question: 'What is the Render Props pattern?',
+    answer: `Render Props is a pattern where a component receives a function as a prop that returns React elements, allowing code sharing.
+
+**Example:**
+\`\`\`javascript
+function MouseTracker({ render }) {
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+  
+  useEffect(() => {
+    const handleMove = (e) => setPosition({ x: e.clientX, y: e.clientY });
+    window.addEventListener('mousemove', handleMove);
+    return () => window.removeEventListener('mousemove', handleMove);
+  }, []);
+  
+  return render(position);
+}
+
+// Usage
+<MouseTracker render={({ x, y }) => (
+  <p>Mouse at: {x}, {y}</p>
+)} />
+\`\`\`
+
+**Alternative using children:**
+\`\`\`javascript
+<MouseTracker>
+  {({ x, y }) => <p>Mouse at: {x}, {y}</p>}
+</MouseTracker>
+\`\`\`
+
+**Note:** Custom hooks have largely replaced this pattern but it's still interview-relevant.`,
+    difficulty: 'Medium'
+  },
+  {
+    id: 'react-27',
+    topic: 'React',
+    question: 'What is the useId hook and when should you use it?',
+    answer: `useId generates unique IDs that are stable across server and client, useful for accessibility attributes.
+
+**Syntax:**
+\`\`\`javascript
+function PasswordField() {
+  const id = useId();
+  return (
+    <>
+      <label htmlFor={id}>Password</label>
+      <input id={id} type="password" />
+    </>
+  );
+}
+\`\`\`
+
+**Benefits:**
+- Avoids ID collisions when component is rendered multiple times
+- Stable across SSR and hydration
+- Better than generating IDs with Math.random()
+
+**Use Cases:**
+- Accessibility (label + input)
+- ARIA attributes (aria-describedby)
+- Multiple instances of same component`,
+    difficulty: 'Easy'
+  },
+  {
+    id: 'react-28',
+    topic: 'React',
+    question: 'Explain useTransition and its use case.',
+    answer: `useTransition marks state updates as non-urgent, allowing React to keep the UI responsive during heavy updates.
+
+**Syntax:**
+\`\`\`javascript
+function SearchResults() {
+  const [query, setQuery] = useState('');
+  const [results, setResults] = useState([]);
+  const [isPending, startTransition] = useTransition();
+  
+  function handleChange(e) {
+    setQuery(e.target.value); // Urgent: update input immediately
+    
+    startTransition(() => {
+      setResults(filterLargeList(e.target.value)); // Non-urgent
+    });
+  }
+  
+  return (
+    <>
+      <input value={query} onChange={handleChange} />
+      {isPending ? <Spinner /> : <Results data={results} />}
+    </>
+  );
+}
+\`\`\`
+
+**Key Points:**
+- isPending indicates transition is in progress
+- Urgent updates (typing) interrupt non-urgent ones
+- Part of React 18's concurrent features`,
+    difficulty: 'Hard'
+  },
+  {
+    id: 'react-29',
+    topic: 'React',
+    question: 'What is useDeferredValue and how does it differ from useTransition?',
+    answer: `useDeferredValue defers updating a value, similar to useTransition but for values you don't control.
+
+**Syntax:**
+\`\`\`javascript
+function SearchResults({ query }) {
+  const deferredQuery = useDeferredValue(query);
+  const results = useMemo(() => 
+    filterLargeList(deferredQuery), [deferredQuery]
+  );
+  
+  return <Results data={results} />;
+}
+\`\`\`
+
+**Difference from useTransition:**
+| useTransition | useDeferredValue |
+|---------------|------------------|
+| Wraps state update function | Wraps a value |
+| You control the state | Value comes from props/parent |
+| Returns isPending flag | No pending indicator built-in |
+
+**Use Case:** When you can't access the state setter (e.g., value from props).`,
+    difficulty: 'Hard'
+  },
+  {
+    id: 'react-30',
+    topic: 'React',
+    question: 'How do you handle events in React and what are synthetic events?',
+    answer: `React uses Synthetic Events - a cross-browser wrapper around native events that normalizes behavior.
+
+**Event Handling:**
+\`\`\`javascript
+function Form() {
+  const handleSubmit = (e) => {
+    e.preventDefault(); // Prevent form submission
+    e.stopPropagation(); // Stop event bubbling
+    console.log('Form submitted');
+  };
+  
+  return (
+    <form onSubmit={handleSubmit}>
+      <button type="submit">Submit</button>
+    </form>
+  );
+}
+\`\`\`
+
+**Key Differences from DOM:**
+- camelCase naming (onClick, not onclick)
+- Pass functions, not strings
+- Events are pooled (reused) for performance
+- Access native event via e.nativeEvent
+
+**Common Patterns:**
+\`\`\`javascript
+// Passing arguments
+<button onClick={() => handleClick(id)}>Click</button>
+
+// Access event + custom data
+<button onClick={(e) => handleClick(e, id)}>Click</button>
+\`\`\``,
+    difficulty: 'Easy'
   }
 ];
+

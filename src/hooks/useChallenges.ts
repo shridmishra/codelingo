@@ -8,6 +8,7 @@ import { asynchronousJavaScript } from '../data/topics/javascript/problems/4-asy
 import { domManipulation } from '../data/topics/javascript/problems/5-dom-manipulation';
 import { advancedDomAndEvents } from '../data/topics/javascript/problems/6-advanced-dom-and-events';
 import { javascriptAlgorithms } from '../data/topics/javascript/problems/7-algorithms';
+import { miniProjects } from '../data/topics/javascript/problems/8-mini-projects';
 
 // TypeScript problems
 import { typescriptBasics } from '../data/topics/typescript/problems/1-basics-typescript';
@@ -25,6 +26,7 @@ import { reactEffectsLifecycle } from '../data/topics/react/problems/3-effects-l
 import { reactHooksContext } from '../data/topics/react/problems/4-hooks-context';
 import { reactAdvanced } from '../data/topics/react/problems/5-advanced-react';
 import { reactProject } from '../data/topics/react/problems/6-project';
+import { reactPatterns } from '../data/topics/react/problems/7-patterns';
 import { nextjsBasics } from '../data/topics/nextjs/problems/1-basics';
 import { mongoBasics } from '../data/topics/mongo/problems/1-basics';
 import { mongoCrud } from '../data/topics/mongo/problems/2-crud';
@@ -82,7 +84,8 @@ const staticProblems = [
         ...asynchronousJavaScript,
         ...domManipulation,
         ...advancedDomAndEvents,
-        ...javascriptAlgorithms
+        ...javascriptAlgorithms,
+        ...miniProjects
     ].map(p => ({ ...p, slug: 'js' })),
     ...[
         ...typescriptBasics,
@@ -99,7 +102,8 @@ const staticProblems = [
         ...reactEffectsLifecycle,
         ...reactHooksContext,
         ...reactAdvanced,
-        ...reactProject
+        ...reactProject,
+        ...reactPatterns
     ].map(p => ({ ...p, slug: 'react' })),
     ...[
         ...nextjsBasics,

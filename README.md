@@ -317,51 +317,83 @@ npm run lint     # 🔍 Run ESLint
 
 ## 📝 Adding New Problems
 
-Want to contribute new challenges? Follow this simple guide:
+Want to contribute new challenges? Follow this guide:
+
+> **Note**: Also see the detailed workflow guide at `.agent/workflows/add-problem-step.md`
 
 <details>
 <summary><b>📖 Step-by-Step Tutorial</b></summary>
 
 <br/>
 
+When adding a new problem set (step), you need to update **3 files**:
+
+| File | Purpose |
+|------|---------|
+| `src/data/topics/{topic}/problems/{N}-{name}.ts` | Problem definitions |
+| `src/lib/problemUtils.ts` | Used by sitemap and API |
+| `src/hooks/useChallenges.ts` | **Critical** - Used by practice page UI |
+
 **1️⃣ Create a new problem file**
 
 ```typescript
-// src/data/problems/8-new-category.ts
-import { Problem } from '@/types';
-import { runTests } from './utils';
+// src/data/topics/javascript/problems/8-mini-projects.ts
+import { Problem, Difficulty } from '@/types';
 
-export const newCategoryProblems: Omit<Problem, 'status' | 'isStarred' | 'notes'>[] = [
+export const miniProjects: Omit<Problem, 'status' | 'isStarred' | 'notes'>[] = [
   {
     id: 'unique-problem-id',
     title: 'Problem Title',
-    difficulty: 'easy',
-    category: 'New Category',
+    difficulty: Difficulty.Easy,   // Easy, Medium, or Hard
+    category: 'Mini Projects',
+    group: 'Step 8: Mini Projects', // Section header in UI
     description: 'Problem description...',
     starterCode: `function solution() {\n  // Your code here\n}`,
-    testCases: [
-      { input: [1, 2], expectedOutput: 3 },
-    ],
-    solutionCheck: (userCode: string) => runTests(userCode, [
-      { input: [1, 2], expectedOutput: 3 },
-    ]),
+    testCases: [],
+    solutionCheck: (userCode: string) => [{
+      input: 'Code Check',
+      expected: 'Expected behavior',
+      actual: userCode.includes('solution') ? 'Correct' : 'Missing',
+      passed: userCode.includes('solution'),
+    }],
   },
 ];
 ```
 
-**2️⃣ Register in useChallenges**
+**2️⃣ Register in useChallenges.ts** ⚠️ **Critical**
 
 ```typescript
 // src/hooks/useChallenges.ts
-import { newCategoryProblems } from '@/data/problems/8-new-category';
 
-const staticProblems = [
-  ...existingProblems,
-  ...newCategoryProblems, // Add here
-];
+// Add import at top
+import { miniProjects } from '../data/topics/javascript/problems/8-mini-projects';
+
+// Add to staticProblems array (JavaScript section)
+...[
+    ...learnTheBasics,
+    ...arrayManipulation,
+    // ... other modules,
+    ...miniProjects  // Add here
+].map(p => ({ ...p, slug: 'js' })),
 ```
 
-**3️⃣ Test your problem** 🧪
+**3️⃣ Register in problemUtils.ts**
+
+```typescript
+// src/lib/problemUtils.ts
+
+// Add import
+import { miniProjects } from '@/data/topics/javascript/problems/8-mini-projects';
+
+// Add to topicMapping
+{ modules: [...existingModules, miniProjects], topic: 'JavaScript', slug: 'js' },
+```
+
+**4️⃣ Test your changes** 🧪
+
+```bash
+npm run build
+```
 
 - Verify test cases work correctly
 - Check starter code compiles

@@ -7,6 +7,7 @@ import { reactEffectsLifecycle } from '@/data/topics/react/problems/3-effects-li
 import { reactHooksContext } from '@/data/topics/react/problems/4-hooks-context';
 import { reactAdvanced } from '@/data/topics/react/problems/5-advanced-react';
 import { reactProject } from '@/data/topics/react/problems/6-project';
+import { reactPatterns } from '@/data/topics/react/problems/7-patterns';
 
 // TypeScript problems
 import { typescriptBasics } from '@/data/topics/typescript/problems/1-basics-typescript';
@@ -25,6 +26,7 @@ import { asynchronousJavaScript } from '@/data/topics/javascript/problems/4-asyn
 import { domManipulation } from '@/data/topics/javascript/problems/5-dom-manipulation';
 import { advancedDomAndEvents } from '@/data/topics/javascript/problems/6-advanced-dom-and-events';
 import { javascriptAlgorithms } from '@/data/topics/javascript/problems/7-algorithms';
+import { miniProjects } from '@/data/topics/javascript/problems/8-mini-projects';
 
 // HTML problems
 import { htmlBasics } from '@/data/topics/html/problems/1-basics';
@@ -93,11 +95,11 @@ import { prismaOptimization } from '@/data/topics/prisma/problems/6-optimization
 // Topic mapping for each problem set
 const topicMapping = [
   // React
-  { modules: [reactBasics, reactPropsState, reactEffectsLifecycle, reactHooksContext, reactAdvanced, reactProject], topic: 'React', slug: 'react' },
+  { modules: [reactBasics, reactPropsState, reactEffectsLifecycle, reactHooksContext, reactAdvanced, reactProject, reactPatterns], topic: 'React', slug: 'react' },
   // TypeScript
   { modules: [typescriptBasics, typescriptClassesInterfacesEnums, typescriptGenericsUtilityTypes, typescriptAdvancedTypesPatterns, typescriptModulesAsync, typescriptRealWorld, typescriptTypeChallenges], topic: 'TypeScript', slug: 'ts' },
   // JavaScript
-  { modules: [learnTheBasics, arrayManipulation, step3Basics3, asynchronousJavaScript, domManipulation, advancedDomAndEvents, javascriptAlgorithms], topic: 'JavaScript', slug: 'js' },
+  { modules: [learnTheBasics, arrayManipulation, step3Basics3, asynchronousJavaScript, domManipulation, advancedDomAndEvents, javascriptAlgorithms, miniProjects], topic: 'JavaScript', slug: 'js' },
   // HTML
   { modules: [htmlBasics, htmlForms, htmlSemantic, htmlMedia, htmlAccessibility, htmlSeo], topic: 'HTML', slug: 'html' },
   // CSS
